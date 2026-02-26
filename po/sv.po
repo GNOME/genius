@@ -1,24 +1,24 @@
 # Swedish messages for genius.
-# Copyright © 1999-2023 Free Software Foundation, Inc.
+# Copyright © 1999-2026 Free Software Foundation, Inc.
 # Tomas Ögren <stric@ing.umu.se>, 1999.
 # Christian Rose <menthos@menthos.com>, 2003, 2004.
 # Jan Morén <jan.moren@lucs.lu.se>, 2004.
 # Daniel Nylander <po@danielnylander.se>, 2009, 2012.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2019, 2020, 2021, 2023.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2016, 2017, 2019, 2020, 2021, 2023, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: genius\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/genius/issues\n"
-"POT-Creation-Date: 2023-10-04 04:24+0000\n"
-"PO-Revision-Date: 2023-10-04 11:09+0200\n"
+"POT-Creation-Date: 2026-02-25 20:03+0000\n"
+"PO-Revision-Date: 2026-02-27 00:26+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../lib/library-strings.c:1
 msgid "Compose two functions"
@@ -45,16 +45,34 @@ msgid "Make a string"
 msgstr "Skapa en sträng"
 
 #: ../lib/library-strings.c:5
+msgid ""
+"Absolute tolerance for AdaptiveGaussKronrod, error should be less than this"
+msgstr ""
+"Absolut tolerans för AdaptiveGaussKronrod, felet ska vara mindre än detta"
+
+#: ../lib/library-strings.c:6
+msgid "Maximum number of iterations to perform in AdaptiveGaussKronrod"
+msgstr "Maximalt antal iterationer att utföra i AdaptiveGaussKronrod"
+
+#: ../lib/library-strings.c:7
+msgid ""
+"Relative tolerance for AdaptiveGaussKronrod, error should be less than this "
+"times the estimated value"
+msgstr ""
+"Relativ tolerans för AdaptiveGaussKronrod, felet ska vara mindre än detta "
+"gånger det uppskattade värdet"
+
+#: ../lib/library-strings.c:8
 msgid "Tolerance of the Chop function"
 msgstr "Chop-funktionens tolerans"
 
-#: ../lib/library-strings.c:6
+#: ../lib/library-strings.c:9
 msgid "How many iterations to try to find the limit for continuity and limits"
 msgstr ""
 "Hur många iterationer för att försöka hitta gränsvärdet för kontinuitet och "
 "gränsvärden"
 
-#: ../lib/library-strings.c:7
+#: ../lib/library-strings.c:10
 msgid ""
 "How many successive steps to be within tolerance for calculation of "
 "continuity"
@@ -62,16 +80,16 @@ msgstr ""
 "Hur många efter varandra följande steg att vara inom tolerans för "
 "kontinuitetsberäkning"
 
-#: ../lib/library-strings.c:8
+#: ../lib/library-strings.c:11
 msgid "Tolerance for continuity of functions and for calculating the limit"
 msgstr ""
 "Toleransen för kontinuiteten för funktioner och för att beräkna gränsvärdet"
 
-#: ../lib/library-strings.c:9
+#: ../lib/library-strings.c:12
 msgid "How many iterations to try to find the limit for derivative"
 msgstr "Hur många iterationer för att försöka hitta gränsvärdet för derivata"
 
-#: ../lib/library-strings.c:10
+#: ../lib/library-strings.c:13
 msgid ""
 "How many successive steps to be within tolerance for calculation of "
 "derivative"
@@ -79,35 +97,39 @@ msgstr ""
 "Hur många efter varandra följande steg att vara inom tolerans för beräkning "
 "av derivata"
 
-#: ../lib/library-strings.c:11
+#: ../lib/library-strings.c:14
 msgid "Tolerance for calculating the derivatives of functions"
 msgstr "Toleransen för att beräkna derivatorna för funktioner"
 
-#: ../lib/library-strings.c:12
+#: ../lib/library-strings.c:15
 msgid "Tolerance of the ErrorFunction (used for complex values only)"
 msgstr "Toleransen för ErrorFunction (används endast för komplexa värden)"
 
-#: ../lib/library-strings.c:13
+#: ../lib/library-strings.c:16
 msgid "Tolerance of the GaussDistribution function"
 msgstr "Toleransen för funktionen GaussDistribution"
 
-#: ../lib/library-strings.c:14
+#: ../lib/library-strings.c:17
 msgid ""
 "The function used for numerical integration in NumericalIntegral (by default "
-"CompositeSimpsonsRule)"
+"AdaptiveGaussKronrod)"
 msgstr ""
 "Funktionen som används för numerisk integration i NumericalIntegral (som "
-"standard CompositeSimpsonsRule)"
+"standard AdaptiveGaussKronrod)"
 
-#: ../lib/library-strings.c:15
-msgid "Steps to perform in NumericalIntegral"
-msgstr "Steg att utföra i NumericalIntegral"
+#: ../lib/library-strings.c:18
+msgid ""
+"Default number of steps to perform in MidpointRule, TrapezoidRule, "
+"LeftHandRule, RightHandRule, and CompositeSimpsonsRule"
+msgstr ""
+"Antal steg att utföra som standard i MidpointRule, TrapezoidRule, "
+"LeftHandRule, RightHandRule och CompositeSimpsonsRule"
 
-#: ../lib/library-strings.c:16
+#: ../lib/library-strings.c:19
 msgid "How many iterations to try for InfiniteSum and InfiniteProduct"
 msgstr "Hur många iterationer att försöka för InfiniteSum och InfiniteProduct"
 
-#: ../lib/library-strings.c:17
+#: ../lib/library-strings.c:20
 msgid ""
 "How many successive steps to be within tolerance for InfiniteSum and "
 "InfiniteProduct"
@@ -115,27 +137,27 @@ msgstr ""
 "Hur många efter varandra följande steg att vara inom tolerans för "
 "InfiniteSum och InfiniteProduct"
 
-#: ../lib/library-strings.c:18
+#: ../lib/library-strings.c:21
 msgid "Tolerance for InfiniteSum and InfiniteProduct"
 msgstr "Toleransen för InfiniteSum och InfiniteProduct"
 
-#: ../lib/library-strings.c:19 ../src/eval.c:6726
+#: ../lib/library-strings.c:22 ../src/eval.c:6726
 msgid "Absolute value"
 msgstr "Absolutvärde"
 
-#: ../lib/library-strings.c:20
+#: ../lib/library-strings.c:23
 msgid "Replace very small number with zero"
 msgstr "Ersätt väldigt litet tal med noll"
 
-#: ../lib/library-strings.c:21
+#: ../lib/library-strings.c:24
 msgid "Return the fractional part of a number"
 msgstr "Returnera bråkdelen av ett tal"
 
-#: ../lib/library-strings.c:22
+#: ../lib/library-strings.c:25
 msgid "Return the sign (-1,0,1)"
 msgstr "Returnera tecknet (-1,0,1)"
 
-#: ../lib/library-strings.c:23
+#: ../lib/library-strings.c:26
 msgid ""
 "Logarithm of any base (calls DiscreteLog if in modulo mode), if base is not "
 "given, e is used"
@@ -143,87 +165,87 @@ msgstr ""
 "Logaritm för godtycklig bas (anropar DiscreteLog om i moduloläge), om bas "
 "inte är angiven används e"
 
-#: ../lib/library-strings.c:24
+#: ../lib/library-strings.c:27
 msgid "The arccos (inverse cos) function"
 msgstr "arccos-funktionen (invers cos)"
 
-#: ../lib/library-strings.c:25
+#: ../lib/library-strings.c:28
 msgid "The arccosh (inverse cosh) function"
 msgstr "arccosh-funktionen (invers cosh)"
 
-#: ../lib/library-strings.c:26
+#: ../lib/library-strings.c:29
 msgid "The arccot (inverse cot) function"
 msgstr "arccot-funktionen (invers cot)"
 
-#: ../lib/library-strings.c:27
+#: ../lib/library-strings.c:30
 msgid "The arccoth (inverse coth) function"
 msgstr "arccoth-funktionen (invers coth)"
 
-#: ../lib/library-strings.c:28
+#: ../lib/library-strings.c:31
 msgid "The inverse cosecant function"
 msgstr "Inversa cosekantfunktionen"
 
-#: ../lib/library-strings.c:29
+#: ../lib/library-strings.c:32
 msgid "The inverse hyperbolic cosecant function"
 msgstr "Inversa hyperboliska cosekantfunktionen"
 
-#: ../lib/library-strings.c:30
+#: ../lib/library-strings.c:33
 msgid "The inverse secant function"
 msgstr "Inversa sekantfunktionen"
 
-#: ../lib/library-strings.c:31
+#: ../lib/library-strings.c:34
 msgid "The inverse hyperbolic secant function"
 msgstr "Inversa hyperboliska sekantfunktionen"
 
-#: ../lib/library-strings.c:32
+#: ../lib/library-strings.c:35
 msgid "The arcsin (inverse sin) function"
 msgstr "arcsin-funktionen (invers sin)"
 
-#: ../lib/library-strings.c:33
+#: ../lib/library-strings.c:36
 msgid "The arcsinh (inverse sinh) function"
 msgstr "arcsinh-funktionen (invers sinh)"
 
-#: ../lib/library-strings.c:34
+#: ../lib/library-strings.c:37
 msgid "The arctanh (inverse tanh) function"
 msgstr "arctanh-funktionen (invers tanh)"
 
-#: ../lib/library-strings.c:35
+#: ../lib/library-strings.c:38
 msgid "The cotangent function"
 msgstr "Cotangensfunktionen"
 
-#: ../lib/library-strings.c:36
+#: ../lib/library-strings.c:39
 msgid "The hyperbolic cotangent function"
 msgstr "Hyperboliska cotangensfunktionen"
 
-#: ../lib/library-strings.c:37
+#: ../lib/library-strings.c:40
 msgid "The cosecant function"
 msgstr "Cosekantfunktionen"
 
-#: ../lib/library-strings.c:38
+#: ../lib/library-strings.c:41
 msgid "The hyperbolic cosecant function"
 msgstr "Hyperboliska cosekantfunktionen"
 
-#: ../lib/library-strings.c:39
+#: ../lib/library-strings.c:42
 msgid "The secant function"
 msgstr "Sekantfunktionen"
 
-#: ../lib/library-strings.c:40
+#: ../lib/library-strings.c:43
 msgid "The hyperbolic secant function"
 msgstr "Hyperboliska sekantfunktionen"
 
-#: ../lib/library-strings.c:41
+#: ../lib/library-strings.c:44
 msgid "The hyperbolic tangent function"
 msgstr "Hyperboliska tangensfunktionen"
 
-#: ../lib/library-strings.c:42
+#: ../lib/library-strings.c:45
 msgid "Are a and b relatively prime?"
 msgstr "Är a och b relativt prima?"
 
-#: ../lib/library-strings.c:43
+#: ../lib/library-strings.c:46
 msgid "Return the nth Bernoulli number"
 msgstr "Returnerar det n:e Bernoullitalet"
 
-#: ../lib/library-strings.c:44
+#: ../lib/library-strings.c:47
 msgid ""
 "Find the x that solves the system given by the vector a and modulo the "
 "elements of m, using the Chinese Remainder Theorem"
@@ -231,23 +253,23 @@ msgstr ""
 "Hitta det x som löser systemet givet av vektorn a modulo elementen i m med "
 "den kinesiska restsatsen"
 
-#: ../lib/library-strings.c:45
+#: ../lib/library-strings.c:48
 msgid ""
 "Given two factorizations, give the factorization of the product, see "
 "Factorize"
 msgstr ""
 "Givet två faktoriseringar, ange faktoriseringen av produkten, se Factorize"
 
-#: ../lib/library-strings.c:46
+#: ../lib/library-strings.c:49
 msgid "Convert a vector of values indicating powers of b to a number"
 msgstr ""
 "Konvertera en vektor av värden som indikerar potenser av b till ett tal"
 
-#: ../lib/library-strings.c:47
+#: ../lib/library-strings.c:50
 msgid "Convert a number to a vector of powers for elements in base b"
 msgstr "Konvertera ett tal till en vektor av potenser för element i bas b"
 
-#: ../lib/library-strings.c:48
+#: ../lib/library-strings.c:51
 msgid ""
 "Find discrete log of n base b in F_q where q is a prime using the Silver-"
 "Pohlig-Hellman algorithm"
@@ -255,7 +277,7 @@ msgstr ""
 "Hitta diskret logaritm av n bas b i F_q där q är ett primtal med Silver-"
 "Pohlig-Hellman-algoritmen"
 
-#: ../lib/library-strings.c:49
+#: ../lib/library-strings.c:52
 msgid ""
 "Compute phi(n), the Euler phi function, that is the number of integers "
 "between 1 and n relatively prime to n"
@@ -263,11 +285,11 @@ msgstr ""
 "Beräkna phi(n), Eulers φ-funktion, det vill säga antalet heltal mellan 1 och "
 "n som är relativt prima till n"
 
-#: ../lib/library-strings.c:50
+#: ../lib/library-strings.c:53
 msgid "Return all factors of a number"
 msgstr "Returnera alla faktorer av ett tal"
 
-#: ../lib/library-strings.c:51
+#: ../lib/library-strings.c:54
 msgid ""
 "Attempt Fermat factorization of n into (t-s)*(t+s), returns t and s as a "
 "vector if possible, null otherwise"
@@ -275,16 +297,16 @@ msgstr ""
 "Försök med Fermatfaktorisering av n till (t-s)*(t+s), returnerar t och s som "
 "en vektor om möjligt, annars null"
 
-#: ../lib/library-strings.c:52
+#: ../lib/library-strings.c:55
 msgid "Find the first primitive element in F_q (q must be a prime)"
 msgstr "Hitta det första primitiva elementet i F_q (q måste vara ett primtal)"
 
-#: ../lib/library-strings.c:53
+#: ../lib/library-strings.c:56
 msgid "Find a random primitive element in F_q (q must be a prime)"
 msgstr ""
 "Hitta ett slumpmässigt primitivt element i F_q (q måste vara ett primtal)"
 
-#: ../lib/library-strings.c:54
+#: ../lib/library-strings.c:57
 msgid ""
 "Compute discrete log base b of n in F_q (q a prime) using the factor base "
 "S.  S should be a column of primes possibly with second column precalculated "
@@ -294,7 +316,7 @@ msgstr ""
 "ska vara en kolumn av primtal, möjligen med en andra kolumn förberäknad av "
 "IndexCalculusPrecalculation."
 
-#: ../lib/library-strings.c:55
+#: ../lib/library-strings.c:58
 msgid ""
 "Run the precalculation step of IndexCalculus for logarithms base b in F_q (q "
 "a prime) for the factor base S (where S is a column vector of primes).  The "
@@ -304,15 +326,15 @@ msgstr ""
 "primtal) för faktorbasen S (där S är en kolumnvektor av primtal). "
 "Logaritmerna kommer vara förberäknade och returneras i den andra kolumnen."
 
-#: ../lib/library-strings.c:56
+#: ../lib/library-strings.c:59
 msgid "Test if Mp is a Mersenne prime using a table"
 msgstr "Testa om Mp är ett Mersenne-primtal med en tabell"
 
-#: ../lib/library-strings.c:57
+#: ../lib/library-strings.c:60
 msgid "Tests if a rational number is a perfect power"
 msgstr "Testar om ett rationellt tal är en perfekt potens"
 
-#: ../lib/library-strings.c:58
+#: ../lib/library-strings.c:61
 msgid ""
 "Check if g is primitive in F_q, where q is a prime.  If q is not prime "
 "results are bogus."
@@ -320,7 +342,7 @@ msgstr ""
 "Kontrollera om g är primitiv i F_q, där q är ett primtal. Om q inte är ett "
 "primtal kommer resultat vara felaktiga."
 
-#: ../lib/library-strings.c:59
+#: ../lib/library-strings.c:62
 msgid ""
 "Check if g is primitive in F_q, where q is a prime and f is a vector of "
 "prime factors of q-1.  If q is not prime results are bogus."
@@ -329,19 +351,19 @@ msgstr ""
 "av primtalsfaktorer av q-1. Om q inte är ett primtal kommer resultat vara "
 "felaktiga."
 
-#: ../lib/library-strings.c:60
+#: ../lib/library-strings.c:63
 msgid ""
 "If n is a pseudoprime base b but not a prime, that is if b^(n-1) == 1 mod n"
 msgstr ""
 "Om n är ett pseudoprimtal för basen b men inte ett primtal, det vill säga om "
 "b^(n-1) == 1 mod n"
 
-#: ../lib/library-strings.c:61
+#: ../lib/library-strings.c:64
 msgid "Test if n is a strong pseudoprime to base b but not a prime"
 msgstr ""
 "Testa om n är ett starkt pseudoprimtal för basen b men inte ett primtal"
 
-#: ../lib/library-strings.c:62
+#: ../lib/library-strings.c:65
 msgid ""
 "Return the residue of a mod n with the least absolute value (in the interval "
 "-n/2 to n/2)"
@@ -349,44 +371,44 @@ msgstr ""
 "Returnera residualen av a mod n med det minsta absolutbeloppet (i "
 "intervallet -n/2 till n/2)"
 
-#: ../lib/library-strings.c:63
+#: ../lib/library-strings.c:66
 msgid "Test if Mp is a Mersenne prime using the Lucas-Lehmer test"
 msgstr "Testa om Mp är ett Mersenne-primtal med Lucas-Lehmer-testet"
 
-#: ../lib/library-strings.c:64
+#: ../lib/library-strings.c:67
 msgid "Return all maximal prime power factors of a number"
 msgstr "Returnera alla maximala potenser av primtalsfaktorer för ett tal"
 
-#: ../lib/library-strings.c:65
+#: ../lib/library-strings.c:68
 msgid "Vector with the known Mersenne prime exponents"
 msgstr "Vektor med de kända exponenterna för Mersenneprimtal"
 
-#: ../lib/library-strings.c:66
+#: ../lib/library-strings.c:69
 msgid "Return the Moebius mu function evaluated in n"
 msgstr "Returnera Möbiusfunktionen µ(n) beräknad i n"
 
-#: ../lib/library-strings.c:67
+#: ../lib/library-strings.c:70
 msgid "Returns the p-adic valuation (number of trailing zeros in base p)."
 msgstr ""
 "Returnera den p-adiska beräkningen (antal efterföljande nollor i bas p)."
 
-#: ../lib/library-strings.c:68
+#: ../lib/library-strings.c:71
 msgid "Compute a^b mod m"
 msgstr "Beräkna a^b mod m"
 
-#: ../lib/library-strings.c:69
+#: ../lib/library-strings.c:72
 msgid "Return all prime factors of a number"
 msgstr "Returnera alla primtalsfaktorer för ett tal"
 
-#: ../lib/library-strings.c:70
+#: ../lib/library-strings.c:73
 msgid "Pseudoprime test, true if and only if b^(n-1) == 1 (mod n)"
 msgstr "Pseudoprimtalstest, sant om och endast om b^(n-1) == 1 (mod n)"
 
-#: ../lib/library-strings.c:71
+#: ../lib/library-strings.c:74
 msgid "Removes all instances of the factor m from the number n"
 msgstr "Tar bort alla instanser av faktorn m från talet n"
 
-#: ../lib/library-strings.c:72
+#: ../lib/library-strings.c:75
 msgid ""
 "Find discrete log of n base b in F_q where q is a prime using the Silver-"
 "Pohlig-Hellman algorithm, given f being the factorization of q-1"
@@ -394,7 +416,7 @@ msgstr ""
 "Hitta diskret logaritm av n bas b i F_q där q är ett primtal med Silver-"
 "Pohlig-Hellman-algoritmen, givet att f är faktoriseringen av q-1"
 
-#: ../lib/library-strings.c:73
+#: ../lib/library-strings.c:76
 msgid ""
 "Find square root of n mod p (a prime). Null is returned if not a quadratic "
 "residue."
@@ -402,7 +424,7 @@ msgstr ""
 "Hitta kvadratrot av n mod p (ett primtal). Null returneras om inte en "
 "kvadratisk rest."
 
-#: ../lib/library-strings.c:74
+#: ../lib/library-strings.c:77
 msgid ""
 "Apply a function over all entries of a matrix and return a matrix of the "
 "results"
@@ -410,7 +432,7 @@ msgstr ""
 "Tillämpa en funktion över alla poster av en matris och returnera en matris "
 "av resultaten"
 
-#: ../lib/library-strings.c:75
+#: ../lib/library-strings.c:78
 msgid ""
 "Apply a function over all entries of 2 matrices (or 1 value and 1 matrix) "
 "and return a matrix of the results"
@@ -418,109 +440,109 @@ msgstr ""
 "Tillämpa en funktion över alla poster av två matriser (eller ett värde och "
 "en matris) och returnera en matris av resultaten"
 
-#: ../lib/library-strings.c:76
+#: ../lib/library-strings.c:79
 msgid "Remove column(s) and row(s) from a matrix"
 msgstr "Ta bort kolumn(er) och rad(er) från en matris"
 
 # Hittar ingen svensk motsvarighet (utom en abstract där det kallas deltamatris utan förklaring till varför), så behåller compound
 # https://en.wikipedia.org/wiki/Compound_matrix
-#: ../lib/library-strings.c:77
+#: ../lib/library-strings.c:80
 msgid "Calculate the kth compound matrix of A"
 msgstr "Beräkna den k:e compound-matrisen av A"
 
-#: ../lib/library-strings.c:78
+#: ../lib/library-strings.c:81
 msgid "Delete a column of a matrix"
 msgstr "Ta bort en kolumn i en matris"
 
-#: ../lib/library-strings.c:79
+#: ../lib/library-strings.c:82
 msgid "Delete a row of a matrix"
 msgstr "Ta bort en rad i en matris"
 
-#: ../lib/library-strings.c:80
+#: ../lib/library-strings.c:83
 msgid "Get the dot product of two vectors (no conjugates)"
 msgstr "Hämta skalärprodukten av två vektorer (inga konjugat)"
 
-#: ../lib/library-strings.c:81
+#: ../lib/library-strings.c:84
 msgid "Zero out entries above the diagonal"
 msgstr "Nolla poster ovanför diagonalen"
 
-#: ../lib/library-strings.c:82
+#: ../lib/library-strings.c:85
 msgid "Make diagonal matrix from a vector"
 msgstr "Skapa en diagonalmatris från en vektor"
 
-#: ../lib/library-strings.c:83
+#: ../lib/library-strings.c:86
 msgid "Make column vector out of matrix by putting rows after each other"
 msgstr "Skapa en kolumnvektor från matris genom att lägga rader efter varandra"
 
-#: ../lib/library-strings.c:84
+#: ../lib/library-strings.c:87
 msgid "Make column vector out of matrix by putting columns above each other"
 msgstr ""
 "Skapa en kolumnvektor från matris genom att lägga kolumner ovanpå varandra"
 
-#: ../lib/library-strings.c:85
+#: ../lib/library-strings.c:88
 msgid "Calculate the product of all elements in a matrix"
 msgstr "Beräkna produkten av alla element i en matris"
 
-#: ../lib/library-strings.c:86
+#: ../lib/library-strings.c:89
 msgid "Calculate the sum of all elements in a matrix"
 msgstr "Beräkna summan av alla element i en matris"
 
-#: ../lib/library-strings.c:87
+#: ../lib/library-strings.c:90
 msgid "Calculate the sum of squares of all elements in a matrix"
 msgstr "Beräkna summan av kvadraterna av alla element i en matris"
 
-#: ../lib/library-strings.c:88
+#: ../lib/library-strings.c:91
 msgid "Get the outer product of two vectors"
 msgstr "Hämta den yttre produkten av två vektorer"
 
-#: ../lib/library-strings.c:89
+#: ../lib/library-strings.c:92
 msgid "Reverse elements in a vector"
 msgstr "Vänd på elementen i en vektor"
 
-#: ../lib/library-strings.c:90
+#: ../lib/library-strings.c:93
 msgid "Calculate sum of each row in a matrix"
 msgstr "Beräkna summan av varje rad i en matris"
 
-#: ../lib/library-strings.c:91
+#: ../lib/library-strings.c:94
 msgid "Calculate sum of squares of each row in a matrix"
 msgstr "Beräkna summan av kvadraterna för varje rad i en matris"
 
-#: ../lib/library-strings.c:92
+#: ../lib/library-strings.c:95
 msgid "Shuffle elements in a vector"
 msgstr "Flytta runt element i en vektor"
 
-#: ../lib/library-strings.c:93
+#: ../lib/library-strings.c:96
 msgid "Sort vector elements"
 msgstr "Sortera vektorelement"
 
-#: ../lib/library-strings.c:94
+#: ../lib/library-strings.c:97
 msgid "Removes any all-zero rows of M"
 msgstr "Ta bort alla rader med endast nollor i M"
 
-#: ../lib/library-strings.c:95
+#: ../lib/library-strings.c:98
 msgid "Return column(s) and row(s) from a matrix"
 msgstr "Returnera kolumn(er) och rad(er) från en matris"
 
-#: ../lib/library-strings.c:96
+#: ../lib/library-strings.c:99
 msgid "Swap two rows in a matrix"
 msgstr "Byt plats på två rader i en matris"
 
-#: ../lib/library-strings.c:97
+#: ../lib/library-strings.c:100
 msgid "Zero out entries below the diagonal"
 msgstr "Nolla poster under diagonalen"
 
 # En ej så känd hjälpmatris med alltför allmänt namn. Följer danska och tyska översättningarnas lösning med att ange en beskrivning i stället.
-#: ../lib/library-strings.c:98
+#: ../lib/library-strings.c:101
 msgid "Get the auxiliary unit matrix of size n"
 msgstr ""
 "Hämta n×n-matrisen med bara nollor, förutom i överdiagonalen (i,i+1) som har "
 "värdet 1"
 
-#: ../lib/library-strings.c:99
+#: ../lib/library-strings.c:102
 msgid "Evaluate (v,w) with respect to the bilinear form given by the matrix A"
 msgstr "Beräkna (v,w) med avseende på den bilinjära formen given av matrisen A"
 
-#: ../lib/library-strings.c:100
+#: ../lib/library-strings.c:103
 msgid ""
 "Return a function that evaluates two vectors with respect to the bilinear "
 "form given by A"
@@ -528,19 +550,19 @@ msgstr ""
 "Returnera en funktion som beräknar två vektorer med avseende på den "
 "bilinjära formen given av A"
 
-#: ../lib/library-strings.c:101
+#: ../lib/library-strings.c:104
 msgid "Get the characteristic polynomial as a vector"
 msgstr "Hämta det karakteristiska polynomet som en vektor"
 
-#: ../lib/library-strings.c:102
+#: ../lib/library-strings.c:105
 msgid "Get the characteristic polynomial as a function"
 msgstr "Hämta det karakteristiska polynomet som en funktion"
 
-#: ../lib/library-strings.c:103
+#: ../lib/library-strings.c:106
 msgid "Get a basis matrix for the columnspace of a matrix"
 msgstr "Hämta en basmatris för kolumnrummet av en matris"
 
-#: ../lib/library-strings.c:104
+#: ../lib/library-strings.c:107
 msgid ""
 "Return the commutation matrix K(m,n) which is the unique m*n by m*n matrix "
 "such that K(m,n) * MakeVector(A) = MakeVector(A.') for all m by n matrices A."
@@ -549,35 +571,35 @@ msgstr ""
 "matrisen så att K(m,n) * MakeVector(A) = MakeVector(A.') för alla m×n-"
 "matriser A."
 
-#: ../lib/library-strings.c:105
+#: ../lib/library-strings.c:108
 msgid "Companion matrix of a polynomial (as vector)"
 msgstr "Följeslagarmatris av ett polynom (som en vektor)"
 
-#: ../lib/library-strings.c:106
+#: ../lib/library-strings.c:109
 msgid "Conjugate transpose of a matrix (adjoint)"
 msgstr "Konjugattransponatet av en matris (adjungerad matris)"
 
-#: ../lib/library-strings.c:107 ../lib/library-strings.c:108
+#: ../lib/library-strings.c:110 ../lib/library-strings.c:111
 msgid "Calculate convolution of two horizontal vectors"
 msgstr "Beräkna faltningen av två horisontella vektorer"
 
-#: ../lib/library-strings.c:109
+#: ../lib/library-strings.c:112
 msgid "CrossProduct of two vectors in R^3"
 msgstr "CrossProduct (kryssprodukt) av två vektorer i R^3"
 
-#: ../lib/library-strings.c:110
+#: ../lib/library-strings.c:113
 msgid "Get the determinantal divisors of an integer matrix"
 msgstr "Hämta determinantdelarna av en heltalsmatris"
 
-#: ../lib/library-strings.c:111
+#: ../lib/library-strings.c:114
 msgid "Direct sum of matrices"
 msgstr "Direkt summa av matriser"
 
-#: ../lib/library-strings.c:112
+#: ../lib/library-strings.c:115
 msgid "Direct sum of a vector of matrices"
 msgstr "Direkt summa av en vektor av matriser"
 
-#: ../lib/library-strings.c:113
+#: ../lib/library-strings.c:116
 msgid ""
 "Get the eigenvalues of a matrix (Currently only for up to 4x4 or triangular "
 "matrices)"
@@ -585,7 +607,7 @@ msgstr ""
 "Hämta egenvärdena för en matris (För närvarande endast för upp till 4x4-"
 "matriser eller triangulära matriser)"
 
-#: ../lib/library-strings.c:114
+#: ../lib/library-strings.c:117
 msgid ""
 "Get the eigenvalues and eigenvectors of a matrix (Currently only for up to "
 "2x2 matrices)"
@@ -593,7 +615,7 @@ msgstr ""
 "Hämta egenvärdena och egenvektorerna för en matris (För närvarande endast "
 "för upp till 2x2-matriser)"
 
-#: ../lib/library-strings.c:115
+#: ../lib/library-strings.c:118
 msgid ""
 "Apply the Gram-Schmidt process (to the columns) with respect to inner "
 "product given by B (if not given use Hermitian product)"
@@ -601,39 +623,39 @@ msgstr ""
 "Tillämpa Gram-Schmidt-processen (till kolumnerna) med avseende på inre "
 "produkten given av B (om inte angiven använd hermitesk produkt)"
 
-#: ../lib/library-strings.c:116
+#: ../lib/library-strings.c:119
 msgid "Hankel matrix"
 msgstr "Hankel-matris"
 
-#: ../lib/library-strings.c:117
+#: ../lib/library-strings.c:120
 msgid "Hilbert matrix of order n"
 msgstr "Hilbertmatris av ordning n"
 
-#: ../lib/library-strings.c:118
+#: ../lib/library-strings.c:121
 msgid "Get the image (columnspace) of a linear transform"
 msgstr "Hämta bilden (kolumnrummet) av en linjär avbildning"
 
-#: ../lib/library-strings.c:119
+#: ../lib/library-strings.c:122
 msgid "Get the Inf Norm of a vector"
 msgstr "Hämta supremumnormen av en vektor"
 
-#: ../lib/library-strings.c:120
+#: ../lib/library-strings.c:123
 msgid "Get the invariant factors of a square integer matrix"
 msgstr "Hämta de invarianta faktorerna för en kvadratisk heltalsmatris"
 
-#: ../lib/library-strings.c:121
+#: ../lib/library-strings.c:124
 msgid "Inverse Hilbert matrix of order n"
 msgstr "Invers Hilbertmatris av ordning n"
 
-#: ../lib/library-strings.c:122
+#: ../lib/library-strings.c:125
 msgid "Is a matrix Hermitian"
 msgstr "Är en matris hermitesk"
 
-#: ../lib/library-strings.c:123
+#: ../lib/library-strings.c:126
 msgid "Test if a vector is in a subspace"
 msgstr "Testa om en vektor är i ett underrum"
 
-#: ../lib/library-strings.c:124
+#: ../lib/library-strings.c:127
 msgid ""
 "Is a matrix (or number) invertible (Integer matrix is invertible if and only "
 "if it is invertible over the integers)"
@@ -641,43 +663,43 @@ msgstr ""
 "Är en matris (eller tal) inverterbar (En heltalsmatris är inverterbar om och "
 "endast om den är inverterbar över heltalen)"
 
-#: ../lib/library-strings.c:125
+#: ../lib/library-strings.c:128
 msgid "Is a matrix (or number) invertible over a field"
 msgstr "Är en matris (eller tal) inverterbar över en kropp"
 
-#: ../lib/library-strings.c:126
+#: ../lib/library-strings.c:129
 msgid "Is a matrix normal"
 msgstr "Är en matris normal"
 
-#: ../lib/library-strings.c:127
+#: ../lib/library-strings.c:130
 msgid "Is a matrix positive definite"
 msgstr "Är en matris positivt definit"
 
-#: ../lib/library-strings.c:128
+#: ../lib/library-strings.c:131
 msgid "Is a matrix positive semidefinite"
 msgstr "Är en matris positivt semidefinit"
 
-#: ../lib/library-strings.c:129
+#: ../lib/library-strings.c:132
 msgid "Is a matrix skew-Hermitian"
 msgstr "Är en matris skevhermitesk"
 
-#: ../lib/library-strings.c:130
+#: ../lib/library-strings.c:133
 msgid "Is a matrix unitary"
 msgstr "Är en matris unitär"
 
-#: ../lib/library-strings.c:131
+#: ../lib/library-strings.c:134
 msgid "Get the Jordan block corresponding to lambda and n"
 msgstr "Hämta Jordanblocket som motsvarar lambda och n"
 
-#: ../lib/library-strings.c:132
+#: ../lib/library-strings.c:135
 msgid "Get the kernel (nullspace) of a linear transform"
 msgstr "Hämta kärnan (nollrummet) av en linjär avbildning"
 
-#: ../lib/library-strings.c:133
+#: ../lib/library-strings.c:136
 msgid "Compute the Kronecker product of two matrices"
 msgstr "Beräkna Kroneckerprodukten av två matriser"
 
-#: ../lib/library-strings.c:134
+#: ../lib/library-strings.c:137
 msgid ""
 "Get the LU decomposition of A and store the result in the L and U which "
 "should be references.  If not possible returns false."
@@ -686,27 +708,27 @@ msgstr ""
 "referenser. Om inte möjligt returneras false (falskt)."
 
 # Alternativt underdeterminanten
-#: ../lib/library-strings.c:135
+#: ../lib/library-strings.c:138
 msgid "Get the i-j minor of a matrix"
 msgstr "Hämta i-j-minoren av en matris"
 
-#: ../lib/library-strings.c:136
+#: ../lib/library-strings.c:139
 msgid "Return the columns that are not the pivot columns of a matrix"
 msgstr "Returnera kolumnerna som inte är pivotkolumnerna av en matris"
 
-#: ../lib/library-strings.c:137
+#: ../lib/library-strings.c:140
 msgid "Get the p Norm (or 2 Norm if no p is supplied) of a vector"
 msgstr "Hämta p-normen (eller 2-normen om inget p är angivet) för en vektor"
 
-#: ../lib/library-strings.c:138
+#: ../lib/library-strings.c:141
 msgid "Get the nullity of a matrix"
 msgstr "Hämta nulliteten av en matris"
 
-#: ../lib/library-strings.c:139
+#: ../lib/library-strings.c:142
 msgid "Get the orthogonal complement of the columnspace"
 msgstr "Hämta det ortogonala komplementet till kolumnrummet"
 
-#: ../lib/library-strings.c:140
+#: ../lib/library-strings.c:143
 msgid ""
 "Projection of vector v onto subspace W given a sesquilinear form B (if not "
 "given use Hermitian product)"
@@ -714,20 +736,20 @@ msgstr ""
 "Projicering av vektor v till underrum W givet en seskvilinjär form B (om ej "
 "angiven använd hermitesk produkt)"
 
-#: ../lib/library-strings.c:141
+#: ../lib/library-strings.c:144
 msgid "Get the QR decomposition of A, returns R and Q can be a reference"
 msgstr ""
 "Hämta QR-faktoriseringen av A, returnerar R, och Q kan vara en referens"
 
-#: ../lib/library-strings.c:142
+#: ../lib/library-strings.c:145
 msgid "Get the rank of a matrix"
 msgstr "Hämta rangen av en matris"
 
-#: ../lib/library-strings.c:143
+#: ../lib/library-strings.c:146
 msgid "Return the Rayleigh quotient of a matrix and a vector"
 msgstr "Returnera Rayleighkvoten av en matris och en vektor"
 
-#: ../lib/library-strings.c:144
+#: ../lib/library-strings.c:147
 msgid ""
 "Compute an eigenvalue using the Rayleigh Quotient Iteration method until we "
 "are epsilon from eigenvalue or for maxiter iterations"
@@ -735,37 +757,37 @@ msgstr ""
 "Beräkna ett egenvärde med Rayleigh-kvotiterationsmetoden tills vi är epsilon "
 "från egenvärde eller för maxiter iterationer"
 
-#: ../lib/library-strings.c:145
+#: ../lib/library-strings.c:148
 msgid "Rosser matrix, a classic symmetric eigenvalue test problem"
 msgstr "Rossermatrisen, ett klassiskt testproblem för symmetriska egenvärden"
 
-#: ../lib/library-strings.c:146
+#: ../lib/library-strings.c:149
 msgid "Rotation around origin in R^2"
 msgstr "Rotation runt origo i R^2"
 
-#: ../lib/library-strings.c:147
+#: ../lib/library-strings.c:150
 msgid "Rotation around origin in R^3 about the x-axis"
 msgstr "Rotation runt origo i R^3 kring x-axeln"
 
-#: ../lib/library-strings.c:148
+#: ../lib/library-strings.c:151
 msgid "Rotation around origin in R^3 about the y-axis"
 msgstr "Rotation runt origo i R^3 kring y-axeln"
 
-#: ../lib/library-strings.c:149
+#: ../lib/library-strings.c:152
 msgid "Rotation around origin in R^3 about the z-axis"
 msgstr "Rotation runt origo i R^3 kring z-axeln"
 
-#: ../lib/library-strings.c:150
+#: ../lib/library-strings.c:153
 msgid "Get a basis matrix for the rowspace of a matrix"
 msgstr "Hämta en basmatris för radrummet av en matris"
 
-#: ../lib/library-strings.c:151
+#: ../lib/library-strings.c:154
 msgid ""
 "Evaluate (v,w) with respect to the sesquilinear form given by the matrix A"
 msgstr ""
 "Beräkna (v,w) med avseende på den seskvilinjära formen given av matrisen A"
 
-#: ../lib/library-strings.c:152
+#: ../lib/library-strings.c:155
 msgid ""
 "Return a function that evaluates two vectors with respect to the "
 "sesquilinear form given by A"
@@ -773,15 +795,15 @@ msgstr ""
 "Returnera en funktion som beräknar två vektorer med avseende på den "
 "seskvilinjära formen given av A"
 
-#: ../lib/library-strings.c:153
+#: ../lib/library-strings.c:156
 msgid "Smith Normal Form for fields (will end up with 1's on the diagonal)"
 msgstr "Smiths normalform för kroppar (kommer i slutet ha 1:or på diagonalen)"
 
-#: ../lib/library-strings.c:154
+#: ../lib/library-strings.c:157
 msgid "Smith Normal Form for square integer matrices"
 msgstr "Smiths normalform för kvadratiska heltalsmatriser"
 
-#: ../lib/library-strings.c:155
+#: ../lib/library-strings.c:158
 msgid ""
 "Return the Toeplitz matrix constructed given the first column c and "
 "(optionally) the first row r."
@@ -789,88 +811,88 @@ msgstr ""
 "Returnera Toeplitzmatrisen skapad med den första kolumnen c och (valfritt) "
 "den första raden r."
 
-#: ../lib/library-strings.c:156
+#: ../lib/library-strings.c:159
 msgid "Calculate the trace of a matrix"
 msgstr "Beräkna spåret av en matris"
 
-#: ../lib/library-strings.c:157
+#: ../lib/library-strings.c:160
 msgid "Transpose of a matrix"
 msgstr "Transponatet av en matris"
 
-#: ../lib/library-strings.c:158
+#: ../lib/library-strings.c:161
 msgid "Return the Vandermonde matrix"
 msgstr "Returnera Vandermondematrisen"
 
-#: ../lib/library-strings.c:159
+#: ../lib/library-strings.c:162
 msgid "The angle of two vectors, given an inner product"
 msgstr "Vinkeln av två vektorer, givet en inre produkt"
 
-#: ../lib/library-strings.c:160
+#: ../lib/library-strings.c:163
 msgid "The direct sum of the vector spaces M and N"
 msgstr "Den direkta summan av vektorrummen M och N"
 
-#: ../lib/library-strings.c:161
+#: ../lib/library-strings.c:164
 msgid "Intersection of the subspaces given by M and N"
 msgstr "Snitt av underrummen angivna av M och N"
 
-#: ../lib/library-strings.c:162
+#: ../lib/library-strings.c:165
 msgid ""
 "The sum of the vector spaces M and N, that is {w | w=m+n, m in M, n in N}"
 msgstr ""
 "Summan av vektorrummen M och N, det vill säga {w | w=m+n, m i M, n i N}"
 
-#: ../lib/library-strings.c:163
+#: ../lib/library-strings.c:166
 msgid "Get the classical adjoint (adjugate) of a matrix"
 msgstr ""
 "Hämta den klassiska adjunkten (transponatet av kofaktormatrisen) av en matris"
 
 # Transponatet av Row Reduced Echelon Form.
-#: ../lib/library-strings.c:164
+#: ../lib/library-strings.c:167
 msgid "Compute the Column Reduced Echelon Form"
 msgstr "Beräkna den kolumnreducerade trappstegsformen"
 
-#: ../lib/library-strings.c:165
+#: ../lib/library-strings.c:168
 msgid "Get nth Catalan number"
 msgstr "Hämta det n:e Catalantalet"
 
-#: ../lib/library-strings.c:166
+#: ../lib/library-strings.c:169
 msgid "Double factorial: n(n-2)(n-4)..."
 msgstr "Semifakultet: n(n-2)(n-4)…"
 
-#: ../lib/library-strings.c:167
+#: ../lib/library-strings.c:170
 msgid "Factorial: n(n-1)(n-2)..."
 msgstr "Fakultet: n(n-1)(n-2)…"
 
 # Hittar ingen befäst term för dessa, så använder stigande/fallande fakultet.
-#: ../lib/library-strings.c:168
+#: ../lib/library-strings.c:171
 msgid "Falling factorial: (n)_k = n(n-1)...(n-(k-1))"
 msgstr "Fallande fakultet: (n)_k = n(n-1)…(n-(k-1))"
 
-#: ../lib/library-strings.c:169
+#: ../lib/library-strings.c:172
 msgid "Calculate nth Fibonacci number"
 msgstr "Beräkna det n:e Fibonaccitalet"
 
-#: ../lib/library-strings.c:170
+#: ../lib/library-strings.c:173
 msgid "Calculate the Frobenius number for a coin problem"
 msgstr "Beräkna Frobeniustalet för ett myntproblem"
 
-#: ../lib/library-strings.c:171
+#: ../lib/library-strings.c:174
 msgid ""
 "Galois matrix given a linear combining rule (a_1*x_1+...+a_n*x_n=x_(n+1))"
 msgstr ""
 "Galois-matris givet en linjär kombineringsregel (a_1*x_1+…+a_n*x_n=x_(n+1))"
 
-#: ../lib/library-strings.c:172
+#: ../lib/library-strings.c:175
 msgid "Use greedy algorithm to find c, for c . v = n.  (v must be sorted)"
 msgstr ""
 "Använd girig algoritm för att hitta c, för c . v = n.  (v måste vara "
 "sorterad)"
 
-#: ../lib/library-strings.c:173
+#: ../lib/library-strings.c:176
 msgid "Harmonic Number, the nth harmonic number of order r"
 msgstr "Harmoniskt tal, det n:e harmoniska talet av ordning r"
 
-#: ../lib/library-strings.c:174
+#: ../lib/library-strings.c:177
 msgid ""
 "Hofstadter's function q(n) defined by q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-"
 "q(n-2))"
@@ -878,44 +900,76 @@ msgstr ""
 "Hofstadters funktion q(n) definierad av q(1)=1, q(2)=1, q(n)=q(n-q(n-1))+q(n-"
 "q(n-2))"
 
-#: ../lib/library-strings.c:175
+#: ../lib/library-strings.c:178
 msgid "Compute linear recursive sequence using Galois stepping"
 msgstr "Beräkna linjär rekursiv sekvens med Galois-stegning"
 
-#: ../lib/library-strings.c:176
+#: ../lib/library-strings.c:179
 msgid "Calculate multinomial coefficients"
 msgstr "Beräkna multinomialkoefficienter"
 
-#: ../lib/library-strings.c:177
+#: ../lib/library-strings.c:180
 msgid "Get the Pascal's triangle as a matrix"
 msgstr "Hämta Pascals triangel som en matris"
 
-#: ../lib/library-strings.c:178
+#: ../lib/library-strings.c:181
 msgid "(Pochhammer) Rising factorial: (n)_k = n(n+1)...(n+(k-1))"
 msgstr "(Pochhammer) Stigande fakultet: (n)_k = n(n+1)…(n+(k-1))"
 
-#: ../lib/library-strings.c:179
+#: ../lib/library-strings.c:182
 msgid "Stirling number of the first kind"
 msgstr "Stirlingtal av första slaget"
 
-#: ../lib/library-strings.c:180
+#: ../lib/library-strings.c:183
 msgid "Stirling number of the second kind"
 msgstr "Stirlingtal av andra slaget"
 
 # https://sv.wikipedia.org/wiki/Derangemang
-#: ../lib/library-strings.c:181
+#: ../lib/library-strings.c:184
 msgid "Subfactorial: n! times sum_{k=0}^n (-1)^k/k!"
 msgstr "Derangemang: n! gånger sum_{k=0}^n (-1)^k/k!"
 
-#: ../lib/library-strings.c:182
+#: ../lib/library-strings.c:185
 msgid "Calculate the nth triangular number"
 msgstr "Beräkna det n:e triangeltalet"
 
-#: ../lib/library-strings.c:183
+#: ../lib/library-strings.c:186
 msgid "Calculate permutations"
 msgstr "Beräkna permutationer"
 
-#: ../lib/library-strings.c:184
+#: ../lib/library-strings.c:187
+msgid ""
+"Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is "
+"less than AdaptiveGaussKronrodAbsoluteTolerance and "
+"AdaptiveGaussKronrodRelativeTolerance times the value up to "
+"AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null"
+msgstr ""
+"Använd adaptiv sammansatt Gauss-Kronrod-regel (K15, G7) till "
+"feluppskattningen är mindre än AdaptiveGaussKronrodAbsoluteTolerance och "
+"AdaptiveGaussKronrodRelativeTolerance gånger värdet, upp till "
+"AdaptiveGaussKronrodMaxIterations gånger, om detta misslyckas returneras null"
+
+#: ../lib/library-strings.c:188
+msgid ""
+"Use adaptive composite Gauss-Kronrod (K15, G7) rule until error estimate is "
+"less than abstol and reltol times the value up to "
+"AdaptiveGaussKronrodMaxIterations times, if unsuccessful returns null"
+msgstr ""
+"Använd adaptiv sammansatt Gauss-Kronrod-regel (K15, G7) till "
+"feluppskattningen är mindre än abstol och reltol gånger värdet, upp till "
+"AdaptiveGaussKronrodMaxIterations gånger, om detta misslyckas returneras null"
+
+#: ../lib/library-strings.c:189
+msgid ""
+"Integration by Composite Simpson's Rule of function given as a vector of "
+"values on equally spaced subintervals over an interval of length len, data f "
+"should have 3 or more values"
+msgstr ""
+"Integration med sammansatt Simpsons regel för funktion given som en vektor "
+"med värden på likformigt fördelade underintervall över ett intervall med "
+"längd län, data-f ska ha 3 eller fler värden"
+
+#: ../lib/library-strings.c:190
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with the "
 "number of steps calculated by the fourth derivative bound and the desired "
@@ -925,7 +979,7 @@ msgstr ""
 "antalet steg beräknat av fjärdederivatans begränsning och den önskade "
 "toleransen"
 
-#: ../lib/library-strings.c:185
+#: ../lib/library-strings.c:191
 msgid ""
 "Attempt to calculate derivative by trying first symbolically and then "
 "numerically"
@@ -933,7 +987,7 @@ msgstr ""
 "Försök att beräkna derivata genom att först försöka symboliskt och sedan "
 "numeriskt"
 
-#: ../lib/library-strings.c:186
+#: ../lib/library-strings.c:192
 msgid ""
 "Return a function which is the even periodic extension of f defined on the "
 "interval [0,L]"
@@ -941,7 +995,7 @@ msgstr ""
 "Returnera en funktion som är den jämna periodiska utvidgningen av f "
 "definierad på intervallet [0,L]"
 
-#: ../lib/library-strings.c:187
+#: ../lib/library-strings.c:193
 msgid ""
 "Return a function which is a Fourier series with the coefficients given by "
 "the vectors a (sines) and b (cosines).  Note that a@(1) is the constant "
@@ -951,11 +1005,19 @@ msgstr ""
 "vektorerna a (sinus) och b (cosinus).  Observera att a@(1) är den konstanta "
 "koefficienten!"
 
-#: ../lib/library-strings.c:188
+#: ../lib/library-strings.c:194
+msgid ""
+"Return the result of a single GaussKronrodRule (K15, G7), returns a vector "
+"with the estimate and the error estimate"
+msgstr ""
+"Returnera resultatet för en ensam GaussKronrodRule (K15, G7), returnerar en "
+"vektor med uppskattningen och feluppskattningen"
+
+#: ../lib/library-strings.c:195
 msgid "Try to calculate an infinite product for a single parameter function"
 msgstr "Försök beräkna en oändlig produkt för en funktion med en parameter"
 
-#: ../lib/library-strings.c:189
+#: ../lib/library-strings.c:196
 msgid ""
 "Try to calculate an infinite product for a double parameter function with "
 "func(arg,n)"
@@ -963,11 +1025,11 @@ msgstr ""
 "Försök beräkna en oändlig produkt för en funktion med dubbel parameter med "
 "func(arg,n)"
 
-#: ../lib/library-strings.c:190
+#: ../lib/library-strings.c:197
 msgid "Try to calculate an infinite sum for a single parameter function"
 msgstr "Försök beräkna en oändlig summa för en funktion med en parameter"
 
-#: ../lib/library-strings.c:191
+#: ../lib/library-strings.c:198
 msgid ""
 "Try to calculate an infinite sum for a double parameter function with "
 "func(arg,n)"
@@ -975,7 +1037,7 @@ msgstr ""
 "Försök beräkna en oändlig summa för en funktion med dubbel parameter med "
 "func(arg,n)"
 
-#: ../lib/library-strings.c:192
+#: ../lib/library-strings.c:199
 msgid ""
 "Try and see if a real-valued function is continuous at x0 by calculating the "
 "limit there"
@@ -983,7 +1045,7 @@ msgstr ""
 "Testa och se om en reellvärd funktion är kontinuerlig vid x0 genom att "
 "beräkna gränsvärdet där"
 
-#: ../lib/library-strings.c:193
+#: ../lib/library-strings.c:200
 msgid ""
 "Test for differentiability by approximating the left and right limits and "
 "comparing"
@@ -991,15 +1053,15 @@ msgstr ""
 "Testa för differentierbarhet genom att approximera vänster- och "
 "högergränsvärden och jämföra"
 
-#: ../lib/library-strings.c:194
+#: ../lib/library-strings.c:201
 msgid "Integration by left hand rule"
 msgstr "Integration med vänster rektangelregel"
 
-#: ../lib/library-strings.c:195
+#: ../lib/library-strings.c:202
 msgid "Calculate the left limit of a real-valued function at x0"
 msgstr "Beräkna vänstergränsvärdet för en reellvärd funktion vid x0"
 
-#: ../lib/library-strings.c:196
+#: ../lib/library-strings.c:203
 msgid ""
 "Calculate the limit of a real-valued function at x0.  Tries to calculate "
 "both left and right limits."
@@ -1007,15 +1069,15 @@ msgstr ""
 "Beräkna gränsvärdet för en reellvärd funktion vid x0. Försöker beräkna både "
 "vänster- och högergränsvärden."
 
-#: ../lib/library-strings.c:197
+#: ../lib/library-strings.c:204
 msgid "Integration by midpoint rule"
 msgstr "Integration med mittpunktsregeln"
 
-#: ../lib/library-strings.c:198
+#: ../lib/library-strings.c:205
 msgid "Attempt to calculate numerical derivative"
 msgstr "Försök beräkna numerisk derivata"
 
-#: ../lib/library-strings.c:199
+#: ../lib/library-strings.c:206
 msgid ""
 "Numerically compute the coefficients for a cosine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1023,7 +1085,7 @@ msgstr ""
 "Beräkna numeriskt koefficienterna för en Fourier-cosinusserie för en "
 "funktion på [0,L] upp till den N:e koefficienten."
 
-#: ../lib/library-strings.c:200
+#: ../lib/library-strings.c:207
 msgid ""
 "Return a function which is the Fourier cosine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1031,7 +1093,7 @@ msgstr ""
 "Returnera en funktion som är Fourier-cosinusserien för f på [0,L] med "
 "koefficienter upp till N beräknade numeriskt"
 
-#: ../lib/library-strings.c:201
+#: ../lib/library-strings.c:208
 msgid ""
 "Numerically compute the coefficients for a Fourier series with half-period L "
 "up to the Nth coefficient."
@@ -1039,7 +1101,7 @@ msgstr ""
 "Beräkna numeriskt koefficienterna för en Fourierserie med halvperiod L upp "
 "till den N:e koefficienten."
 
-#: ../lib/library-strings.c:202
+#: ../lib/library-strings.c:209
 msgid ""
 "Return a function which is the Fourier series of f with half-period L with "
 "coefficients up to N computed numerically"
@@ -1047,7 +1109,7 @@ msgstr ""
 "Returnera en funktion som är Fourierserien för f med halvperiod L med "
 "koefficienter upp till N beräknade numeriskt"
 
-#: ../lib/library-strings.c:203
+#: ../lib/library-strings.c:210
 msgid ""
 "Numerically compute the coefficients for a sine Fourier series for a "
 "function on [0,L] up to the Nth coefficient."
@@ -1055,7 +1117,7 @@ msgstr ""
 "Beräkna numeriskt koefficienterna för en Fourier-sinusserie för en funktion "
 "på [0,L] upp till den N:e koefficienten."
 
-#: ../lib/library-strings.c:204
+#: ../lib/library-strings.c:211
 msgid ""
 "Return a function which is the Fourier sine series of f on [0,L] with "
 "coefficients up to N computed numerically"
@@ -1063,27 +1125,25 @@ msgstr ""
 "Returnera en funktion som är Fourier-sinusserien för f på [0,L] med "
 "koefficienter upp till N beräknade numeriskt"
 
-#: ../lib/library-strings.c:205
-msgid ""
-"Integration by rule set in NumericalIntegralFunction of f from a to b using "
-"NumericalIntegralSteps steps"
+#: ../lib/library-strings.c:212
+msgid "Integration by rule set in NumericalIntegralFunction of f from a to b"
 msgstr ""
 "Integration efter regel inställd i NumericalIntegralFunction av f från a "
-"till b med NumericalIntegralSteps steg"
+"till b"
 
-#: ../lib/library-strings.c:206
+#: ../lib/library-strings.c:213
 msgid "Attempt to calculate numerical left derivative"
 msgstr "Försök beräkna numerisk vänsterderivata"
 
-#: ../lib/library-strings.c:207
+#: ../lib/library-strings.c:214
 msgid "Attempt to calculate the limit of f(step_fun(i)) as i goes from 1 to N"
 msgstr "Försök beräkna gränsvärdet av f(step_fun(i)) medan i går från 1 till N"
 
-#: ../lib/library-strings.c:208
+#: ../lib/library-strings.c:215
 msgid "Attempt to calculate numerical right derivative"
 msgstr "Försök beräkna numerisk högerderivata"
 
-#: ../lib/library-strings.c:209
+#: ../lib/library-strings.c:216
 msgid ""
 "Return a function which is the odd periodic extension of f defined on the "
 "interval [0,L]"
@@ -1091,15 +1151,15 @@ msgstr ""
 "Returnera en funktion som är den udda periodiska utvidgningen av f "
 "definierad på intervallet [0,L]"
 
-#: ../lib/library-strings.c:210
+#: ../lib/library-strings.c:217
 msgid "Compute one-sided derivative using five point formula"
 msgstr "Beräkna ensidig derivata med fempunktsformel"
 
-#: ../lib/library-strings.c:211
+#: ../lib/library-strings.c:218
 msgid "Compute one-sided derivative using three-point formula"
 msgstr "Beräkna ensidig derivata med trepunktsformel"
 
-#: ../lib/library-strings.c:212
+#: ../lib/library-strings.c:219
 msgid ""
 "Return a function which is the periodic extension of f defined on the "
 "interval [a,b]"
@@ -1107,47 +1167,47 @@ msgstr ""
 "Returnera en funktion som är den periodiska utvidgningen av f definierad på "
 "intervallet [a,b]"
 
-#: ../lib/library-strings.c:213
+#: ../lib/library-strings.c:220
 msgid "Integration by right hand rule"
 msgstr "Integration med höger rektangelregel"
 
-#: ../lib/library-strings.c:214
+#: ../lib/library-strings.c:221
 msgid "Calculate the right limit of a real-valued function at x0"
 msgstr "Beräkna högergränsvärdet för en reellvärd funktion vid x0"
 
-#: ../lib/library-strings.c:215
+#: ../lib/library-strings.c:222
 msgid "Integration by trapezoid rule"
 msgstr "Integration med trapetsregeln"
 
-#: ../lib/library-strings.c:216
+#: ../lib/library-strings.c:223
 msgid "Compute two-sided derivative using five-point formula"
 msgstr "Beräkna tvåsidig derivata med fempunktsformel"
 
-#: ../lib/library-strings.c:217
+#: ../lib/library-strings.c:224
 msgid "Compute two-sided derivative using three-point formula"
 msgstr "Beräkna tvåsidig derivata med trepunktsformel"
 
-#: ../lib/library-strings.c:218
+#: ../lib/library-strings.c:225
 msgid "argument (angle) of complex number"
 msgstr "argument (vinkel) för komplext tal"
 
-#: ../lib/library-strings.c:219
+#: ../lib/library-strings.c:226
 msgid "Dirichlet kernel of order n"
 msgstr "Dirichletkärna av ordning n"
 
-#: ../lib/library-strings.c:220
+#: ../lib/library-strings.c:227
 msgid "Returns 1 if and only if all elements are zero"
 msgstr "Returnerar 1 om och endast om alla element är noll"
 
-#: ../lib/library-strings.c:221
+#: ../lib/library-strings.c:228
 msgid "Fejer kernel of order n"
 msgstr "Fejerkärna av ordning n"
 
-#: ../lib/library-strings.c:222
+#: ../lib/library-strings.c:229
 msgid "Returns 1 if and only if all elements are equal"
 msgstr "Returnerar 1 om och endast om alla element är lika"
 
-#: ../lib/library-strings.c:223
+#: ../lib/library-strings.c:230
 msgid ""
 "Principal branch of the Lambert W function for real values greater than or "
 "equal to -1/e"
@@ -1155,23 +1215,23 @@ msgstr ""
 "Huvudgren av Lamberts W-funktion för reella värden större än eller lika med "
 "-1/e"
 
-#: ../lib/library-strings.c:224
+#: ../lib/library-strings.c:231
 msgid ""
 "The minus-one branch of the Lambert W function for real values between -1/e "
 "and 0"
 msgstr ""
 "Minus-ett-grenen av Lamberts W-funktion för reella värden mellan -1/e och 0"
 
-#: ../lib/library-strings.c:225
+#: ../lib/library-strings.c:232
 msgid "Find the first value where f(x)=0"
 msgstr "Hitta det första värdet där f(x)=0"
 
-#: ../lib/library-strings.c:226
+#: ../lib/library-strings.c:233
 msgid "Moebius mapping of the disk to itself mapping a to 0"
 msgstr "Möbiusavbildning av skivan till sig själv som avbildar a till 0"
 
 # Infogat mellanslag för att tydliggöra att det är heltalen 1 och 0 , inte flyttalet 1,0
-#: ../lib/library-strings.c:227
+#: ../lib/library-strings.c:234
 msgid ""
 "Moebius mapping using the cross ratio taking z2,z3,z4 to 1,0, and infinity "
 "respectively"
@@ -1179,7 +1239,7 @@ msgstr ""
 "Möbiusavbildning som använder dubbelförhållandet som tar z2,z3,z4 till 1, 0 "
 "respektive oändligheten"
 
-#: ../lib/library-strings.c:228
+#: ../lib/library-strings.c:235
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to infinity and z2,z3 "
 "to 1 and 0 respectively"
@@ -1187,7 +1247,7 @@ msgstr ""
 "Möbiusavbildning som använder dubbelförhållandet som tar oändligheten till "
 "oändligheten och z2,z3 till 1 respektive 0"
 
-#: ../lib/library-strings.c:229
+#: ../lib/library-strings.c:236
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 1 and z3,z4 to 0 "
 "and infinity respectively"
@@ -1195,7 +1255,7 @@ msgstr ""
 "Möbiusavbildning som använder dubbelförhållandet som tar oändligheten till 1 "
 "och z3,z4 till 0 respektive oändligheten"
 
-#: ../lib/library-strings.c:230
+#: ../lib/library-strings.c:237
 msgid ""
 "Moebius mapping using the cross ratio taking infinity to 0 and z2,z4 to 1 "
 "and infinity respectively"
@@ -1203,7 +1263,7 @@ msgstr ""
 "Möbiusavbildning som använder dubbelförhållandet som tar oändligheten till 0 "
 "och z2,z4 till 1 respektive oändligheten"
 
-#: ../lib/library-strings.c:231
+#: ../lib/library-strings.c:238
 msgid ""
 "Poisson kernel on D(0,1) (not normalized to 1, that is integral of this is "
 "2pi)"
@@ -1211,11 +1271,11 @@ msgstr ""
 "Poissonkärna på D(0,1) (inte normaliserad till 1, det vill säga integral av "
 "detta är 2pi)"
 
-#: ../lib/library-strings.c:232
+#: ../lib/library-strings.c:239
 msgid "Poisson kernel on D(0,R) (not normalized to 1)"
 msgstr "Poissonkärna på D(0,R) (inte normaliserad till 1)"
 
-#: ../lib/library-strings.c:233
+#: ../lib/library-strings.c:240
 msgid ""
 "The unit step function = 0 for x<0, 1 otherwise.  This is the integral of "
 "the Dirac Delta function."
@@ -1223,40 +1283,40 @@ msgstr ""
 "Enhetsstegfunktionen = 0 för x<0, 1 annars.  Detta är integralen för Diracs "
 "delta-funktion."
 
-#: ../lib/library-strings.c:234
+#: ../lib/library-strings.c:241
 msgid "The cis function, that is cos(x)+i*sin(x)"
 msgstr "Cis-funktionen, det vill säga cos(x)+i*sin(x)"
 
-#: ../lib/library-strings.c:235
+#: ../lib/library-strings.c:242
 msgid "Convert degrees to radians"
 msgstr "Konvertera grader till radianer"
 
-#: ../lib/library-strings.c:236
+#: ../lib/library-strings.c:243
 msgid "Convert radians to degrees"
 msgstr "Konvertera radianer till grader"
 
-#: ../lib/library-strings.c:237
+#: ../lib/library-strings.c:244
 msgid "Find roots of a cubic polynomial (given as vector of coefficients)"
 msgstr ""
 "Hitta rötter av ett tredjegradspolynom (givet som en vektor av koefficienter)"
 
-#: ../lib/library-strings.c:238
+#: ../lib/library-strings.c:245
 msgid ""
-"Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
-"y0 going to x1 with n increments, returns y at x1"
+"Use classical Euler's method to numerically solve y'=f(x,y) for initial "
+"x0,y0 going to x1 with n increments, returns y at x1"
 msgstr ""
 "Använd Eulers klassiska metod för att numeriskt lösa y'=f(x,y) för initialt "
 "x0,y0 som går till x1 med n inkrement, returnerar y vid x1"
 
-#: ../lib/library-strings.c:239
+#: ../lib/library-strings.c:246
 msgid ""
-"Use classical Euler's method to numerically solve y'=f(x,y) for initial x0,"
-"y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
+"Use classical Euler's method to numerically solve y'=f(x,y) for initial "
+"x0,y0 going to x1 with n increments, returns an n+1 by 2 matrix of values"
 msgstr ""
 "Använd Eulers klassiska metod för att numeriskt lösa y'=f(x,y) för initialt "
 "x0,y0 som går till x1 med n inkrement, returnerar en (n+1)×2-matris av värden"
 
-#: ../lib/library-strings.c:240
+#: ../lib/library-strings.c:247
 msgid ""
 "Find root of a function using the bisection method to within TOL tolerance "
 "in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1264,7 +1324,7 @@ msgstr ""
 "Hitta rot för en funktion med bisektionsmetoden till inom TOL tolerans inom "
 "upp till N iterationer.  f(a) och f(b) måste ha olika tecken."
 
-#: ../lib/library-strings.c:241
+#: ../lib/library-strings.c:248
 msgid ""
 "Find root of a function using the method of false position to within TOL "
 "tolerance in up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1272,11 +1332,11 @@ msgstr ""
 "Hitta rot för en funktion med regula falsi-metoden till inom TOL tolerans "
 "inom upp till N iterationer.  f(a) och f(b) måste ha olika tecken."
 
-#: ../lib/library-strings.c:242
+#: ../lib/library-strings.c:249
 msgid "Find root of a function using the Muller's method"
 msgstr "Hitta rot för en funktion med Mullers metod"
 
-#: ../lib/library-strings.c:243
+#: ../lib/library-strings.c:250
 msgid ""
 "Find root of a function using the secant method to within TOL tolerance in "
 "up to N iterations.  f(a) and f(b) must have opposite signs."
@@ -1284,7 +1344,7 @@ msgstr ""
 "Hitta rot för en funktion med sekantmetoden till inom TOL tolerans inom upp "
 "till N iterationer.  f(a) och f(b) måste ha olika tecken."
 
-#: ../lib/library-strings.c:244
+#: ../lib/library-strings.c:251
 msgid ""
 "Attempt to find a zero of a function f with derivative df and second "
 "derivative ddf using Halley's method, returning after two successive values "
@@ -1294,7 +1354,7 @@ msgstr ""
 "metod, returnerar efter att två på varandra följande värden är inom epsilon "
 "eller efter maxn försök (returnerar sedan null)"
 
-#: ../lib/library-strings.c:245
+#: ../lib/library-strings.c:252
 msgid ""
 "Attempt to find a zero of a function f with derivative df using Newton's "
 "method, returning after two successive values are within epsilon or after "
@@ -1304,16 +1364,16 @@ msgstr ""
 "metod, returnerar efter att två på varandra följande värden är inom epsilon "
 "eller efter maxn försök (returnerar sedan null)"
 
-#: ../lib/library-strings.c:246
+#: ../lib/library-strings.c:253
 msgid "Find roots of a polynomial (given as vector of coefficients)"
 msgstr "Hitta rötter av ett polynom (givet som en vektor av koefficienter)"
 
-#: ../lib/library-strings.c:247
+#: ../lib/library-strings.c:254
 msgid "Find roots of a quartic polynomial (given as vector of coefficients)"
 msgstr ""
 "Hitta rötter av ett fjärdegradspolynom (givet som en vektor av koefficienter)"
 
-#: ../lib/library-strings.c:248
+#: ../lib/library-strings.c:255
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns y "
@@ -1323,7 +1383,7 @@ msgstr ""
 "numeriskt lösa y'=f(x,y) for initialt x0,y0 som går till x1 med n inkrement, "
 "returnerar y vid x1"
 
-#: ../lib/library-strings.c:249
+#: ../lib/library-strings.c:256
 msgid ""
 "Use classical non-adaptive Runge-Kutta of fourth order method to numerically "
 "solve y'=f(x,y) for initial x0,y0 going to x1 with n increments, returns an "
@@ -1333,35 +1393,35 @@ msgstr ""
 "numeriskt lösa y'=f(x,y) for initialt x0,y0 som går till x1 med n inkrement, "
 "returnerar en (n+1)×2-matris av värden"
 
-#: ../lib/library-strings.c:250
+#: ../lib/library-strings.c:257
 msgid "Calculate average of an entire matrix"
 msgstr "Beräkna medelvärde för en hel matris"
 
-#: ../lib/library-strings.c:251
+#: ../lib/library-strings.c:258
 msgid "Integral of the GaussFunction from 0 to x (area under the normal curve)"
 msgstr "Integral av GaussFunction från 0 till x (area under normalkurvan)"
 
-#: ../lib/library-strings.c:252
+#: ../lib/library-strings.c:259
 msgid "The normalized Gauss distribution function (the normal curve)"
 msgstr "Gauss normaliserade distributionsfunktion (normalkurvan)"
 
-#: ../lib/library-strings.c:253
+#: ../lib/library-strings.c:260
 msgid "Calculate median of an entire matrix"
 msgstr "Beräkna median för en hel matris"
 
-#: ../lib/library-strings.c:254
+#: ../lib/library-strings.c:261
 msgid "Calculate the population standard deviation of a whole matrix"
 msgstr "Beräkna populationsstandardavvikelsen för en hel matris"
 
-#: ../lib/library-strings.c:255
+#: ../lib/library-strings.c:262
 msgid "Calculate average of each row in a matrix"
 msgstr "Beräkna medelvärde för varje rad i en matris"
 
-#: ../lib/library-strings.c:256
+#: ../lib/library-strings.c:263
 msgid "Calculate median of each row in a matrix"
 msgstr "Beräkna median för varje rad i en matris"
 
-#: ../lib/library-strings.c:257
+#: ../lib/library-strings.c:264
 msgid ""
 "Calculate the population standard deviations of rows of a matrix and return "
 "a vertical vector"
@@ -1369,7 +1429,7 @@ msgstr ""
 "Beräkna populationsstandardavvikelserna för rader i en matris och returnera "
 "en vertikal vektor"
 
-#: ../lib/library-strings.c:258
+#: ../lib/library-strings.c:265
 msgid ""
 "Calculate the standard deviations of rows of a matrix and return a vertical "
 "vector"
@@ -1377,11 +1437,11 @@ msgstr ""
 "Beräkna standardavvikelserna för rader av en matris och returnera en "
 "vertikal vektor"
 
-#: ../lib/library-strings.c:259
+#: ../lib/library-strings.c:266
 msgid "Calculate the standard deviation of a whole matrix"
 msgstr "Beräkna standardavvikelsen för en hel matris"
 
-#: ../lib/library-strings.c:260
+#: ../lib/library-strings.c:267
 msgid ""
 "Attempt to find a root of a polynomial using Newton's method, returning "
 "after two successive values are within epsilon or after maxn tries (then "
@@ -1391,11 +1451,11 @@ msgstr ""
 "två på varandra följande värden är inom epsilon eller efter maxn försök "
 "(returnerar sedan null)"
 
-#: ../lib/library-strings.c:261
+#: ../lib/library-strings.c:268
 msgid "Returns a set where every element of X appears only once"
 msgstr "Returnerar en mängd där varje element i X förekommer endast en gång"
 
-#: ../lib/library-strings.c:262
+#: ../lib/library-strings.c:269
 msgid ""
 "Returns a set theoretic union of X and Y (X and Y are vectors pretending to "
 "be sets)"
@@ -1403,7 +1463,7 @@ msgstr ""
 "Returnerar den mängdteoretiska unionen av X och Y (X och Y är vektorer som "
 "föreställer att vara mängder)"
 
-#: ../lib/library-strings.c:263
+#: ../lib/library-strings.c:270
 msgid ""
 "For a Hilbert function that is c for degree d, given the Macaulay bound for "
 "the Hilbert function of degree d+1 (The c^<d> operator from Green's proof)"
@@ -1411,19 +1471,19 @@ msgstr ""
 "För en Hilbertfunktion som är c för grad d, givet Macaulay-gränsen för "
 "Hilbertfunktionen av grad d+1 (c^<d>-operatorn från Greens bevis)"
 
-#: ../lib/library-strings.c:264
+#: ../lib/library-strings.c:271
 msgid "The c_<d> operator from Green's proof of Macaulay's Theorem"
 msgstr "c_<d>-operatorn från Greens bevis för Macaulays sats"
 
-#: ../lib/library-strings.c:265
+#: ../lib/library-strings.c:272
 msgid "Return the dth Macaulay representation of a positive integer c"
 msgstr "Returnera den d:e Macaulayrepresentationen av ett positivt heltal c"
 
-#: ../lib/library-strings.c:266
+#: ../lib/library-strings.c:273
 msgid "Attempt to symbolically differentiate a function n times"
 msgstr "Försök att symboliskt differentiera en funktion n gånger"
 
-#: ../lib/library-strings.c:267
+#: ../lib/library-strings.c:274
 msgid ""
 "Attempt to symbolically differentiate a function n times quietly and return "
 "null on failure"
@@ -1431,7 +1491,7 @@ msgstr ""
 "Försök att symboliskt differentiera en funktion n gånger och returnera null "
 "vid misslyckande"
 
-#: ../lib/library-strings.c:268
+#: ../lib/library-strings.c:275
 msgid ""
 "Attempt to construct the Taylor approximation function around x0 to the nth "
 "degree."
@@ -1451,7 +1511,7 @@ msgstr "Försöker ställa in ett alias för ett alias"
 msgid "Bad identifier for function node!"
 msgstr "Felaktig identifierare för funktionsnoden!"
 
-#: ../src/calc.c:1026 ../src/eval.c:7234 ../src/eval.c:7441
+#: ../src/calc.c:1026 ../src/eval.c:7235 ../src/eval.c:7442
 msgid "Unexpected operator!"
 msgstr "Oväntad operator!"
 
@@ -1474,69 +1534,69 @@ msgstr "Oväntad funktionstyp!"
 msgid "NULL tree!"
 msgstr "NULL-träd!"
 
-#: ../src/calc.c:1510 ../src/eval.c:7740
+#: ../src/calc.c:1510 ../src/eval.c:7741
 msgid "Unexpected node!"
 msgstr "Oväntad nod!"
 
-#: ../src/calc.c:2025
+#: ../src/calc.c:2026
 #, c-format
 msgid "File '%s' is a wrong version of GEL"
 msgstr "Filen ”%s” är för en felaktig version av GEL"
 
-#: ../src/calc.c:2075 ../src/calc.c:2089 ../src/calc.c:2103 ../src/calc.c:2116
-#: ../src/calc.c:2132 ../src/calc.c:2147 ../src/calc.c:2162 ../src/calc.c:2175
-#: ../src/calc.c:2181 ../src/calc.c:2188 ../src/calc.c:2202 ../src/calc.c:2213
-#: ../src/calc.c:2220 ../src/calc.c:2227 ../src/calc.c:2234 ../src/calc.c:2241
-#: ../src/calc.c:2248 ../src/calc.c:2255 ../src/calc.c:2262 ../src/calc.c:2269
-#: ../src/calc.c:2276 ../src/calc.c:2283 ../src/calc.c:2290 ../src/calc.c:2297
-#: ../src/calc.c:2304 ../src/calc.c:2311 ../src/calc.c:2327 ../src/calc.c:2345
-#: ../src/calc.c:2355
+#: ../src/calc.c:2076 ../src/calc.c:2090 ../src/calc.c:2104 ../src/calc.c:2117
+#: ../src/calc.c:2133 ../src/calc.c:2148 ../src/calc.c:2163 ../src/calc.c:2176
+#: ../src/calc.c:2182 ../src/calc.c:2189 ../src/calc.c:2203 ../src/calc.c:2214
+#: ../src/calc.c:2221 ../src/calc.c:2228 ../src/calc.c:2235 ../src/calc.c:2242
+#: ../src/calc.c:2249 ../src/calc.c:2256 ../src/calc.c:2263 ../src/calc.c:2270
+#: ../src/calc.c:2277 ../src/calc.c:2284 ../src/calc.c:2291 ../src/calc.c:2298
+#: ../src/calc.c:2305 ../src/calc.c:2312 ../src/calc.c:2328 ../src/calc.c:2346
+#: ../src/calc.c:2356
 msgid "Badly formed record"
 msgstr "Felaktigt formad post"
 
-#: ../src/calc.c:2078 ../src/calc.c:2083 ../src/calc.c:2097 ../src/calc.c:2111
-#: ../src/calc.c:2126 ../src/calc.c:2142 ../src/calc.c:2156
+#: ../src/calc.c:2079 ../src/calc.c:2084 ../src/calc.c:2098 ../src/calc.c:2112
+#: ../src/calc.c:2127 ../src/calc.c:2143 ../src/calc.c:2157
 msgid "Record out of place"
 msgstr "Felplacerad post"
 
-#: ../src/calc.c:2369 ../src/calc.c:2380 ../src/calc.c:2392
+#: ../src/calc.c:2370 ../src/calc.c:2381 ../src/calc.c:2393
 msgid "Missing value for function"
 msgstr "Saknat värde för funktion"
 
-#: ../src/calc.c:2412
+#: ../src/calc.c:2413
 msgid "Extra dictionary for NULL function"
 msgstr "Extra ordbok för NULL-funktion"
 
-#: ../src/calc.c:2465 ../src/calc.c:3019 ../src/calc.c:3054
+#: ../src/calc.c:2466 ../src/calc.c:3020 ../src/calc.c:3055
 #, c-format
 msgid "Can't open file: '%s'"
 msgstr "Kan inte öppna filen: ”%s”"
 
-#: ../src/calc.c:2666
+#: ../src/calc.c:2667
 msgid "Load a file into the interpreter"
 msgstr "Läs in en fil i tolken"
 
-#: ../src/calc.c:2669
+#: ../src/calc.c:2670
 msgid "Load a plugin"
 msgstr "Läs in en insticksmodul"
 
-#: ../src/calc.c:2672
+#: ../src/calc.c:2673
 msgid "List files in the current directory"
 msgstr "Lista filer i den aktuella katalogen"
 
-#: ../src/calc.c:2675
+#: ../src/calc.c:2676
 msgid "Change directory"
 msgstr "Byt katalog"
 
-#: ../src/calc.c:2678
+#: ../src/calc.c:2679
 msgid "Print current directory"
 msgstr "Skriv ut aktuell katalog"
 
-#: ../src/calc.c:2681
+#: ../src/calc.c:2682
 msgid "Print help (or help on a function/command)"
 msgstr "Skriv ut hjälp (eller hjälp för funktion/kommando)"
 
-#: ../src/calc.c:2697
+#: ../src/calc.c:2698
 msgid ""
 "\n"
 "For a manual on using Genius and the GEL language type:\n"
@@ -1544,11 +1604,11 @@ msgstr ""
 "\n"
 "För en användarhandbok för Genius och GEL-språket, skriv:\n"
 
-#: ../src/calc.c:2699
+#: ../src/calc.c:2700
 msgid "  manual\n"
 msgstr "  manual\n"
 
-#: ../src/calc.c:2703
+#: ../src/calc.c:2704
 msgid ""
 "\n"
 "For help on a specific function type:\n"
@@ -1556,11 +1616,11 @@ msgstr ""
 "\n"
 "För hjälp angående en specifik funktion, skriv:\n"
 
-#: ../src/calc.c:2705
+#: ../src/calc.c:2706
 msgid "  help FunctionName\n"
 msgstr "  help Funktionsnamn\n"
 
-#: ../src/calc.c:2709
+#: ../src/calc.c:2710
 msgid ""
 "\n"
 "Commands:\n"
@@ -1568,7 +1628,7 @@ msgstr ""
 "\n"
 "Kommandon:\n"
 
-#: ../src/calc.c:2754
+#: ../src/calc.c:2755
 msgid ""
 "\n"
 "Undocumented:\n"
@@ -1579,73 +1639,73 @@ msgstr ""
 #. func
 #. aliasfor
 #. category
-#: ../src/calc.c:2797
+#: ../src/calc.c:2798
 msgid "Not documented"
 msgstr "Inte dokumenterad"
 
-#: ../src/calc.c:2820
+#: ../src/calc.c:2821
 #, c-format
 msgid "'%s' is not documented"
 msgstr "”%s” är inte dokumenterad"
 
-#: ../src/calc.c:2822
+#: ../src/calc.c:2823
 #, c-format
 msgid "'%s' is not documented.  Perhaps you meant %s."
 msgstr "”%s” finns inte dokumenterad. Du kanske menade %s."
 
-#: ../src/calc.c:2832
+#: ../src/calc.c:2833
 #, c-format
 msgid "%s is an alias for %s\n"
 msgstr "%s är ett alias för %s\n"
 
-#: ../src/calc.c:2854
+#: ../src/calc.c:2855
 msgid "Parameter: "
 msgstr "Parameter: "
 
-#: ../src/calc.c:2881
+#: ../src/calc.c:2882
 msgid "Aliases:"
 msgstr "Alias:"
 
-#: ../src/calc.c:2893
+#: ../src/calc.c:2894
 #, c-format
 msgid "Description: %s\n"
 msgstr "Beskrivning: %s\n"
 
-#: ../src/calc.c:3079 ../src/calc.c:3086
+#: ../src/calc.c:3080 ../src/calc.c:3087
 #, c-format
 msgid "Error changing to directory '%s': %s"
 msgstr "Fel vid byte av katalog till ”%s”: %s"
 
-#: ../src/calc.c:3100 ../src/calc.c:3111
+#: ../src/calc.c:3101 ../src/calc.c:3112
 #, c-format
 msgid "Can't expand '%s'"
 msgstr "Kan inte expandera ”%s”"
 
-#: ../src/calc.c:3181
+#: ../src/calc.c:3182
 #, c-format
 msgid "Cannot open plugin '%s'!"
 msgstr "Kan inte öppna insticksmodulen ”%s”!"
 
-#: ../src/calc.c:3271
+#: ../src/calc.c:3272
 #, c-format
 msgid "getcwd error: %s"
 msgstr "getcwd-fel: %s"
 
-#: ../src/calc.c:3331
+#: ../src/calc.c:3332
 #, c-format
 msgid "ERROR: 'pipe' failed: %s"
 msgstr "FEL: ”pipe” misslyckades: %s"
 
-#: ../src/calc.c:3338 ../src/calc.c:3345
+#: ../src/calc.c:3339 ../src/calc.c:3346
 #, c-format
 msgid "ERROR: 'write' possibly failed: %s"
 msgstr "FEL: ”write” kanske misslyckades: %s"
 
-#: ../src/calc.c:3413
+#: ../src/calc.c:3414
 msgid "ERROR: Probably corrupt stack!"
 msgstr "FEL: Troligen trasig stack!"
 
-#: ../src/calc.c:3425
+#: ../src/calc.c:3426
 msgid ""
 "ERROR: 'local' in a wrong place, can only be first statement in a function!"
 msgstr ""
@@ -1671,14 +1731,14 @@ msgid "ERROR: %s before '%s'"
 msgstr "FEL: %s före ”%s”"
 
 #: ../src/calc.h:32
-msgid "Copyright (C) 1997-2021 Jiří (George) Lebl"
-msgstr "Copyright © 1997-2021 Jiří (George) Lebl"
+msgid "Copyright (C) 1997-2026 Jiří (George) Lebl"
+msgstr "Copyright © 1997-2026 Jiří (George) Lebl"
 
-#: ../src/compil.c:257
+#: ../src/compil.c:254
 msgid "Bad value record when decompiling"
 msgstr "Felaktig värdepost under dekompilering"
 
-#: ../src/compil.c:550 ../src/compil.c:559
+#: ../src/compil.c:549 ../src/compil.c:558
 msgid "Bad tree record when decompiling"
 msgstr "Felaktig trädpost under dekompilering"
 
@@ -1758,7 +1818,7 @@ msgstr "Skapar funktion med fel antal argument"
 msgid "Unevaluatable function type encountered!"
 msgstr "Inte evaluerbar funktionstyp påträffad!"
 
-#: ../src/eval.c:3510 ../src/graphing.c:5989
+#: ../src/eval.c:3510 ../src/graphing.c:6007
 msgid "or"
 msgstr "eller"
 
@@ -1770,12 +1830,12 @@ msgstr ""
 "Variabel ”i” används oinitierad. Du kanske menade ”1i” för det imaginära "
 "talet (kvadratroten ur -1)."
 
-#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:7558
+#: ../src/eval.c:3554 ../src/eval.c:3587 ../src/eval.c:7559
 #, c-format
 msgid "Variable '%s' used uninitialized, perhaps you meant %s."
 msgstr "Variabeln ”%s” används oinitierad. Du kanske menade %s."
 
-#: ../src/eval.c:3561 ../src/eval.c:3594 ../src/eval.c:4657 ../src/eval.c:7565
+#: ../src/eval.c:3561 ../src/eval.c:3594 ../src/eval.c:4657 ../src/eval.c:7566
 #, c-format
 msgid "Variable '%s' used uninitialized"
 msgstr "Variabeln ”%s” används oinitierad"
@@ -2118,7 +2178,7 @@ msgstr "%s: argument för stort"
 msgid "Cannot parse version string: %s"
 msgstr "Kan inte tolka versionssträng: %s"
 
-#: ../src/funclib.c:179 ../src/gnome-genius.c:2031
+#: ../src/funclib.c:179 ../src/gnome-genius.c:2059
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -2173,7 +2233,7 @@ msgstr "%s: försöker ställa in ett skyddat id!"
 msgid "%s: trying to set a parameter, use the equals sign"
 msgstr "%s: försöker ställa in en parameter, använd likamedtecknet"
 
-#: ../src/funclib.c:704 ../src/gnome-genius.c:1158
+#: ../src/funclib.c:704 ../src/gnome-genius.c:1162
 msgid ""
 "Global variables:\n"
 "\n"
@@ -2181,7 +2241,7 @@ msgstr ""
 "Globala variabler:\n"
 "\n"
 
-#: ../src/funclib.c:727 ../src/gnome-genius.c:1191
+#: ../src/funclib.c:727 ../src/gnome-genius.c:1195
 msgid ""
 "\n"
 "Function call stack:\n"
@@ -2189,8 +2249,8 @@ msgstr ""
 "\n"
 "Funktionsanropsstack:\n"
 
-#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1193
-#: ../src/gnome-genius.c:1250
+#: ../src/funclib.c:729 ../src/funclib.c:769 ../src/gnome-genius.c:1197
+#: ../src/gnome-genius.c:1254
 msgid ""
 "(depth of context in parentheses)\n"
 "\n"
@@ -2198,7 +2258,7 @@ msgstr ""
 "(kontextdjup i parenteser)\n"
 "\n"
 
-#: ../src/funclib.c:767 ../src/gnome-genius.c:1248
+#: ../src/funclib.c:767 ../src/gnome-genius.c:1252
 msgid ""
 "\n"
 "Local variables:\n"
@@ -2216,7 +2276,7 @@ msgstr "%s: argument nummer %d är inte en sträng eller identifierare"
 msgid "%s undefined\n"
 msgstr "%s är odefinierad\n"
 
-#: ../src/funclib.c:830 ../src/funclib.c:923
+#: ../src/funclib.c:830 ../src/funclib.c:923 ../src/funclib.c:6416
 #, c-format
 msgid "%s: Too many arguments, should be at most %d"
 msgstr "%s: För många argument, får vara max %d"
@@ -2288,7 +2348,7 @@ msgid "%s: Input not a number or a matrix of numbers."
 msgstr "%s: indata inte ett tal eller en matris av tal."
 
 #: ../src/funclib.c:3437 ../src/funclib.c:3495 ../src/funclib.c:5082
-#: ../src/funclib.c:5376 ../src/graphing.c:10405
+#: ../src/funclib.c:5376 ../src/graphing.c:10424
 #, c-format
 msgid "%s: too many arguments"
 msgstr "%s: för många argument"
@@ -2368,195 +2428,209 @@ msgstr "%s: odefinierad funktion"
 msgid "%s: flags argument must be a string"
 msgstr "%s: flaggargumentet måste vara en sträng"
 
-#: ../src/funclib.c:6452 ../src/symbolic.c:734
+#: ../src/funclib.c:6446
+#, c-format
+msgid "%s: Cannot find NumericalIntegralSteps parameter, using 1000"
+msgstr "%s: Kan inte hitta parametern NumericalIntegralSteps, använder 1000"
+
+#: ../src/funclib.c:6454 ../src/funclib.c:6460
+#, c-format
+msgid ""
+"%s: Cannot read NumericalIntegralSteps parameter or it is not an integer, "
+"using 1000"
+msgstr ""
+"%s: Kan inte läsa parametern NumericalIntegralSteps eller så är den inte ett "
+"heltal, använder 1000"
+
+#: ../src/funclib.c:6492 ../src/symbolic.c:734
 #, c-format
 msgid "%s: argument not a function of one variable"
 msgstr "%s: argumentet är inte en funktion av en variabel"
 
-#: ../src/funclib.c:6662 ../src/funclib.c:6697 ../src/funclib.c:6942
+#: ../src/funclib.c:6702 ../src/funclib.c:6737 ../src/funclib.c:6982
 #, c-format
 msgid "%s: argument should be between %d and %d"
 msgstr "%s: argumentet måste vara mellan %d och %d"
 
-#: ../src/funclib.c:6850
+#: ../src/funclib.c:6890
 msgid "OutputStyle must be one of normal, troff, latex or mathml"
 msgstr "Utdatastil måste vara en av normal, troff, latex eller mathml"
 
-#: ../src/funclib.c:6890
+#: ../src/funclib.c:6930
 #, c-format
 msgid "%s: argument should be larger or equal to 0"
 msgstr "%s: argumentet måste vara större än eller lika med 0"
 
-#: ../src/funclib.c:7003
+#: ../src/funclib.c:7043
 msgid "Basic"
 msgstr "Grundläggande"
 
 #. internal
-#: ../src/funclib.c:7004
+#: ../src/funclib.c:7044
 msgid "Parameters"
 msgstr "Parametrar"
 
 #. internal
-#: ../src/funclib.c:7005
+#: ../src/funclib.c:7045
 msgid "Constants"
 msgstr "Konstanter"
 
 #. internal
-#: ../src/funclib.c:7006
+#: ../src/funclib.c:7046
 msgid "Numeric"
 msgstr "Numerisk"
 
 #. internal
-#: ../src/funclib.c:7007
+#: ../src/funclib.c:7047
 msgid "Trigonometry"
 msgstr "Trigonometri"
 
 #. internal
-#: ../src/funclib.c:7008
+#: ../src/funclib.c:7048
 msgid "Number Theory"
 msgstr "Talteori"
 
 #. internal
-#: ../src/funclib.c:7009
+#: ../src/funclib.c:7049
 msgid "Matrix Manipulation"
 msgstr "Matrismanipulation"
 
 #. internal
-#: ../src/funclib.c:7010
+#: ../src/funclib.c:7050
 msgid "Linear Algebra"
 msgstr "Linjär algebra"
 
 #. internal
-#: ../src/funclib.c:7011
+#: ../src/funclib.c:7051
 msgid "Combinatorics"
 msgstr "Kombinatorik"
 
 #. internal
-#: ../src/funclib.c:7012
+#: ../src/funclib.c:7052
 msgid "Calculus"
 msgstr "Kalkyl"
 
 #. internal
-#: ../src/funclib.c:7013
+#: ../src/funclib.c:7053
 msgid "Functions"
 msgstr "Funktioner"
 
 #. internal
-#: ../src/funclib.c:7014
+#: ../src/funclib.c:7054
 msgid "Equation Solving"
 msgstr "Ekvationslösning"
 
 #. internal
-#: ../src/funclib.c:7015
+#: ../src/funclib.c:7055
 msgid "Statistics"
 msgstr "Statistik"
 
 #. internal
-#: ../src/funclib.c:7016
+#: ../src/funclib.c:7056
 msgid "Polynomials"
 msgstr "Polynom"
 
 #. internal
-#: ../src/funclib.c:7017
+#: ../src/funclib.c:7057
 msgid "Set Theory"
 msgstr "Mängdlära"
 
 #. internal
-#: ../src/funclib.c:7018
+#: ../src/funclib.c:7058
 msgid "Commutative Algebra"
 msgstr "Kommutativ algebra"
 
 #. internal
-#: ../src/funclib.c:7019
+#: ../src/funclib.c:7059
 msgid "Miscellaneous"
 msgstr "Diverse"
 
 #. internal
-#: ../src/funclib.c:7021
+#: ../src/funclib.c:7061
 msgid "Displays the user manual"
 msgstr "Visar användarmanualen"
 
-#: ../src/funclib.c:7022
+#: ../src/funclib.c:7062
 msgid "Gives the warranty information"
 msgstr "Ger garantiinformationen"
 
-#: ../src/funclib.c:7023
+#: ../src/funclib.c:7063
 msgid "Return version as a 3-vector"
 msgstr "Returnera version som en 3-vektor"
 
-#: ../src/funclib.c:7024
+#: ../src/funclib.c:7064
 msgid "Exits the program"
 msgstr "Avslutar programmet"
 
-#: ../src/funclib.c:7026
+#: ../src/funclib.c:7066
 msgid "Prints a string to the error stream"
 msgstr "Skriver ut en sträng till felflödet"
 
-#: ../src/funclib.c:7027
+#: ../src/funclib.c:7067
 msgid "Waits a specified number of seconds"
 msgstr "Väntar ett angivet antal sekunder"
 
-#: ../src/funclib.c:7028
+#: ../src/funclib.c:7068
 msgid "The true boolean value"
 msgstr "Det booleska värdet för sant"
 
-#: ../src/funclib.c:7030
+#: ../src/funclib.c:7070
 msgid "The false boolean value"
 msgstr "Det booleska värdet för falskt"
 
-#: ../src/funclib.c:7033
+#: ../src/funclib.c:7073
 msgid "Unix time in seconds as a floating point number"
 msgstr "Unixtid i sekunder som ett flyttal"
 
-#: ../src/funclib.c:7041
+#: ../src/funclib.c:7081
 msgid "Make integer (0 or 1) from a boolean value"
 msgstr "Skapa heltal (0 eller 1) från booleskt värde"
 
-#: ../src/funclib.c:7043
+#: ../src/funclib.c:7083
 msgid "Prints an expression"
 msgstr "Skriver ut ett uttryck"
 
-#: ../src/funclib.c:7044
+#: ../src/funclib.c:7084
 msgid "Changes current directory"
 msgstr "Byter aktuell katalog"
 
-#: ../src/funclib.c:7045
+#: ../src/funclib.c:7085
 msgid "Prints an expression without a trailing newline"
 msgstr "Skriver ut ett uttryck utan en avslutande nyrad"
 
-#: ../src/funclib.c:7046
+#: ../src/funclib.c:7086
 msgid "Display a string and an expression"
 msgstr "Visa en sträng och ett uttryck"
 
-#: ../src/funclib.c:7047
+#: ../src/funclib.c:7087
 msgid "Set a global variable"
 msgstr "Ställ in en global variabel"
 
-#: ../src/funclib.c:7048
+#: ../src/funclib.c:7088
 msgid "Set an element in a global variable which is a matrix"
 msgstr "Ställ in ett element i en global variabel som är en matris"
 
-#: ../src/funclib.c:7049
+#: ../src/funclib.c:7089
 msgid "Set an element in a global variable which is a vector"
 msgstr "Ställ in ett element i en global variabel som är en vektor"
 
-#: ../src/funclib.c:7050
+#: ../src/funclib.c:7090
 msgid "Display values of variables, or all if called without arguments"
 msgstr "Visa värden för variabler, eller alla om anropat utan argument"
 
-#: ../src/funclib.c:7052
+#: ../src/funclib.c:7092
 msgid "Set the category and help description line for a function"
 msgstr "Ställer in kategori- och hjälpbeskrivningsraderna för en funktion"
 
-#: ../src/funclib.c:7053
+#: ../src/funclib.c:7093
 msgid "Sets up a help alias"
 msgstr "Konfigurerar ett hjälpalias"
 
-#: ../src/funclib.c:7055
+#: ../src/funclib.c:7095
 msgid "Identity function, returns its argument"
 msgstr "Identitetsfunktionen, returnerar sitt argument"
 
-#: ../src/funclib.c:7057
+#: ../src/funclib.c:7097
 msgid ""
 "Generate random float between 0 and 1, or if size given generate vector or "
 "matrix of random floats"
@@ -2564,7 +2638,7 @@ msgstr ""
 "Generera slumpmässigt flyttal mellan 0 och 1, eller om storlek angiven "
 "generera vektor eller matris med slumpmässiga flyttal"
 
-#: ../src/funclib.c:7059
+#: ../src/funclib.c:7099
 msgid ""
 "Generate random integer between 0 and max-1 inclusive, or if size given "
 "generate vector or matrix of random integers"
@@ -2572,52 +2646,52 @@ msgstr ""
 "Generera slumpmässigt heltal från 0 till max-1, eller om storlek angiven "
 "generera vektor eller matris med slumpmässiga heltal"
 
-#: ../src/funclib.c:7062 ../src/gnome-genius.c:2630
+#: ../src/funclib.c:7102 ../src/gnome-genius.c:2658
 msgid "Floating point precision"
 msgstr "Flyttalsprecision"
 
-#: ../src/funclib.c:7064 ../src/gnome-genius.c:2516
+#: ../src/funclib.c:7104 ../src/gnome-genius.c:2544
 msgid ""
 "Display 0.0 when floating point number is less than 10^-x (0=never chop)"
 msgstr "Visa 0.0 när flyttal är mindre än 10^-x (0=klipp aldrig)"
 
-#: ../src/funclib.c:7067 ../src/gnome-genius.c:2539
+#: ../src/funclib.c:7107 ../src/gnome-genius.c:2567
 msgid "Only chop numbers when another number is greater than 10^-x"
 msgstr "Klipp endast tal när ett annat tal är större än 10^-x"
 
-#: ../src/funclib.c:7068
+#: ../src/funclib.c:7108
 msgid "Maximum digits to display"
 msgstr "Maximalt antal siffror att visa"
 
-#: ../src/funclib.c:7069
+#: ../src/funclib.c:7109
 msgid "Maximum errors to display"
 msgstr "Maximalt antal fel att visa"
 
-#: ../src/funclib.c:7070
+#: ../src/funclib.c:7110
 msgid "Output style: normal, latex, mathml or troff"
 msgstr "Utdatastil: normal, latex, mathml eller troff"
 
-#: ../src/funclib.c:7071
+#: ../src/funclib.c:7111
 msgid "Integer output base"
 msgstr "Bas för heltalsutdata"
 
-#: ../src/funclib.c:7072
+#: ../src/funclib.c:7112
 msgid "If true, mixed fractions are printed"
 msgstr "Om sant skrivs blandade bråk ut"
 
-#: ../src/funclib.c:7073
+#: ../src/funclib.c:7113
 msgid "Print full expressions, even if more than a line"
 msgstr "Skriv ut fullständiga uttryck, även om det tar mer än en rad"
 
-#: ../src/funclib.c:7074
+#: ../src/funclib.c:7114
 msgid "Convert all results to floats before printing"
 msgstr "Konvertera alla resultat till flyttal före utskrift"
 
-#: ../src/funclib.c:7075
+#: ../src/funclib.c:7115
 msgid "Use scientific notation"
 msgstr "Använd vetenskaplig notation"
 
-#: ../src/funclib.c:7077
+#: ../src/funclib.c:7117
 msgid ""
 "Number of extra Miller-Rabin tests to run on a number before declaring it a "
 "prime in IsPrime"
@@ -2625,229 +2699,229 @@ msgstr ""
 "Antal extra Miller-Rabin-test att köra på ett tal innan det deklareras som "
 "ett primtal i IsPrime"
 
-#: ../src/funclib.c:7083
+#: ../src/funclib.c:7123
 msgid "Expands a matrix just like we do on unquoted matrix input"
 msgstr "Expanderar en matris precis som vi gör med ociterad matrisindata"
 
-#: ../src/funclib.c:7084
+#: ../src/funclib.c:7124
 msgid "Gets the rows of a matrix as a vertical vector"
 msgstr "Hämtar raderna i en matris som en vertikal vektor"
 
-#: ../src/funclib.c:7085
+#: ../src/funclib.c:7125
 msgid "Gets the columns of a matrix as a horizontal vector"
 msgstr "Hämtar kolumnerna i en matris som en horisontell vektor"
 
-#: ../src/funclib.c:7086
+#: ../src/funclib.c:7126
 msgid "Gets the diagonal entries of a matrix as a column vector"
 msgstr "Hämtar diagonalposterna i en matris som en kolumnvektor"
 
-#: ../src/funclib.c:7087
+#: ../src/funclib.c:7127
 msgid "Count the number of zero columns in a matrix"
 msgstr "Räkna antalet nollkolumner i en matris"
 
-#: ../src/funclib.c:7088
+#: ../src/funclib.c:7128
 msgid "Removes any all-zero columns of M"
 msgstr "Ta bort alla kolumner med endast nollor i M"
 
-#: ../src/funclib.c:7089
+#: ../src/funclib.c:7129
 msgid "Return a vector with the indices of the nonzero columns in a matrix"
 msgstr ""
 "Returnera en vektor med indexen för de nollskilda kolumnerna i en vektor"
 
-#: ../src/funclib.c:7090
+#: ../src/funclib.c:7130
 msgid "Return a vector with the indices of the nonzero elements in a vector"
 msgstr ""
 "Returnera en vektor med indexen för de nollskilda elementen i en vektor"
 
-#: ../src/funclib.c:7092
+#: ../src/funclib.c:7132
 msgid "Calculates the conjugate"
 msgstr "Beräknar konjugatet"
 
-#: ../src/funclib.c:7097
+#: ../src/funclib.c:7137
 msgid "Calculates the sine function"
 msgstr "Beräknar sinusfunktionen"
 
-#: ../src/funclib.c:7100
+#: ../src/funclib.c:7140
 msgid "Calculates the cosine function"
 msgstr "Beräknar cosinusfunktionen"
 
-#: ../src/funclib.c:7103
+#: ../src/funclib.c:7143
 msgid "Calculates the hyperbolic sine function"
 msgstr "Beräknar funktionen för hyperbolisk sinus"
 
-#: ../src/funclib.c:7106
+#: ../src/funclib.c:7146
 msgid "Calculates the hyperbolic cosine function"
 msgstr "Beräknar funktionen för hyperbolisk cosinus"
 
-#: ../src/funclib.c:7109
+#: ../src/funclib.c:7149
 msgid "Calculates the tan function"
 msgstr "Beräknar tangensfunktionen"
 
-#: ../src/funclib.c:7112
+#: ../src/funclib.c:7152
 msgid "Calculates the arctan function"
 msgstr "Beräknar arcustangensfunktionen"
 
-#: ../src/funclib.c:7117
+#: ../src/funclib.c:7157
 msgid "Calculates the sinc function, that is sin(x)/x"
 msgstr "Beräknar sinc-funktionen, det vill säga sin(x)/x"
 
-#: ../src/funclib.c:7121
+#: ../src/funclib.c:7161
 msgid "Calculates the arctan2 function (arctan(y/x) if x>0)"
 msgstr "Beräknar arctan2-funktionen (arctan(y/x) om x>0)"
 
-#: ../src/funclib.c:7125
+#: ../src/funclib.c:7165
 msgid "The number pi"
 msgstr "Talet pi"
 
-#: ../src/funclib.c:7127
+#: ../src/funclib.c:7167
 msgid "The natural number e"
 msgstr "Det naturliga talet e"
 
-#: ../src/funclib.c:7129
+#: ../src/funclib.c:7169
 msgid "The Golden Ratio"
 msgstr "Det gyllene snittet"
 
-#: ../src/funclib.c:7131
+#: ../src/funclib.c:7171
 msgid "Free fall acceleration"
 msgstr "Frifallsacceleration"
 
-#: ../src/funclib.c:7134
+#: ../src/funclib.c:7174
 msgid "Euler's Constant gamma"
 msgstr "Eulers gammakonstant"
 
-#: ../src/funclib.c:7138
+#: ../src/funclib.c:7178
 msgid "Catalan's Constant (0.915...)"
 msgstr "Catalans konstant (0.915…)"
 
-#: ../src/funclib.c:7140
+#: ../src/funclib.c:7180
 msgid "The error function, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 msgstr "Felfunktionen, 2/sqrt(pi) * int_0^x e^(-t^2) dt"
 
-#: ../src/funclib.c:7143
+#: ../src/funclib.c:7183
 msgid "The Riemann zeta function (only real values implemented)"
 msgstr "Riemanns zetafunktion (endast reella värden implementerade)"
 
-#: ../src/funclib.c:7147
+#: ../src/funclib.c:7187
 msgid "The Gamma function (only real values implemented)"
 msgstr "Gammafunktionen (endast reella värden implementerade)"
 
-#: ../src/funclib.c:7152
+#: ../src/funclib.c:7192
 msgid "The Bessel function of first kind of order 0"
 msgstr "Besselfunktion av första slaget av ordning 0"
 
-#: ../src/funclib.c:7155
+#: ../src/funclib.c:7195
 msgid "The Bessel function of first kind of order 1"
 msgstr "Besselfunktion av första slaget av ordning 1"
 
-#: ../src/funclib.c:7158
+#: ../src/funclib.c:7198
 msgid "The Bessel function of first kind of order n"
 msgstr "Besselfunktion av första slaget av ordning n"
 
-#: ../src/funclib.c:7161
+#: ../src/funclib.c:7201
 msgid "The Bessel function of second kind of order 0"
 msgstr "Besselfunktion av andra slaget av ordning 0"
 
-#: ../src/funclib.c:7164
+#: ../src/funclib.c:7204
 msgid "The Bessel function of second kind of order 1"
 msgstr "Besselfunktion av andra slaget av ordning 1"
 
-#: ../src/funclib.c:7167
+#: ../src/funclib.c:7207
 msgid "The Bessel function of second kind of integer order n"
 msgstr "Besselfunktion av andra slaget av heltalsordning n"
 
-#: ../src/funclib.c:7170
+#: ../src/funclib.c:7210
 msgid "The square root"
 msgstr "Kvadratroten"
 
-#: ../src/funclib.c:7174
+#: ../src/funclib.c:7214
 msgid "The exponential function"
 msgstr "Exponentialfunktionen"
 
-#: ../src/funclib.c:7177
+#: ../src/funclib.c:7217
 msgid "The natural logarithm"
 msgstr "Den naturliga logaritmen"
 
-#: ../src/funclib.c:7180
+#: ../src/funclib.c:7220
 msgid "Logarithm of x base 2"
 msgstr "Logaritmen av x bas 2"
 
-#: ../src/funclib.c:7185
+#: ../src/funclib.c:7225
 msgid "Logarithm of x base 10"
 msgstr "Logaritmen av x bas 10"
 
-#: ../src/funclib.c:7188
+#: ../src/funclib.c:7228
 msgid "Round a number"
 msgstr "Avrunda ett tal"
 
-#: ../src/funclib.c:7192
+#: ../src/funclib.c:7232
 msgid "Get the highest integer less than or equal to n"
 msgstr "Hämta det största heltalet mindre än eller lika med n"
 
-#: ../src/funclib.c:7196
+#: ../src/funclib.c:7236
 msgid "Get the lowest integer more than or equal to n"
 msgstr "Hämta det minsta heltalet större än eller lika med n"
 
-#: ../src/funclib.c:7200
+#: ../src/funclib.c:7240
 msgid "Truncate number to an integer (return the integer part)"
 msgstr "Trunkera talet till ett heltal (returnera heltalsdelen)"
 
-#: ../src/funclib.c:7205
+#: ../src/funclib.c:7245
 msgid "Make number a float"
 msgstr "Gör ett tal till ett flyttal"
 
-#: ../src/funclib.c:7208
+#: ../src/funclib.c:7248
 msgid "Get the numerator of a rational number"
 msgstr "Hämta täljaren för ett rationellt tal"
 
-#: ../src/funclib.c:7210
+#: ../src/funclib.c:7250
 msgid "Get the denominator of a rational number"
 msgstr "Hämta nämnaren för ett rationellt tal"
 
-#: ../src/funclib.c:7213
+#: ../src/funclib.c:7253
 msgid "Greatest common divisor"
 msgstr "Största gemensamma nämnare"
 
-#: ../src/funclib.c:7215
+#: ../src/funclib.c:7255
 msgid "Least common multiplier"
 msgstr "Minsta gemensamma faktor"
 
-#: ../src/funclib.c:7217
+#: ../src/funclib.c:7257
 msgid "Check a number for being a perfect square"
 msgstr "Kontrollera om ett tal är en perfekt kvadrat"
 
-#: ../src/funclib.c:7218
+#: ../src/funclib.c:7258
 msgid "Check a number for being any perfect power (a^b)"
 msgstr "Kontrollera om ett tal är en perfekt potens (a^b)"
 
-#: ../src/funclib.c:7219
+#: ../src/funclib.c:7259
 msgid "Return the nth prime (up to a limit)"
 msgstr "Returnera det n:e primtalet (upp till en gräns)"
 
-#: ../src/funclib.c:7221
+#: ../src/funclib.c:7261
 msgid "Tests if an integer is even"
 msgstr "Testar om ett heltal är jämnt"
 
-#: ../src/funclib.c:7222
+#: ../src/funclib.c:7262
 msgid "Tests if an integer is odd"
 msgstr "Testar om ett heltal är udda"
 
-#: ../src/funclib.c:7224
+#: ../src/funclib.c:7264
 msgid "Returns the least prime greater than n (if n is positive)"
 msgstr "Returnera det minsta primtalet som är större än n (om n är positivt)"
 
-#: ../src/funclib.c:7225
+#: ../src/funclib.c:7265
 msgid "Returns the nth Lucas number"
 msgstr "Returnerar det n:e Lucas-talet"
 
-#: ../src/funclib.c:7226
+#: ../src/funclib.c:7266
 msgid "Returns inverse of n mod m"
 msgstr "Returnerar inversen av n mod m"
 
-#: ../src/funclib.c:7227
+#: ../src/funclib.c:7267
 msgid "Checks divisibility (if m divides n)"
 msgstr "Kontrollerar delbarhet (om m delar n)"
 
-#: ../src/funclib.c:7228
+#: ../src/funclib.c:7268
 msgid ""
 "Return n/d but only if d divides n else returns garbage (this is faster than "
 "writing n/d)"
@@ -2855,7 +2929,7 @@ msgstr ""
 "Returnerar n/d men bara om d delar n, annars returneras skräp (detta är "
 "snabbare än att skriva n/d)"
 
-#: ../src/funclib.c:7229
+#: ../src/funclib.c:7269
 msgid ""
 "Tests primality of integers, for numbers greater than 25*10^9 false positive "
 "is with low probability depending on IsPrimeMillerRabinReps"
@@ -2863,11 +2937,11 @@ msgstr ""
 "Testar primaliteten för heltal, för tal större än 25*10^9 är falska positiva "
 "med låg sannolikhet beroende på IsPrimeMillerRabinReps"
 
-#: ../src/funclib.c:7230
+#: ../src/funclib.c:7270
 msgid "Run the strong pseudoprime test base b on n"
 msgstr "Kör det starka pseudoprimtalstestet bas b på n"
 
-#: ../src/funclib.c:7231
+#: ../src/funclib.c:7271
 msgid ""
 "Use the Miller-Rabin primality test on n, reps number of times.  The "
 "probability of false positive is (1/4)^reps"
@@ -2875,7 +2949,7 @@ msgstr ""
 "Använd Miller-Rabin-primalitetstestet på n, reps gånger. Sannolikheten för "
 "falska positiva är (1/4)^reps"
 
-#: ../src/funclib.c:7232
+#: ../src/funclib.c:7272
 msgid ""
 "Use the Miller-Rabin primality test on n with enough bases that assuming the "
 "Generalized Riemann Hypothesis the result is deterministic"
@@ -2883,27 +2957,27 @@ msgstr ""
 "Används Miller-Rabin-primalitetstestet på n med tillräckliga baser för att, "
 "givet den allmänna Riemann-hypotesen, resultatet ska vara deterministiskt"
 
-#: ../src/funclib.c:7233
+#: ../src/funclib.c:7273
 msgid "Return factorization of a number as a matrix"
 msgstr "Returnera faktoriseringen av ett tal som en matris"
 
-#: ../src/funclib.c:7235
+#: ../src/funclib.c:7275
 msgid "Returns the maximum of arguments or matrix"
 msgstr "Returnera maximum av argument eller matris"
 
-#: ../src/funclib.c:7238
+#: ../src/funclib.c:7278
 msgid "Returns the minimum of arguments or matrix"
 msgstr "Returnera minimum av argument eller matris"
 
-#: ../src/funclib.c:7242
+#: ../src/funclib.c:7282
 msgid "Division w/o remainder, equivalent to floor(a/b)"
 msgstr "Division utan rest, ekvivalent med floor(a/b)"
 
-#: ../src/funclib.c:7244
+#: ../src/funclib.c:7284
 msgid "Calculate the Jacobi symbol (a/b) (b should be odd)"
 msgstr "Beräkna Jacobi-symbolen (a/b) (b måste vara udda)"
 
-#: ../src/funclib.c:7246
+#: ../src/funclib.c:7286
 msgid ""
 "Calculate the Jacobi symbol (a/b) with the Kronecker extension (a/2)=(2/a) "
 "when a odd, or (a/2)=0 when a even"
@@ -2911,77 +2985,77 @@ msgstr ""
 "Beräkna Jacobi-symbolen (a/b) med Kronecker-tillägget (a/2)=(2/a) när a är "
 "udda, eller (a/2)=0 när a är jämnt"
 
-#: ../src/funclib.c:7248
+#: ../src/funclib.c:7288
 msgid "Calculate the Legendre symbol (a/p)"
 msgstr "Beräkna Legendre-symbolen (a/p)"
 
-#: ../src/funclib.c:7251
+#: ../src/funclib.c:7291
 msgid "Get the real part of a complex number"
 msgstr "Hämta den reella delen av ett komplext tal"
 
-#: ../src/funclib.c:7254
+#: ../src/funclib.c:7294
 msgid "Get the imaginary part of a complex number"
 msgstr "Hämta den imaginära delen av ett komplext tal"
 
-#: ../src/funclib.c:7258
+#: ../src/funclib.c:7298
 msgid "Make an identity matrix of a given size"
 msgstr "Skapa en enhetsmatris av en given storlek"
 
-#: ../src/funclib.c:7261
+#: ../src/funclib.c:7301
 msgid "Make an matrix of all zeros (or a row vector)"
 msgstr "Skapa en matris med nollor överallt (eller en radvektor)"
 
-#: ../src/funclib.c:7263
+#: ../src/funclib.c:7303
 msgid "Make an matrix of all ones (or a row vector)"
 msgstr "Skapa en matris med ettor överallt (eller en radvektor)"
 
-#: ../src/funclib.c:7266
+#: ../src/funclib.c:7306
 msgid "Append an element to a vector (treating 1x1 matrix as a row vector)"
 msgstr ""
 "Lägg till ett element till en vektor (behandla 1x1-matris som en radvektor)"
 
-#: ../src/funclib.c:7268
+#: ../src/funclib.c:7308
 msgid "Get the number of rows of a matrix"
 msgstr "Hämta antalet rader i en matris"
 
-#: ../src/funclib.c:7269
+#: ../src/funclib.c:7309
 msgid "Get the number of columns of a matrix"
 msgstr "Hämta antalet kolumner i en matris"
 
-#: ../src/funclib.c:7270
+#: ../src/funclib.c:7310
 msgid "Is a matrix square"
 msgstr "Är en matris kvadratisk"
 
-#: ../src/funclib.c:7271
+#: ../src/funclib.c:7311
 msgid "Is argument a horizontal or a vertical vector"
 msgstr "Är argument en horisontell eller en vertikal vektor"
 
-#: ../src/funclib.c:7272
+#: ../src/funclib.c:7312
 msgid "Is a matrix upper triangular"
 msgstr "Är en matris uppåt triangulär"
 
-#: ../src/funclib.c:7273
+#: ../src/funclib.c:7313
 msgid "Is a matrix lower triangular"
 msgstr "Är en matris nedåt triangulär"
 
-#: ../src/funclib.c:7274
+#: ../src/funclib.c:7314
 msgid "Is a matrix diagonal"
 msgstr "Är en matris diagonal"
 
-#: ../src/funclib.c:7275
+#: ../src/funclib.c:7315
 msgid "Get the number of elements of a matrix"
 msgstr "Hämta antalet element i en matris"
 
 # https://sv.wikipedia.org/wiki/Trappstegsmatris
-#: ../src/funclib.c:7277
+#: ../src/funclib.c:7317
 msgid "Get the row echelon form of a matrix"
 msgstr "Hämta trappstegsformen av en matris"
 
-#: ../src/funclib.c:7281
+#: ../src/funclib.c:7321
 msgid "Get the reduced row echelon form of a matrix"
 msgstr "Hämta den radreducerade trappstegsformen av en matris"
 
-#: ../src/funclib.c:7285
+#: ../src/funclib.c:7325
 msgid ""
 "Solve linear system Mx=V, return solution V if there is a unique solution, "
 "null otherwise.  Extra two reference parameters can optionally be used to "
@@ -2991,11 +3065,11 @@ msgstr ""
 "lösning, returnera null annars. Två extra parametrar kan valfritt användas "
 "för att få tag i de reducerade M och V."
 
-#: ../src/funclib.c:7288
+#: ../src/funclib.c:7328
 msgid "Get the determinant of a matrix"
 msgstr "Hämta determinanten av en matris"
 
-#: ../src/funclib.c:7291
+#: ../src/funclib.c:7331
 msgid ""
 "Return pivot columns of a matrix, that is columns which have a leading 1 in "
 "rref form, also returns the row where they occur"
@@ -3003,61 +3077,61 @@ msgstr ""
 "Returnera pivotkolumner för en matris, det vill säga kolumner som börjar med "
 "1 i radreducerad trappstegsform, returnerar också raden där de förekommer"
 
-#: ../src/funclib.c:7293
+#: ../src/funclib.c:7333
 msgid "Get the nullspace of a matrix"
 msgstr "Hämta nollrummet för en matris"
 
-#: ../src/funclib.c:7295
+#: ../src/funclib.c:7335
 msgid "Make new matrix of given size from old one"
 msgstr "Gör ny matris med given storlek från en gammal"
 
-#: ../src/funclib.c:7296
+#: ../src/funclib.c:7336
 msgid "Return the index complement of a vector of indexes"
 msgstr "Returnerar indexkomplementet av en vektor med index"
 
-#: ../src/funclib.c:7297
+#: ../src/funclib.c:7337
 msgid "Get the Hermitian product of two vectors"
 msgstr "Hämta den hermiteska produkten av två vektorer"
 
-#: ../src/funclib.c:7300
+#: ../src/funclib.c:7340
 msgid "Check if a matrix is a matrix of numbers"
 msgstr "Kontrollera om en matris är en matris med tal"
 
-#: ../src/funclib.c:7301
+#: ../src/funclib.c:7341
 msgid "Check if a matrix is an integer (non-complex) matrix"
 msgstr "Kontrollera om en matris är en (icke-komplex) heltalsmatris"
 
-#: ../src/funclib.c:7302
+#: ../src/funclib.c:7342
 msgid "Check if a matrix is a rational (non-complex) matrix"
 msgstr "Kontrollera om en matris är en rationell (icke-komplex) matris"
 
-#: ../src/funclib.c:7303
+#: ../src/funclib.c:7343
 msgid "Check if a matrix is a real (non-complex) matrix"
 msgstr "Kontrollera om en matris är en reell (icke-komplex) matris"
 
-#: ../src/funclib.c:7304
+#: ../src/funclib.c:7344
 msgid "Check if a matrix is positive, that is if each element is positive"
 msgstr ""
 "Kontrollera om en matris är positiv, det vill säga om varje element är "
 "positivt"
 
-#: ../src/funclib.c:7305
+#: ../src/funclib.c:7345
 msgid ""
 "Check if a matrix is nonnegative, that is if each element is nonnegative"
 msgstr ""
 "Kontrollera om en matris är icke-negativ, det vill säga om varje element är "
 "icke-negativt"
 
-#: ../src/funclib.c:7307
+#: ../src/funclib.c:7347
 msgid "Check if a number or a matrix is all zeros"
 msgstr "Kontrollera om ett tal eller en matris bara består av nollor"
 
-#: ../src/funclib.c:7308
+#: ../src/funclib.c:7348
 msgid "Check if a number or a matrix is 1 or identity respectively"
 msgstr ""
 "Kontrollera om ett tal eller en matris är 1 respektive identitetsmatrisen"
 
-#: ../src/funclib.c:7310
+#: ../src/funclib.c:7350
 msgid ""
 "Returns true if the element x is in the set X (where X is a vector "
 "pretending to be a set)"
@@ -3065,11 +3139,11 @@ msgstr ""
 "Returnerar true (sant) om elementet x är i mängden X (där X är en vektor som "
 "föreställer att vara en mängd)"
 
-#: ../src/funclib.c:7311
+#: ../src/funclib.c:7351
 msgid "Returns true if X is a subset of Y"
 msgstr "Returnerar true (sant) om X är en delmängd av Y"
 
-#: ../src/funclib.c:7312
+#: ../src/funclib.c:7352
 msgid ""
 "Returns a set theoretic difference X-Y (X and Y are vectors pretending to be "
 "sets)"
@@ -3077,7 +3151,7 @@ msgstr ""
 "Returnerar den mängdteoretiska differensen X-Y (X och Y är vektorer som "
 "föreställer att vara mängder)"
 
-#: ../src/funclib.c:7313
+#: ../src/funclib.c:7353
 msgid ""
 "Returns a set theoretic intersection of X and Y (X and Y are vectors "
 "pretending to be sets)"
@@ -3085,99 +3159,99 @@ msgstr ""
 "Returnerar det mängdteoretiska snittet av X och Y (X och Y är vektorer som "
 "föreställer att vara mängder)"
 
-#: ../src/funclib.c:7315
+#: ../src/funclib.c:7355
 msgid "Check if argument is a null"
 msgstr "Kontrollera om argumentet är ett null"
 
-#: ../src/funclib.c:7316
+#: ../src/funclib.c:7356
 msgid "Check if argument is a number"
 msgstr "Kontrollera om argumentet är ett tal"
 
-#: ../src/funclib.c:7317
+#: ../src/funclib.c:7357
 msgid "Check if argument is a boolean (and not a number)"
 msgstr "Kontrollera om argumentet är booleskt (och inte ett tal)"
 
-#: ../src/funclib.c:7318
+#: ../src/funclib.c:7358
 msgid "Check if argument is a text string"
 msgstr "Kontrollera om argumentet är en textsträng"
 
-#: ../src/funclib.c:7319
+#: ../src/funclib.c:7359
 msgid "Check if argument is a matrix"
 msgstr "Kontrollera om argumentet är en matris"
 
-#: ../src/funclib.c:7320
+#: ../src/funclib.c:7360
 msgid "Check if argument is a function"
 msgstr "Kontrollera om argumentet är en funktion"
 
-#: ../src/funclib.c:7321
+#: ../src/funclib.c:7361
 msgid "Check if argument is a function or an identifier"
 msgstr "Kontrollera om argumentet är en funktion eller en identifierare"
 
-#: ../src/funclib.c:7322
+#: ../src/funclib.c:7362
 msgid "Check if argument is a function reference"
 msgstr "Kontrollera om argumentet är en funktionsreferens"
 
-#: ../src/funclib.c:7324
+#: ../src/funclib.c:7364
 msgid "Check if argument is a complex (non-real) number"
 msgstr "Kontrollera om argumentet är ett komplext (icke-reellt) tal"
 
-#: ../src/funclib.c:7325
+#: ../src/funclib.c:7365
 msgid "Check if argument is a real number"
 msgstr "Kontrollera om argumentet är ett reellt tal"
 
-#: ../src/funclib.c:7326
+#: ../src/funclib.c:7366
 msgid "Check if argument is an integer (non-complex)"
 msgstr "Kontrollera om argumentet är ett heltal (icke-komplext)"
 
-#: ../src/funclib.c:7327
+#: ../src/funclib.c:7367
 msgid "Check if argument is a positive real integer"
 msgstr "Kontrollera om argumentet är ett positivt reellt heltal"
 
-#: ../src/funclib.c:7329
+#: ../src/funclib.c:7369
 msgid "Check if argument is a non-negative real integer"
 msgstr "Kontrollera om argumentet är ett icke-negativt reellt heltal"
 
-#: ../src/funclib.c:7330
+#: ../src/funclib.c:7370
 msgid "Check if argument is a possibly complex integer"
 msgstr "Kontrollera om argumentet är ett möjligtvis komplext heltal"
 
-#: ../src/funclib.c:7332
+#: ../src/funclib.c:7372
 msgid "Check if argument is a rational number (non-complex)"
 msgstr "Kontrollera om argumentet är ett rationellt tal (icke-komplext)"
 
-#: ../src/funclib.c:7333
+#: ../src/funclib.c:7373
 msgid "Check if argument is a possibly complex rational number"
 msgstr "Kontrollera om argumentet är ett möjligtvis komplext rationellt tal"
 
-#: ../src/funclib.c:7334
+#: ../src/funclib.c:7374
 msgid "Check if argument is a floating point number (non-complex)"
 msgstr "Kontrollera om argumentet är ett flyttal (icke-komplext)"
 
-#: ../src/funclib.c:7336
+#: ../src/funclib.c:7376
 msgid "Add two polynomials (vectors)"
 msgstr "Addera två polynom (vektorer)"
 
-#: ../src/funclib.c:7337
+#: ../src/funclib.c:7377
 msgid "Subtract two polynomials (as vectors)"
 msgstr "Subtrahera två polynom (som vektorer)"
 
-#: ../src/funclib.c:7338
+#: ../src/funclib.c:7378
 msgid "Multiply two polynomials (as vectors)"
 msgstr "Multiplicera två polynom (som vektorer)"
 
-#: ../src/funclib.c:7339
+#: ../src/funclib.c:7379
 msgid "Divide polynomial p by q, return the remainder in r"
 msgstr "Dividera polynomet p med q, returnera resten i r"
 
-#: ../src/funclib.c:7340
+#: ../src/funclib.c:7380
 msgid "Take polynomial (as vector) derivative"
 msgstr "Ta derivata av polynom (som vektor)"
 
-#: ../src/funclib.c:7341
+#: ../src/funclib.c:7381
 msgid "Take second polynomial (as vector) derivative"
 msgstr "Ta andraderivata av polynom (som vektor)"
 
-#: ../src/funclib.c:7342
+#: ../src/funclib.c:7382
 msgid ""
 "Trim zeros from a vector pretending to be a polynomial, that is trim "
 "trailing zero elements"
@@ -3185,29 +3259,29 @@ msgstr ""
 "Trimma nollor från en vektor som föreställer att vara ett polynom, det vill "
 "säga trimma bort nollelement"
 
-#: ../src/funclib.c:7343
+#: ../src/funclib.c:7383
 msgid "Check if a vector is usable as a polynomial"
 msgstr "Kontrollera om en vektor är användbar som ett polynom"
 
-#: ../src/funclib.c:7344
+#: ../src/funclib.c:7384
 msgid "Make string out of a polynomial (as vector)"
 msgstr "Skapa sträng av ett polynom (som en vektor)"
 
-#: ../src/funclib.c:7345
+#: ../src/funclib.c:7385
 msgid "Make function out of a polynomial (as vector)"
 msgstr "Skapa funktion av ett polynom (som en vektor)"
 
-#: ../src/funclib.c:7347
+#: ../src/funclib.c:7387
 msgid "Find roots of a quadratic polynomial (given as vector of coefficients)"
 msgstr ""
 "Hitta rötter av ett andragradspolynom (givet som en vektor av koefficienter)"
 
-#: ../src/funclib.c:7349
+#: ../src/funclib.c:7389
 msgid "Get all combinations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Hämta alla kombinationer av k tal från 1 till n som en vektor av vektorer"
 
-#: ../src/funclib.c:7350
+#: ../src/funclib.c:7390
 msgid ""
 "Get combination that would come after v in call to combinations, first "
 "combination should be [1:k]."
@@ -3215,24 +3289,24 @@ msgstr ""
 "Hämta kombination som skulle komma efter v i anrop till kombinationer, "
 "första kombination skulle vara [1:k]."
 
-#: ../src/funclib.c:7351
+#: ../src/funclib.c:7391
 msgid "Get all permutations of k numbers from 1 to n as a vector of vectors"
 msgstr ""
 "Hämta alla permutationer av k tal från 1 till n som en vektor av vektorer"
 
-#: ../src/funclib.c:7353
+#: ../src/funclib.c:7393
 msgid "Calculate combinations (binomial coefficient)"
 msgstr "Beräkna kombinationer (binomialkoefficient)"
 
-#: ../src/funclib.c:7356
+#: ../src/funclib.c:7396
 msgid "Convert a string to a vector of ASCII values"
 msgstr "Konvertera en sträng till en vektor med ASCII-värden"
 
-#: ../src/funclib.c:7357
+#: ../src/funclib.c:7397
 msgid "Convert a vector of ASCII values to a string"
 msgstr "Konvertera en vektor med ASCII-värden till en sträng"
 
-#: ../src/funclib.c:7359
+#: ../src/funclib.c:7399
 msgid ""
 "Convert a string to a vector of 0-based alphabet values (positions in the "
 "alphabet string), -1's for unknown letters"
@@ -3240,7 +3314,7 @@ msgstr ""
 "Konvertera en sträng till en vektor med 0-baserade alfabetvärden (positioner "
 "i alfabetsträngen), -1 för okända bokstäver"
 
-#: ../src/funclib.c:7360
+#: ../src/funclib.c:7400
 msgid ""
 "Convert a vector of 0-based alphabet values (positions in the alphabet "
 "string) to a string"
@@ -3248,7 +3322,7 @@ msgstr ""
 "Konvertera en vektor med 0-baserade alfabetvärden (positioner i "
 "alfabetsträngen) till en sträng"
 
-#: ../src/funclib.c:7362
+#: ../src/funclib.c:7402
 msgid ""
 "Protect a variable from being modified.  It will be treated as a system "
 "defined variable from now on.  Protected parameters can still be modified."
@@ -3256,7 +3330,7 @@ msgstr ""
 "Skydda en variabel från att ändras. Den kommer hädanefter att behandlas som "
 "en systemdefinierad variabel. Skyddade parametrar kan fortfarande ändras."
 
-#: ../src/funclib.c:7363
+#: ../src/funclib.c:7403
 msgid ""
 "Unprotect a variable from being modified.  It will be treated as a user "
 "defined variable from now on."
@@ -3264,7 +3338,7 @@ msgstr ""
 "Skydda inte längre en variabel från att ändras. Den kommer hädanefter att "
 "behandlas som en användardefinierad variabel."
 
-#: ../src/funclib.c:7364
+#: ../src/funclib.c:7404
 msgid ""
 "Set flags for a function, currently \"PropagateMod\" and "
 "\"NoModuloArguments\""
@@ -3272,21 +3346,21 @@ msgstr ""
 "Ställ in flaggor för en funktion, för tillfället ”PropagateMod” och "
 "”NoModuloArguments”"
 
-#: ../src/funclib.c:7365
+#: ../src/funclib.c:7405
 msgid "Get current modulo from the context outside the function"
 msgstr "Hämta aktuell modulo från sammanhanget utanför funktionen"
 
-#: ../src/funclib.c:7366
+#: ../src/funclib.c:7406
 msgid "Check if a variable or function is defined"
 msgstr "Kontrollera om en variabel eller funktion är definierad"
 
-#: ../src/funclib.c:7367
+#: ../src/funclib.c:7407
 msgid "Undefine a variable (including all locals and globals of the same name)"
 msgstr ""
 "Avdefiniera en variabel (inklusive alla lokala och globala variabler med "
 "samma namn)"
 
-#: ../src/funclib.c:7369
+#: ../src/funclib.c:7409
 msgid ""
 "Undefine all unprotected (user defined) global variables and parameters.  "
 "Does not reset or change protected (system) parameters."
@@ -3295,7 +3369,7 @@ msgstr ""
 "parametrar. Återställer eller ändrar inte skyddade parametrar "
 "(systemparametrar)."
 
-#: ../src/funclib.c:7370
+#: ../src/funclib.c:7410
 msgid ""
 "Mark all currently defined variables as protected.  They will be treated as "
 "system defined variables from now on."
@@ -3303,28 +3377,28 @@ msgstr ""
 "Markera alla aktuellt definierade variabler som skyddade. De kommer "
 "hädanefter att behandlas som systemdefinierade variabler."
 
-#: ../src/funclib.c:7371
+#: ../src/funclib.c:7411
 msgid ""
 "Return a vector of all global unprotected (user defined) variable names."
 msgstr ""
 "Returnera en vektor av alla globala oskyddade (användardefinierade) "
 "variabelnamn."
 
-#: ../src/funclib.c:7373
+#: ../src/funclib.c:7413
 msgid "Parse a string (but do not execute)"
 msgstr "Tolka en sträng (men exekvera inte)"
 
-#: ../src/funclib.c:7374
+#: ../src/funclib.c:7414
 msgid "Parse and evaluate a string"
 msgstr "Tolka och evaluera en sträng"
 
-#: ../src/funclib.c:7376
+#: ../src/funclib.c:7416
 msgid "Ask a question and return a string.  Optionally pass in a default."
 msgstr ""
 "Ställ en fråga och returnera en sträng. Skicka valfritt med ett "
 "standardvärde."
 
-#: ../src/funclib.c:7377
+#: ../src/funclib.c:7417
 msgid ""
 "Ask a question and present a list of buttons.  Returns the 1-based index of "
 "the button pressed (or null on failure)."
@@ -3332,15 +3406,15 @@ msgstr ""
 "Ställ en fråga och presentera en lista över knappar. Returnerar indexet med "
 "bas 1 för knappen som trycks ned (eller null vid misslyckande)."
 
-#: ../src/funclib.c:7379
+#: ../src/funclib.c:7419
 msgid ""
 "Integration of f by Composite Simpson's Rule on the interval [a,b] with n "
 "subintervals with error of max(f'''')*h^4*(b-a)/180, note that n should be "
-"even"
+"even, n is optional"
 msgstr ""
 "Integration av f med sammansatt Simpsons regel på intervallet [a,b] med n "
 "underintervall med fel högst max(f'''')*h^4*(b-a)/180, observera att n ska "
-"vara jämn"
+"vara jämn, n är valfri"
 
 #: ../src/funclibhelper.cP:40
 #, c-format
@@ -3372,7 +3446,7 @@ msgstr "%s: argument nummer %d är inte ett icke-negativt tal"
 msgid "%s: argument number %d not a positive integer"
 msgstr "%s: argument nummer %d är inte ett positivt heltal"
 
-#: ../src/funclibhelper.cP:125 ../src/graphing.c:3394
+#: ../src/funclibhelper.cP:125 ../src/graphing.c:3412
 #, c-format
 msgid "%s: argument number %d not a number"
 msgstr "%s: argument nummer %d är inte ett tal"
@@ -3441,37 +3515,37 @@ msgstr "För många fel! (%d följde)\n"
 msgid "Cannot locate the manual"
 msgstr "Kan inte hitta manualen"
 
-#: ../src/genius.c:216
+#: ../src/genius.c:220
 msgid "Cannot run lynx/links/w3m to show the manual"
 msgstr "Kunde inte köra lynx/links/w3m för att visa handboken"
 
-#: ../src/genius.c:242
+#: ../src/genius.c:246
 #, c-format
 msgid "Suggested: %s\n"
 msgstr "Föreslaget: %s\n"
 
-#: ../src/genius.c:288
+#: ../src/genius.c:293
 #, c-format
 msgid "Out of range!\n"
 msgstr "Utanför området!\n"
 
-#: ../src/genius.c:365 ../src/genius.lang.h:2 ../src/gnome-genius.c:827
+#: ../src/genius.c:370 ../src/genius.lang.h:2 ../src/gnome-genius.c:827
 #: ../src/gnome-genius.c:868
 msgid "Genius"
 msgstr "Genius"
 
-#: ../src/genius.c:398 ../src/genius.c:407 ../src/genius.c:414
-#: ../src/genius.c:423
+#: ../src/genius.c:403 ../src/genius.c:412 ../src/genius.c:419
+#: ../src/genius.c:428
 #, c-format
 msgid "%s should be between %d and %d, using %d"
 msgstr "%s bör vara mellan %d och %d, med %d"
 
-#: ../src/genius.c:442 ../src/genius.c:451
+#: ../src/genius.c:447 ../src/genius.c:456
 #, c-format
 msgid "%s should be greater then or equal to %d, using %d"
 msgstr "%s bör vara större än eller lika med %d, med %d"
 
-#: ../src/genius.c:499
+#: ../src/genius.c:504
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3480,7 +3554,7 @@ msgstr ""
 "Genius %s\n"
 "%s%s\n"
 
-#: ../src/genius.c:510
+#: ../src/genius.c:515
 #, c-format
 msgid ""
 "Genius %s usage:\n"
@@ -3533,13 +3607,13 @@ msgstr ""
 "\t--exec=uttr       \tKör ett uttryck\n"
 "\n"
 
-#: ../src/genius.c:540
+#: ../src/genius.c:545
 #, c-format
 msgid ""
 "Can't specify both an expression and files to execute on the command line"
 msgstr "Kan inte ange både ett uttryck samt filer att köra på kommandoraden"
 
-#: ../src/genius.c:558
+#: ../src/genius.c:563
 #, c-format
 msgid ""
 "Genius %s\n"
@@ -3556,14 +3630,14 @@ msgstr ""
 "Skriv ”manual” eller ”help” för hjälp.%s\n"
 "\n"
 
-#: ../src/genius.c:631 ../src/gnome-genius.c:5564
+#: ../src/genius.c:636 ../src/gnome-genius.c:5612
 msgid ""
 "The only thing that interferes with my learning is my education.  -- Albert "
 "Einstein"
 msgstr ""
 "Den enda sak som stör min inlärning är min utbildning.  -- Albert Einstein"
 
-#: ../src/genius.c:652 ../src/genius.c:723
+#: ../src/genius.c:657 ../src/genius.c:728
 msgid "Can't open file"
 msgstr "Kan inte öppna filen"
 
@@ -3591,8 +3665,8 @@ msgstr "Öppna en fil"
 msgid "Open R_ecent"
 msgstr "Öppna t_idigare"
 
-#: ../src/gnome-genius.c:403 ../src/gnome-genius.c:4201
-#: ../src/gnome-genius.c:4326 ../src/graphing.c:1230
+#: ../src/gnome-genius.c:403 ../src/gnome-genius.c:4249
+#: ../src/gnome-genius.c:4374 ../src/graphing.c:1241
 msgid "_Save"
 msgstr "_Spara"
 
@@ -3629,9 +3703,9 @@ msgstr "Läs om det valda programmet från disk"
 #. title
 #. parent
 #. flags
-#: ../src/gnome-genius.c:415 ../src/gnome-genius.c:1308
-#: ../src/gnome-genius.c:1513 ../src/graphing.c:627 ../src/graphing.c:1981
-#: ../src/graphing.c:2182 ../src/graphing.c:7323 ../ve/ve-miscui.c:167
+#: ../src/gnome-genius.c:415 ../src/gnome-genius.c:1312
+#: ../src/gnome-genius.c:1517 ../src/graphing.c:627 ../src/graphing.c:1995
+#: ../src/graphing.c:2194 ../src/graphing.c:7341 ../ve/ve-miscui.c:167
 msgid "_Close"
 msgstr "S_täng"
 
@@ -3879,7 +3953,7 @@ msgstr "_Inställningar"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:660 ../src/gnome-genius.c:2430
+#: ../src/gnome-genius.c:660 ../src/gnome-genius.c:2458
 msgid "_Help"
 msgstr "_Hjälp"
 
@@ -3903,7 +3977,7 @@ msgstr "Öppna"
 msgid "Save"
 msgstr "Spara"
 
-#: ../src/gnome-genius.c:711 ../src/graphing.c:2177
+#: ../src/gnome-genius.c:711 ../src/graphing.c:2189
 msgid "Plot"
 msgstr "Graf"
 
@@ -3914,10 +3988,10 @@ msgstr "Graf"
 #. parent
 #. flags
 #: ../src/gnome-genius.c:871 ../src/gnome-genius.c:935
-#: ../src/gnome-genius.c:1588 ../src/gnome-genius.c:2432
-#: ../src/gnome-genius.c:3004 ../src/gnome-genius.c:3970
-#: ../src/gnome-genius.c:4202 ../src/gnome-genius.c:4327 ../src/graphing.c:855
-#: ../src/graphing.c:1229 ../src/graphing.c:5636 ../src/graphing.c:5754
+#: ../src/gnome-genius.c:1592 ../src/gnome-genius.c:2460
+#: ../src/gnome-genius.c:3032 ../src/gnome-genius.c:4014
+#: ../src/gnome-genius.c:4250 ../src/gnome-genius.c:4375 ../src/graphing.c:855
+#: ../src/graphing.c:1240 ../src/graphing.c:5654 ../src/graphing.c:5772
 #: ../ve/ve-miscui.c:178 ../ve/ve-miscui.c:206
 msgid "_Cancel"
 msgstr "A_vbryt"
@@ -3928,8 +4002,8 @@ msgstr "A_vbryt"
 #. parent
 #. flags
 #: ../src/gnome-genius.c:872 ../src/gnome-genius.c:936
-#: ../src/gnome-genius.c:1078 ../src/gnome-genius.c:1589
-#: ../src/gnome-genius.c:2433 ../src/graphing.c:5634 ../src/graphing.c:5752
+#: ../src/gnome-genius.c:1082 ../src/gnome-genius.c:1593
+#: ../src/gnome-genius.c:2461 ../src/graphing.c:5652 ../src/graphing.c:5770
 #: ../ve/ve-miscui.c:156 ../ve/ve-miscui.c:211
 msgid "_OK"
 msgstr "_OK"
@@ -3942,86 +4016,86 @@ msgstr "Hjälp för funktion"
 msgid "Function or command name:"
 msgstr "Funktion eller kommandonamn:"
 
-#: ../src/gnome-genius.c:1005 ../src/gnome-genius.c:1864
+#: ../src/gnome-genius.c:1006 ../src/gnome-genius.c:1886
 #, c-format
-msgid "<b>Help on %s not found</b>"
-msgstr "<b>Hjälp för %s hittades inte</b>"
+msgid "<b>Help on <i>%s</i> not found</b>"
+msgstr "<b>Hjälp för <i>%s</i> hittades inte</b>"
 
-#: ../src/gnome-genius.c:1009
+#: ../src/gnome-genius.c:1011
 #, c-format
 msgid ""
-"<b>Help on %s not found</b>\n"
+"<b>Help on <i>%s</i> not found</b>\n"
 "\n"
 "Perhaps you meant %s."
 msgstr ""
-"<b>Hjälp för %s hittades inte</b>\n"
+"<b>Hjälp för <i>%s</i> hittades inte</b>\n"
 "\n"
 "Kanske du menade %s."
 
-#: ../src/gnome-genius.c:1068
+#: ../src/gnome-genius.c:1072
 msgid "Error"
 msgstr "Fel"
 
-#: ../src/gnome-genius.c:1070
+#: ../src/gnome-genius.c:1074
 msgid "Information"
 msgstr "Information"
 
-#: ../src/gnome-genius.c:1304
+#: ../src/gnome-genius.c:1308
 msgid "User Variable Listing"
 msgstr "Lista över användarvariabler"
 
 #. parent
 #. flags
-#: ../src/gnome-genius.c:1307
+#: ../src/gnome-genius.c:1311
 msgid "_Refresh"
 msgstr "_Uppdatera"
 
-#: ../src/gnome-genius.c:1413
+#: ../src/gnome-genius.c:1417
 #, c-format
 msgid "%s undefined"
 msgstr "%s är odefinierat"
 
 #. printed before a global variable
-#: ../src/gnome-genius.c:1448
+#: ../src/gnome-genius.c:1452
 msgid "(global) "
 msgstr "(global) "
 
 #. printed before local variable in certain
 #. * context
-#: ../src/gnome-genius.c:1452
+#: ../src/gnome-genius.c:1456
 #, c-format
 msgid "(context %d) "
 msgstr "(kontext %d) "
 
-#: ../src/gnome-genius.c:1474
+#: ../src/gnome-genius.c:1478
 #, c-format
 msgid "%s not a user variable"
 msgstr "%s är inte en användarvariabel"
 
-#: ../src/gnome-genius.c:1508
+#: ../src/gnome-genius.c:1512
 #, c-format
 msgid "Monitoring: %s"
 msgstr "Övervakar: %s"
 
-#: ../src/gnome-genius.c:1554
+#: ../src/gnome-genius.c:1558
 msgid "Update continuously"
 msgstr "Uppdatera kontinuerligt"
 
-#: ../src/gnome-genius.c:1585
+#: ../src/gnome-genius.c:1589
 msgid "Monitor a Variable"
 msgstr "Övervaka en variabel"
 
-#: ../src/gnome-genius.c:1601
+#: ../src/gnome-genius.c:1605
 msgid "Variable name:"
 msgstr "Variabelnamn:"
 
 #. error
 #. always textbox
-#: ../src/gnome-genius.c:1657
+#: ../src/gnome-genius.c:1661
 msgid "Full Answer"
 msgstr "Fullständigt svar"
 
-#: ../src/gnome-genius.c:1674
+#: ../src/gnome-genius.c:1678
 #, c-format
 msgid ""
 "\n"
@@ -4030,12 +4104,12 @@ msgstr ""
 "\n"
 "För många fel! (%d följde)"
 
-#: ../src/gnome-genius.c:1690
+#: ../src/gnome-genius.c:1694
 #, c-format
 msgid "e[01;31mToo many errors! (%d followed)e[0m\n"
 msgstr "e[01;31mFör många fel! (%d följde)e[0m\n"
 
-#: ../src/gnome-genius.c:1874 ../src/gnome-genius.c:1909
+#: ../src/gnome-genius.c:1899 ../src/gnome-genius.c:1936
 #, c-format
 msgid ""
 "<b>Cannot display help</b>\n"
@@ -4046,16 +4120,16 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../src/gnome-genius.c:1984
+#: ../src/gnome-genius.c:2012
 msgid "Nils Barth (initial implementation of parts of the GEL library)"
 msgstr "Nils Barth (initial implementation av delar av GEL-biblioteket)"
 
-#: ../src/gnome-genius.c:1985
+#: ../src/gnome-genius.c:2013
 msgid "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - plotting widgetry)"
 msgstr ""
 "Adrian E. Feiguin <feiguin@ifir.edu.ar> (GtkExtra - grafritningskomponenter)"
 
-#: ../src/gnome-genius.c:1986
+#: ../src/gnome-genius.c:2014
 msgid "Yavor Doganov <yavor@gnu.org> (Port to GTK3)"
 msgstr "Yavor Doganov <yavor@gnu.org> (Portering till GTK3)"
 
@@ -4063,7 +4137,7 @@ msgstr "Yavor Doganov <yavor@gnu.org> (Portering till GTK3)"
 #. * which will give them credit in the About box.
 #. * E.g. "Fulano de Tal <fulano@detal.com>"
 #.
-#: ../src/gnome-genius.c:2000
+#: ../src/gnome-genius.c:2028
 msgid "translator-credits"
 msgstr ""
 "Jan Morén\n"
@@ -4071,16 +4145,16 @@ msgstr ""
 "Tomas Ögren\n"
 "Anders Jonsson <anders.jonsson@norsjovallen.se>"
 
-#: ../src/gnome-genius.c:2048
+#: ../src/gnome-genius.c:2076
 msgid "Genius Mathematical Tool"
 msgstr "Genius matematikverktyg"
 
-#: ../src/gnome-genius.c:2052
+#: ../src/gnome-genius.c:2080
 msgid "The GNOME calculator style edition of the Genius Mathematical Tool."
 msgstr ""
 "Utgåvan av Genius matematikverktyg som följer stilen hos GNOME Kalkylator."
 
-#: ../src/gnome-genius.c:2243
+#: ../src/gnome-genius.c:2271
 msgid ""
 "Genius is executing something, and furthermore there are unsaved programs.\n"
 "Are you sure you wish to quit?"
@@ -4088,59 +4162,59 @@ msgstr ""
 "Genius kör något, och dessutom finns det osparade program.\n"
 "Är du säker på att du vill avsluta?"
 
-#: ../src/gnome-genius.c:2251
+#: ../src/gnome-genius.c:2279
 msgid "There are unsaved programs, are you sure you wish to quit?"
 msgstr "Det finns osparade program, är du säker på att du vill avsluta?"
 
-#: ../src/gnome-genius.c:2258
+#: ../src/gnome-genius.c:2286
 msgid "Genius is executing something, are you sure you wish to quit?"
 msgstr "Genius kör något, är du säker på att du vill avsluta?"
 
-#: ../src/gnome-genius.c:2265
+#: ../src/gnome-genius.c:2293
 msgid "Are you sure you wish to quit?"
 msgstr "Är du säker på att du vill avsluta?"
 
-#: ../src/gnome-genius.c:2427
+#: ../src/gnome-genius.c:2455
 msgid "Genius Setup"
 msgstr "Genius inställningar"
 
-#: ../src/gnome-genius.c:2431
+#: ../src/gnome-genius.c:2459
 msgid "_Apply"
 msgstr "_Verkställ"
 
-#: ../src/gnome-genius.c:2448
+#: ../src/gnome-genius.c:2476
 msgid "Output"
 msgstr "Utskrift"
 
-#: ../src/gnome-genius.c:2451
+#: ../src/gnome-genius.c:2479
 msgid "Number/Expression output options"
 msgstr "Utdatainställningar för tal/uttryck"
 
-#: ../src/gnome-genius.c:2461
+#: ../src/gnome-genius.c:2489
 msgid "Maximum digits to output (0=unlimited)"
 msgstr "Maximalt antal siffror att skriva ut (0=oändligt)"
 
-#: ../src/gnome-genius.c:2481
+#: ../src/gnome-genius.c:2509
 msgid "Results as floats"
 msgstr "Resultat som flyttal"
 
-#: ../src/gnome-genius.c:2489
+#: ../src/gnome-genius.c:2517
 msgid "Floats in scientific notation"
 msgstr "Flyttal i vetenskaplig notation"
 
-#: ../src/gnome-genius.c:2497
+#: ../src/gnome-genius.c:2525
 msgid "Always print full expressions"
 msgstr "Skriv alltid ut fullständiga uttryck"
 
-#: ../src/gnome-genius.c:2505
+#: ../src/gnome-genius.c:2533
 msgid "Use mixed fractions"
 msgstr "Använd blandade bråk"
 
-#: ../src/gnome-genius.c:2558
+#: ../src/gnome-genius.c:2586
 msgid "Remember output settings across sessions"
 msgstr "Kom ihåg utdatainställningar mellan sessioner"
 
-#: ../src/gnome-genius.c:2568
+#: ../src/gnome-genius.c:2596
 msgid ""
 "Should the output settings in the \"Number/Expression output options\" frame "
 "be remembered for next session.  Does not apply to the \"Error/Info output "
@@ -4150,27 +4224,27 @@ msgstr ""
 "ihåg till nästa session.  Gäller inte för ramen ”Utdatainställningar för fel/"
 "information”."
 
-#: ../src/gnome-genius.c:2573
+#: ../src/gnome-genius.c:2601
 msgid "Error/Info output options"
 msgstr "Utdatainställningar för fel/information"
 
-#: ../src/gnome-genius.c:2581
+#: ../src/gnome-genius.c:2609
 msgid "Display errors in a dialog"
 msgstr "Visa felmeddelanden i en dialog"
 
-#: ../src/gnome-genius.c:2589
+#: ../src/gnome-genius.c:2617
 msgid "Display information messages in a dialog"
 msgstr "Visa informationsmeddelanden i en dialog"
 
-#: ../src/gnome-genius.c:2600
+#: ../src/gnome-genius.c:2628
 msgid "Maximum errors to display (0=unlimited)"
 msgstr "Maximalt antal fel att visa (0=oändligt)"
 
-#: ../src/gnome-genius.c:2627
+#: ../src/gnome-genius.c:2655
 msgid "Precision"
 msgstr "Precision"
 
-#: ../src/gnome-genius.c:2637
+#: ../src/gnome-genius.c:2665
 msgid ""
 "NOTE: The floating point precision might not take effect\n"
 "for all numbers immediately, only new numbers calculated\n"
@@ -4179,63 +4253,63 @@ msgstr ""
 "OBSERVERA: Flyttalsprecisionen kommer inte att ändras för redan\n"
 "beräknade värden, utan endast nya värden och variabler."
 
-#: ../src/gnome-genius.c:2646
+#: ../src/gnome-genius.c:2674
 msgid "Floating point precision (bits)"
 msgstr "Flyttalsprecision (bitar)"
 
-#: ../src/gnome-genius.c:2665
+#: ../src/gnome-genius.c:2693
 msgid "Remember precision setting across sessions"
 msgstr "Kom ihåg precisionsinställning mellan sessioner"
 
-#: ../src/gnome-genius.c:2674
+#: ../src/gnome-genius.c:2702
 msgid "Should the precision setting be remembered for next session."
 msgstr "Ska precisionsinställningen kommas ihåg till nästa session."
 
-#: ../src/gnome-genius.c:2685
+#: ../src/gnome-genius.c:2713
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../src/gnome-genius.c:2687
+#: ../src/gnome-genius.c:2715
 msgid "Terminal options"
 msgstr "Terminalalternativ"
 
-#: ../src/gnome-genius.c:2696
+#: ../src/gnome-genius.c:2724
 msgid "Scrollback lines"
 msgstr "Antal rader historik"
 
-#: ../src/gnome-genius.c:2719
+#: ../src/gnome-genius.c:2747
 msgid "Font:"
 msgstr "Typsnitt:"
 
-#: ../src/gnome-genius.c:2730
+#: ../src/gnome-genius.c:2758
 msgid "Black on white"
 msgstr "Svart på vitt"
 
-#: ../src/gnome-genius.c:2738
+#: ../src/gnome-genius.c:2766
 msgid "Blinking cursor"
 msgstr "Blinkande markör"
 
-#: ../src/gnome-genius.c:2755
+#: ../src/gnome-genius.c:2783
 msgid "Editor"
 msgstr "Redigerare"
 
-#: ../src/gnome-genius.c:2757
+#: ../src/gnome-genius.c:2785
 msgid "Editor options"
 msgstr "Redigeraralternativ"
 
-#: ../src/gnome-genius.c:2766
+#: ../src/gnome-genius.c:2794
 msgid "Color scheme"
 msgstr "Färgschema"
 
-#: ../src/gnome-genius.c:2812
+#: ../src/gnome-genius.c:2840
 msgid "Memory"
 msgstr "Minne"
 
-#: ../src/gnome-genius.c:2815
+#: ../src/gnome-genius.c:2843
 msgid "Limits"
 msgstr "Gränser"
 
-#: ../src/gnome-genius.c:2822
+#: ../src/gnome-genius.c:2850
 msgid ""
 "When the limit is reached you will be asked if\n"
 "you wish to interrupt the calculation or continue.\n"
@@ -4245,11 +4319,11 @@ msgstr ""
 "om du vill avbryta beräkningen eller fortsätta.\n"
 "Att ställa in till 0 inaktiverar gränsen."
 
-#: ../src/gnome-genius.c:2831
+#: ../src/gnome-genius.c:2859
 msgid "Maximum number of nodes to allocate"
 msgstr "Maximalt antal noder att allokera"
 
-#: ../src/gnome-genius.c:2883
+#: ../src/gnome-genius.c:2911
 msgid ""
 "<b>Genius is currently executing something.</b>\n"
 "\n"
@@ -4259,45 +4333,45 @@ msgstr ""
 "\n"
 "Försök igen senare eller avbryt den aktuella operationen."
 
-#: ../src/gnome-genius.c:2926
+#: ../src/gnome-genius.c:2954
 msgid "GEL files"
 msgstr "GEL-filer"
 
-#: ../src/gnome-genius.c:2931 ../src/graphing.c:1255
+#: ../src/gnome-genius.c:2959 ../src/graphing.c:1266
 msgid "All files"
 msgstr "Alla filer"
 
-#: ../src/gnome-genius.c:2958 ../src/gnome-genius.c:3946
+#: ../src/gnome-genius.c:2986 ../src/gnome-genius.c:3990
 msgid "Cannot open file!"
 msgstr "Kan inte öppna fil!"
 
-#: ../src/gnome-genius.c:2966 ../src/gnome-genius.c:4417
+#: ../src/gnome-genius.c:2994 ../src/gnome-genius.c:4465
 msgid "Output from "
 msgstr "Utskrift från "
 
-#: ../src/gnome-genius.c:2983 ../src/gnome-genius.c:4489
+#: ../src/gnome-genius.c:3011 ../src/gnome-genius.c:4537
 msgid "End"
 msgstr "Slut"
 
-#: ../src/gnome-genius.c:3000
+#: ../src/gnome-genius.c:3028
 msgid "Load and Run"
 msgstr "Läs in och kör"
 
-#: ../src/gnome-genius.c:3003
+#: ../src/gnome-genius.c:3031
 msgid "_Load"
 msgstr "_Läs in"
 
-#: ../src/gnome-genius.c:3556
+#: ../src/gnome-genius.c:3584
 msgid "Cannot open file"
 msgstr "Kan inte öppna fil"
 
 #. context
-#: ../src/gnome-genius.c:3591 ../src/gnome-genius.c:5150
+#: ../src/gnome-genius.c:3619 ../src/gnome-genius.c:5198
 #, c-format
 msgid "Line: %d"
 msgstr "Rad: %d"
 
-#: ../src/gnome-genius.c:3717
+#: ../src/gnome-genius.c:3745
 msgid ""
 "The program you are closing is unsaved, are you sure you wish to close it "
 "without saving?"
@@ -4305,34 +4379,43 @@ msgstr ""
 "Programmet du stänger är osparat, är du säker på att du vill stänga det utan "
 "att spara?"
 
-#: ../src/gnome-genius.c:3827
+#: ../src/gnome-genius.c:3855
 #, c-format
 msgid "Program_%d.gel"
 msgstr "Program_%d.gel"
 
-#: ../src/gnome-genius.c:3838
+#: ../src/gnome-genius.c:3866
 #, c-format
 msgid "Program %d"
 msgstr "Program %d"
 
-#: ../src/gnome-genius.c:3876
+#: ../src/gnome-genius.c:3889
+#, c-format
+msgid ""
+"<b>Cannot read file %s</b>\n"
+"Details: %s"
+msgstr ""
+"<b>Kan inte läsa filen %s</b>\n"
+"Detaljer: %s"
+
+#: ../src/gnome-genius.c:3919
 #, c-format
 msgid "Cannot open %s"
 msgstr "Kan inte öppna %s"
 
-#: ../src/gnome-genius.c:3966
+#: ../src/gnome-genius.c:4010
 msgid "Open..."
 msgstr "Öppna…"
 
-#: ../src/gnome-genius.c:3969
+#: ../src/gnome-genius.c:4013
 msgid "_Open"
 msgstr "Ö_ppna"
 
-#: ../src/gnome-genius.c:4047
+#: ../src/gnome-genius.c:4091
 msgid "Program is read only"
 msgstr "Programmet är skrivskyddat"
 
-#: ../src/gnome-genius.c:4052 ../src/gnome-genius.c:4092
+#: ../src/gnome-genius.c:4098 ../src/gnome-genius.c:4140
 #, c-format
 msgid ""
 "<b>Cannot save file %s</b>\n"
@@ -4341,16 +4424,16 @@ msgstr ""
 "<b>Kan inte spara filen %s</b>\n"
 "Detaljer: %s"
 
-#: ../src/gnome-genius.c:4058 ../src/gnome-genius.c:4099
+#: ../src/gnome-genius.c:4105 ../src/gnome-genius.c:4147
 #, c-format
 msgid "<b>Cannot save file %s</b>"
 msgstr "<b>Kan inte spara filen %s</b>"
 
-#: ../src/gnome-genius.c:4109
+#: ../src/gnome-genius.c:4157
 msgid "Save new programs by \"Save As...\" first!"
 msgstr "Spara nya program med ”Spara som…” först!"
 
-#: ../src/gnome-genius.c:4115
+#: ../src/gnome-genius.c:4163
 msgid ""
 "Some read-only programs are modified.  Use \"Save As...\" to save them to a "
 "new location."
@@ -4358,7 +4441,7 @@ msgstr ""
 "Några skrivskyddade program har ändrats. Använd ”Spara som…” för att spara "
 "dem till en ny plats."
 
-#: ../src/gnome-genius.c:4159 ../src/gnome-genius.c:4292
+#: ../src/gnome-genius.c:4207 ../src/gnome-genius.c:4340
 #, c-format
 msgid ""
 "<b>Cannot save file</b>\n"
@@ -4367,19 +4450,19 @@ msgstr ""
 "<b>Kan inte spara filen</b>\n"
 "Detaljer: %s"
 
-#: ../src/gnome-genius.c:4164 ../src/gnome-genius.c:4297
+#: ../src/gnome-genius.c:4212 ../src/gnome-genius.c:4345
 msgid "<b>Cannot save file</b>"
 msgstr "<b>Kan inte spara filen</b>"
 
-#: ../src/gnome-genius.c:4198
+#: ../src/gnome-genius.c:4246
 msgid "Save As..."
 msgstr "Spara som…"
 
-#: ../src/gnome-genius.c:4323
+#: ../src/gnome-genius.c:4371
 msgid "Save Console Output..."
 msgstr "Spara konsolutskrift…"
 
-#: ../src/gnome-genius.c:4374
+#: ../src/gnome-genius.c:4422
 msgid ""
 "<b>No program selected.</b>\n"
 "\n"
@@ -4389,12 +4472,12 @@ msgstr ""
 "\n"
 "Skapa ett nytt program eller välj en befintlig flik i flikhäftet."
 
-#: ../src/gnome-genius.c:4404
+#: ../src/gnome-genius.c:4452
 #, c-format
 msgid "Cannot open pipe: %s"
 msgstr "Kan inte öppna rör: %s"
 
-#: ../src/gnome-genius.c:4433
+#: ../src/gnome-genius.c:4481
 msgid ""
 "<b>Cannot execute program</b>\n"
 "\n"
@@ -4404,7 +4487,7 @@ msgstr ""
 "\n"
 "Kan inte grena process."
 
-#: ../src/gnome-genius.c:4506
+#: ../src/gnome-genius.c:4554
 msgid ""
 "<b>Error executing program</b>\n"
 "\n"
@@ -4416,12 +4499,12 @@ msgstr ""
 "Det uppstod ett fel då programmet\n"
 "skulle skrivas till motorn."
 
-#: ../src/gnome-genius.c:4544
+#: ../src/gnome-genius.c:4592
 #, c-format
 msgid "Genius %s"
 msgstr "Genius %s"
 
-#: ../src/gnome-genius.c:4802
+#: ../src/gnome-genius.c:4850
 msgid "Memory (node number) limit has been reached, interrupt the computation?"
 msgstr "Gräns för minne (nodnummer) har uppnåtts, avbryt beräkningen?"
 
@@ -4430,17 +4513,17 @@ msgstr "Gräns för minne (nodnummer) har uppnåtts, avbryt beräkningen?"
 #. textbox_title
 #. bind_response
 #. wrap
-#: ../src/gnome-genius.c:4917
+#: ../src/gnome-genius.c:4965
 msgid "Can't execute genius-readline-helper-fifo!\n"
 msgstr "Kan inte köra genius-readline-helper-fifo!\n"
 
-#: ../src/gnome-genius.c:4978
+#: ../src/gnome-genius.c:5026
 msgid "Readline helper died, weird.  Trying to recover, things may be odd."
 msgstr ""
 "Readline-hjälpare dog, märkligt. Försöker komma tillbaka, saker kan vara "
 "udda."
 
-#: ../src/gnome-genius.c:5171
+#: ../src/gnome-genius.c:5219
 msgid ""
 "\n"
 "Note: Compiled without GtkSourceView (better source editor)"
@@ -4449,13 +4532,13 @@ msgstr ""
 "Obs: Kompilerad utan GtkSourceView (bättre källkodsredigerare)"
 
 #. parent
-#: ../src/gnome-genius.c:5304
+#: ../src/gnome-genius.c:5352
 msgid "Cannot find the library file, genius installation may be incorrect"
 msgstr ""
 "Kan inte hitta biblioteksfilen, genius är kanske inte korrekt installerat"
 
 #. parent
-#: ../src/gnome-genius.c:5317
+#: ../src/gnome-genius.c:5365
 msgid ""
 "A file .genius in the home directory exists, but it should be a directory. "
 "Genius will not be able to save preferences."
@@ -4463,11 +4546,11 @@ msgstr ""
 "En fil med namnet .genius finns i hemkatalogen, men det borde vara en "
 "katalog. Genius kommer inte kunna spara inställningar."
 
-#: ../src/gnome-genius.c:5406
+#: ../src/gnome-genius.c:5454
 msgid "Console"
 msgstr "Konsol"
 
-#: ../src/gnome-genius.c:5457
+#: ../src/gnome-genius.c:5505
 #, c-format
 msgid ""
 "%sGenius %s%s\n"
@@ -4484,7 +4567,7 @@ msgstr ""
 "Skriv ”%smanual%s” eller ”%shelp%s” för hjälp.%s\n"
 "\n"
 
-#: ../src/gnome-genius.c:5642
+#: ../src/gnome-genius.c:5690
 msgid "GNOME Genius"
 msgstr "GNOME Genius"
 
@@ -4498,11 +4581,11 @@ msgstr "Genius matematikverktyg och miniräknare"
 
 #: ../src/gnome-genius.desktop.in.h:3
 msgid ""
-"Mathematics;Matrix;Vector;Linear Algebra;Calculus;Plot;Plotting;Graph;"
-"Graphing;Function;Number Theory;"
+"Mathematics;Matrix;Vector;Linear "
+"Algebra;Calculus;Plot;Plotting;Graph;Graphing;Function;Number Theory;"
 msgstr ""
-"Matematik;Matris;Vektor;Linjär algebra;Infinitesimalkalkyl;Plott;Plottning;"
-"Graf;Grafritning;Funktion;Talteori;"
+"Matematik;Matris;Vektor;Linjär "
+"algebra;Infinitesimalkalkyl;Plott;Plottning;Graf;Grafritning;Funktion;Talteori;"
 
 #: ../src/graphing.c:624
 msgid "Rotate"
@@ -4542,67 +4625,67 @@ msgstr "Utskrift misslyckades"
 msgid "Printing failed: %s"
 msgstr "Utskrift misslyckades: %s"
 
-#: ../src/graphing.c:1013 ../src/graphing.c:1154
+#: ../src/graphing.c:1013 ../src/graphing.c:1155
 msgid "File already exists.  Overwrite it?"
 msgstr "Filen finns redan. Skriva över den?"
 
-#: ../src/graphing.c:1113 ../src/graphing.c:1169 ../src/graphing.c:1184
+#: ../src/graphing.c:1113 ../src/graphing.c:1170 ../src/graphing.c:1188
 msgid "Export failed"
 msgstr "Export misslyckades"
 
-#: ../src/graphing.c:1209
+#: ../src/graphing.c:1214
 msgid "Export encapsulated postscript"
 msgstr "Exportera inbäddad postscript"
 
-#: ../src/graphing.c:1211
+#: ../src/graphing.c:1217
 msgid "Export postscript"
 msgstr "Exportera postscript"
 
-#: ../src/graphing.c:1213
+#: ../src/graphing.c:1220
 msgid "Export PDF"
 msgstr "Exportera PDF"
 
-#: ../src/graphing.c:1215
+#: ../src/graphing.c:1223
 msgid "Export PNG"
 msgstr "Exportera PNG"
 
-#: ../src/graphing.c:1222
+#: ../src/graphing.c:1233
 msgid "Missing ps2pdf command, perhaps ghostscript is not installed."
 msgstr "Saknar ps2pdf-kommando, kanske är inte ghostscript installerat."
 
-#: ../src/graphing.c:1237
+#: ../src/graphing.c:1248
 msgid "EPS files"
 msgstr "EPS-filer"
 
-#: ../src/graphing.c:1241
+#: ../src/graphing.c:1252
 msgid "PS files"
 msgstr "PS-filer"
 
-#: ../src/graphing.c:1245
+#: ../src/graphing.c:1256
 msgid "PDF files"
 msgstr "PDF-filer"
 
-#: ../src/graphing.c:1249
+#: ../src/graphing.c:1260
 msgid "PNG files"
 msgstr "PNG-filer"
 
-#: ../src/graphing.c:1264
+#: ../src/graphing.c:1275
 msgid "Generate preview in EPS file (with ps2epsi)"
 msgstr "Generera förhandsgranskning i EPS-fil (med ps2epsi)"
 
-#: ../src/graphing.c:1978
+#: ../src/graphing.c:1992
 msgid "Solver"
 msgstr "Lösare"
 
-#: ../src/graphing.c:1983
+#: ../src/graphing.c:1997
 msgid "Clea_r solutions"
 msgstr "_Rensa lösningar"
 
-#: ../src/graphing.c:1985
+#: ../src/graphing.c:1999
 msgid "_Plot solution"
 msgstr "R_ita lösning"
 
-#: ../src/graphing.c:2004
+#: ../src/graphing.c:2018
 msgid ""
 "Clicking on the graph window now will draw a solution according to the "
 "parameters set below, starting at the point clicked.  To be able to zoom by "
@@ -4612,159 +4695,159 @@ msgstr ""
 "inställda nedan, med början på den klickade punkten. Stäng detta fönster för "
 "att kunna zooma med musen igen."
 
-#: ../src/graphing.c:2020
+#: ../src/graphing.c:2034
 msgid "X increment:"
 msgstr "X-inkrement:"
 
-#: ../src/graphing.c:2037
+#: ../src/graphing.c:2051
 msgid "T increment:"
 msgstr "T-inkrement:"
 
-#: ../src/graphing.c:2039
+#: ../src/graphing.c:2053
 msgid "T interval length:"
 msgstr "T-intervallängd:"
 
-#: ../src/graphing.c:2057
+#: ../src/graphing.c:2071
 msgid "Point x:"
 msgstr "Punkt x:"
 
-#: ../src/graphing.c:2059
+#: ../src/graphing.c:2073
 msgid "y:"
 msgstr "y:"
 
 #. title
 #. parent
 #. flags
-#: ../src/graphing.c:2180
+#: ../src/graphing.c:2192
 msgid "_Stop"
 msgstr "_Stoppa"
 
-#: ../src/graphing.c:2212
+#: ../src/graphing.c:2224
 msgid "_Graph"
 msgstr "_Graf"
 
-#: ../src/graphing.c:2216
+#: ../src/graphing.c:2228
 msgid "_Print..."
 msgstr "_Skriv ut…"
 
-#: ../src/graphing.c:2222
+#: ../src/graphing.c:2234
 msgid "_Export postscript..."
 msgstr "_Exportera postscript…"
 
-#: ../src/graphing.c:2228
+#: ../src/graphing.c:2240
 msgid "E_xport encapsulated postscript..."
 msgstr "E_xportera inbäddad postscript…"
 
-#: ../src/graphing.c:2235
+#: ../src/graphing.c:2247
 msgid "Export P_DF..."
 msgstr "Exportera P_DF…"
 
-#: ../src/graphing.c:2244
+#: ../src/graphing.c:2256
 msgid "Export P_NG..."
 msgstr "Exportera P_NG…"
 
-#: ../src/graphing.c:2256
+#: ../src/graphing.c:2268
 msgid "_Zoom"
 msgstr "_Zooma"
 
-#: ../src/graphing.c:2260
+#: ../src/graphing.c:2272
 msgid "Zoom _out"
 msgstr "Zooma _ut"
 
-#: ../src/graphing.c:2267
+#: ../src/graphing.c:2279
 msgid "Zoom _in"
 msgstr "Zooma _in"
 
-#: ../src/graphing.c:2274
+#: ../src/graphing.c:2286
 msgid "_Fit dependent axis"
 msgstr "_Passa till beroende axel"
 
-#: ../src/graphing.c:2281
+#: ../src/graphing.c:2293
 msgid "_Reset to original zoom"
 msgstr "Åte_rställ till ursprunglig zoomning"
 
-#: ../src/graphing.c:2294
+#: ../src/graphing.c:2306
 msgid "_View"
 msgstr "_Visa"
 
-#: ../src/graphing.c:2299
+#: ../src/graphing.c:2311
 msgid "_Reset angles"
 msgstr "_Återställ vinklar"
 
-#: ../src/graphing.c:2304
+#: ../src/graphing.c:2316
 msgid "_Top view"
 msgstr "_Vy ovanifrån"
 
-#: ../src/graphing.c:2309
+#: ../src/graphing.c:2321
 msgid "R_otate axis..."
 msgstr "R_otera axel…"
 
-#: ../src/graphing.c:2314
+#: ../src/graphing.c:2326
 msgid "Start rotate _animation..."
 msgstr "Börja rotera _animering…"
 
-#: ../src/graphing.c:2319
+#: ../src/graphing.c:2331
 msgid "Stop rotate a_nimation..."
 msgstr "Sluta rotera _animering…"
 
-#: ../src/graphing.c:2329
+#: ../src/graphing.c:2341
 msgid "_Solver"
 msgstr "Lö_sare"
 
-#: ../src/graphing.c:2334
+#: ../src/graphing.c:2346
 msgid "_Solver..."
 msgstr "Lö_sare…"
 
-#: ../src/graphing.c:2339
+#: ../src/graphing.c:2351
 msgid "_Clear solutions"
 msgstr "_Rensa lösningar"
 
-#: ../src/graphing.c:2370
+#: ../src/graphing.c:2382
 msgid "Errors during plotting (possibly harmless), see the console."
 msgstr "Fel under grafritning (möjligen ofarligt), se konsolen."
 
-#: ../src/graphing.c:3383
+#: ../src/graphing.c:3401
 #, c-format
 msgid "Function"
 msgstr "Funktion"
 
-#: ../src/graphing.c:3385
+#: ../src/graphing.c:3403
 #, c-format
 msgid "Function #%d"
 msgstr "Funktion nr %d"
 
-#: ../src/graphing.c:3407
+#: ../src/graphing.c:3425
 msgid "Graph limits not given as a 4-vector"
 msgstr "Grafgränserna är inte angivna som en 4-vektor"
 
-#: ../src/graphing.c:3413 ../src/graphing.c:3424 ../src/graphing.c:3435
-#: ../src/graphing.c:3446 ../src/graphing.c:3489 ../src/graphing.c:3500
-#: ../src/graphing.c:3598 ../src/graphing.c:3609 ../src/graphing.c:3620
-#: ../src/graphing.c:3631 ../src/graphing.c:3642 ../src/graphing.c:3653
+#: ../src/graphing.c:3431 ../src/graphing.c:3442 ../src/graphing.c:3453
+#: ../src/graphing.c:3464 ../src/graphing.c:3507 ../src/graphing.c:3518
+#: ../src/graphing.c:3616 ../src/graphing.c:3627 ../src/graphing.c:3638
+#: ../src/graphing.c:3649 ../src/graphing.c:3660 ../src/graphing.c:3671
 msgid "Graph limits not given as numbers"
 msgstr "Grafgränserna är inte angivna som tal"
 
-#: ../src/graphing.c:3483
+#: ../src/graphing.c:3501
 msgid "Graph limits not given as a 2-vector"
 msgstr "Grafgränserna är inte angivna som en 2-vektor"
 
-#: ../src/graphing.c:3592
+#: ../src/graphing.c:3610
 msgid "Graph limits not given as a 6-vector"
 msgstr "Grafgränserna är inte angivna som en 6-vektor"
 
-#: ../src/graphing.c:3726 ../src/graphing.c:3744 ../src/graphing.c:3758
+#: ../src/graphing.c:3744 ../src/graphing.c:3762 ../src/graphing.c:3776
 msgid "Ticks must be between 2 and 200"
 msgstr "Skalstreck måste vara mellan 2 och 200"
 
-#: ../src/graphing.c:3735 ../src/graphing.c:3749
+#: ../src/graphing.c:3753 ../src/graphing.c:3767
 msgid "Ticks not given as numbers"
 msgstr "Skalstreck inte angivna som tal"
 
-#: ../src/graphing.c:3763
+#: ../src/graphing.c:3781
 msgid "Ticks not given as a number or a 2-vector"
 msgstr "Skalstreck är inte angivna som ett tal eller en 2-vektor"
 
-#: ../src/graphing.c:5404
+#: ../src/graphing.c:5422
 #, c-format
 msgid ""
 "Type in function name or expression involving the %s and %s variables (or "
@@ -4774,13 +4857,13 @@ msgstr ""
 "Skriv ett funktionsnamn eller uttryck med variablerna %s och %s ( eller "
 "variabeln %s, som blir %s=%s+i%s) som ger riktningen i punkten (%s,%s)."
 
-#: ../src/graphing.c:5425 ../src/graphing.c:5430 ../src/graphing.c:5583
-#: ../src/graphing.c:5588
+#: ../src/graphing.c:5443 ../src/graphing.c:5448 ../src/graphing.c:5601
+#: ../src/graphing.c:5606
 #, c-format
 msgid "%s from:"
 msgstr "%s från:"
 
-#: ../src/graphing.c:5435
+#: ../src/graphing.c:5453
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s and %s variables (or "
@@ -4791,7 +4874,7 @@ msgstr ""
 "variabeln %s, som blir %s=%s+i%s) som ger d%s/d%s och d%s/d%s för det "
 "autonoma systemet som ska ritas vid punkten (%s,%s)."
 
-#: ../src/graphing.c:5466
+#: ../src/graphing.c:5484
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4800,7 +4883,7 @@ msgstr ""
 "Skriv funktionsnamn eller uttryck med %s-variabeln i fälten nedan för att "
 "rita dem"
 
-#: ../src/graphing.c:5478
+#: ../src/graphing.c:5496
 #, c-format
 msgid ""
 "Type in function names or expressions involving the %s variable in the boxes "
@@ -4814,27 +4897,27 @@ msgstr ""
 "ge koordinaterna %s och %s separat, eller alternativt kan du fylla i fältet "
 "%s= med %s och %s som real- och imaginärdelen av ett komplext tal."
 
-#: ../src/graphing.c:5511
+#: ../src/graphing.c:5529
 #, c-format
 msgid "Parameter %s from:"
 msgstr "Parameter %s från:"
 
-#: ../src/graphing.c:5526 ../src/graphing.c:5533
+#: ../src/graphing.c:5544 ../src/graphing.c:5551
 #, c-format
 msgid "%s increment:"
 msgstr "%s-inkrement:"
 
-#: ../src/graphing.c:5540
+#: ../src/graphing.c:5558
 #, c-format
 msgid "%s interval length:"
 msgstr "%s-intervallängd:"
 
-#: ../src/graphing.c:5547
+#: ../src/graphing.c:5565
 #, c-format
 msgid "Point %s:"
 msgstr "Punkt %s:"
 
-#: ../src/graphing.c:5570
+#: ../src/graphing.c:5588
 #, c-format
 msgid ""
 "Type a function name or an expression involving the %s and %s variables (or "
@@ -4845,95 +4928,95 @@ msgstr ""
 "( eller variabeln %s, som blir %s=%s+i%s) i fälten nedan för att rita dem. "
 "Funktioner med endast ett argument kommer ges ett komplext tal."
 
-#: ../src/graphing.c:5631 ../src/graphing.c:5749
+#: ../src/graphing.c:5649 ../src/graphing.c:5767
 msgid "Change variable names"
 msgstr "Ändra variabelnamn"
 
-#: ../src/graphing.c:5645 ../src/graphing.c:5763
+#: ../src/graphing.c:5663 ../src/graphing.c:5781
 msgid "Some values were illegal"
 msgstr "Några värden var ogiltiga"
 
-#: ../src/graphing.c:5649 ../src/graphing.c:5767
+#: ../src/graphing.c:5667 ../src/graphing.c:5785
 msgid "independent variable (x):"
 msgstr "oberoende variabel (x):"
 
-#: ../src/graphing.c:5659
+#: ../src/graphing.c:5677
 msgid "dependent variable (y):"
 msgstr "beroende variabel (y):"
 
-#: ../src/graphing.c:5669
+#: ../src/graphing.c:5687
 msgid "complex variable (z = x+iy):"
 msgstr "komplex variabel (z = x+iy):"
 
-#: ../src/graphing.c:5679
+#: ../src/graphing.c:5697
 msgid "parameter variable (t):"
 msgstr "parametervariabel (t):"
 
-#: ../src/graphing.c:5777
+#: ../src/graphing.c:5795
 msgid "independent variable (y):"
 msgstr "oberoende variabel (y):"
 
-#: ../src/graphing.c:5787
+#: ../src/graphing.c:5805
 msgid "independent complex variable (z = x+iy):"
 msgstr "oberoende komplex variabel (z = x+iy):"
 
-#: ../src/graphing.c:5956
+#: ../src/graphing.c:5974
 msgid "_Functions / Expressions"
 msgstr "_Funktioner / Uttryck"
 
 #. t range
-#: ../src/graphing.c:6004
+#: ../src/graphing.c:6022
 msgid "Parameter t from:"
 msgstr "Parameter t från:"
 
-#: ../src/graphing.c:6006 ../src/graphing.c:6152 ../src/graphing.c:6164
-#: ../src/graphing.c:6275 ../src/graphing.c:6286 ../src/graphing.c:6297
+#: ../src/graphing.c:6024 ../src/graphing.c:6170 ../src/graphing.c:6182
+#: ../src/graphing.c:6293 ../src/graphing.c:6304 ../src/graphing.c:6315
 msgid "to:"
 msgstr "till:"
 
-#: ../src/graphing.c:6008
+#: ../src/graphing.c:6026
 msgid "by:"
 msgstr "ökning:"
 
-#: ../src/graphing.c:6015
+#: ../src/graphing.c:6033
 msgid "Pa_rametric"
 msgstr "Pa_rametrisk"
 
 #. # of ticks
-#: ../src/graphing.c:6043 ../src/graphing.c:6096
+#: ../src/graphing.c:6061 ../src/graphing.c:6114
 msgid "Vertical ticks:"
 msgstr "Vertikala skalstreck:"
 
 #. # of ticks
-#: ../src/graphing.c:6047 ../src/graphing.c:6100
+#: ../src/graphing.c:6065 ../src/graphing.c:6118
 msgid "Horizontal ticks:"
 msgstr "Horisontella skalstreck:"
 
-#: ../src/graphing.c:6052
+#: ../src/graphing.c:6070
 msgid "Sl_ope field"
 msgstr "R_iktningsfält"
 
 #. Normalize the arrow length?
-#: ../src/graphing.c:6087
+#: ../src/graphing.c:6105
 msgid "_Normalize arrow length (do not show size)"
 msgstr "_Normalisera pillängd (visa inte storlek)"
 
-#: ../src/graphing.c:6105
+#: ../src/graphing.c:6123
 msgid "_Vector field"
 msgstr "_Vektorfält"
 
 #. draw legend?
-#: ../src/graphing.c:6115 ../src/graphing.c:6245
+#: ../src/graphing.c:6133 ../src/graphing.c:6263
 msgid "_Draw legend"
 msgstr "_Rita ut förklaring"
 
 #. draw axis labels?
-#: ../src/graphing.c:6124
+#: ../src/graphing.c:6142
 msgid "Draw axis labels"
 msgstr "Rita axeletiketter"
 
 #. change varnames
-#: ../src/graphing.c:6133 ../src/graphing.c:6255
+#: ../src/graphing.c:6151 ../src/graphing.c:6273
 msgid "Change variable names..."
 msgstr "Ändra variabelnamn…"
 
@@ -4941,206 +5024,206 @@ msgstr "Ändra variabelnamn…"
 #.
 #. * Plot window frame
 #.
-#: ../src/graphing.c:6141 ../src/graphing.c:6264
+#: ../src/graphing.c:6159 ../src/graphing.c:6282
 msgid "Plot Window"
 msgstr "Graffönster"
 
 #.
 #. * X range
 #.
-#: ../src/graphing.c:6150 ../src/graphing.c:6273
+#: ../src/graphing.c:6168 ../src/graphing.c:6291
 msgid "X from:"
 msgstr "X från:"
 
 #.
 #. * Y range
 #.
-#: ../src/graphing.c:6162 ../src/graphing.c:6284
+#: ../src/graphing.c:6180 ../src/graphing.c:6302
 msgid "Y from:"
 msgstr "Y från:"
 
 #. fit dependent axis?
-#: ../src/graphing.c:6172 ../src/graphing.c:6305
+#: ../src/graphing.c:6190 ../src/graphing.c:6323
 msgid "Fit dependent axis"
 msgstr "Passa till beroende axel"
 
-#: ../src/graphing.c:6216
+#: ../src/graphing.c:6234
 msgid "Function / Expression"
 msgstr "Funktion / Uttryck"
 
 #.
 #. * Z range
 #.
-#: ../src/graphing.c:6295
+#: ../src/graphing.c:6313
 msgid "Dependent axis from:"
 msgstr "Beroende axel från:"
 
-#: ../src/graphing.c:6326
+#: ../src/graphing.c:6344
 msgid "Function _line plot"
 msgstr "_Linjegraf för funktion"
 
-#: ../src/graphing.c:6330
+#: ../src/graphing.c:6348
 msgid "_Surface plot"
 msgstr "_Ytgraf"
 
-#: ../src/graphing.c:6492
+#: ../src/graphing.c:6510
 msgid "Empty value as range value"
 msgstr "Tomt värde som intervallvärde"
 
-#: ../src/graphing.c:6498
+#: ../src/graphing.c:6516
 msgid "Genius is executing something already"
 msgstr "Genius kör redan något"
 
-#: ../src/graphing.c:6509
+#: ../src/graphing.c:6527
 msgid "Cannot parse range value"
 msgstr "Kan inte tolka intervallvärde"
 
-#: ../src/graphing.c:6521
+#: ../src/graphing.c:6539
 msgid "Cannot execute range value"
 msgstr "Kan inte exekvera intervallvärde"
 
-#: ../src/graphing.c:6526 ../src/graphing.c:6532
+#: ../src/graphing.c:6544 ../src/graphing.c:6550
 msgid "Range value not a value"
 msgstr "Intervallvärdet är inte ett värde"
 
-#: ../src/graphing.c:6540
+#: ../src/graphing.c:6558
 msgid "Cannot convert range value to a reasonable real number"
 msgstr "Kan inte konvertera intervallvärdet till ett rimligt reellt tal"
 
-#: ../src/graphing.c:6626 ../src/graphing.c:6820 ../src/graphing.c:6949
-#: ../src/graphing.c:7084 ../src/graphing.c:7191
+#: ../src/graphing.c:6644 ../src/graphing.c:6838 ../src/graphing.c:6967
+#: ../src/graphing.c:7102 ../src/graphing.c:7209
 msgid "No functions to plot or no functions could be parsed"
 msgstr "Inga funktioner att rita, eller inga funktioner kunde tolkas"
 
-#: ../src/graphing.c:6661 ../src/graphing.c:6667 ../src/graphing.c:6845
-#: ../src/graphing.c:6851 ../src/graphing.c:6974 ../src/graphing.c:6980
-#: ../src/graphing.c:6999 ../src/graphing.c:7109 ../src/graphing.c:7115
-#: ../src/graphing.c:7216 ../src/graphing.c:7222
+#: ../src/graphing.c:6679 ../src/graphing.c:6685 ../src/graphing.c:6863
+#: ../src/graphing.c:6869 ../src/graphing.c:6992 ../src/graphing.c:6998
+#: ../src/graphing.c:7017 ../src/graphing.c:7127 ../src/graphing.c:7133
+#: ../src/graphing.c:7234 ../src/graphing.c:7240
 #, c-format
 msgid "Invalid %s range"
 msgstr "Ogiltigt %s-intervall"
 
-#: ../src/graphing.c:6673
+#: ../src/graphing.c:6691
 msgid "Invalid dependent range"
 msgstr "Ogiltigt beroende intervall"
 
-#: ../src/graphing.c:6943
+#: ../src/graphing.c:6961
 #, c-format
 msgid "Only specify %s and %s, or %s, not all at once."
 msgstr "Ange bara %s och %s, eller %s, inte alla på en gång."
 
-#: ../src/graphing.c:7320
+#: ../src/graphing.c:7338
 msgid "Create Plot"
 msgstr "Skapa graf"
 
-#: ../src/graphing.c:7325
+#: ../src/graphing.c:7343
 msgid "_Plot"
 msgstr "_Graf"
 
-#: ../src/graphing.c:7360 ../src/graphing.c:7536 ../src/graphing.c:7567
-#: ../src/graphing.c:7588 ../src/graphing.c:7628 ../src/graphing.c:7652
-#: ../src/graphing.c:7764 ../src/graphing.c:7888 ../src/graphing.c:8025
-#: ../src/graphing.c:8182 ../src/graphing.c:8329 ../src/graphing.c:8352
-#: ../src/graphing.c:8979 ../src/graphing.c:9266 ../src/graphing.c:9485
-#: ../src/graphing.c:9725 ../src/graphing.c:10053 ../src/graphing.c:10285
-#: ../src/graphing.c:10374 ../src/graphing.c:10484 ../src/graphing.c:10515
-#: ../src/graphing.c:10544 ../src/graphing.c:10570 ../src/graphing.c:10599
-#: ../src/graphing.c:10693 ../src/graphing.c:10782 ../src/graphing.c:10807
-#: ../src/graphing.c:10840 ../src/graphing.c:10888
+#: ../src/graphing.c:7378 ../src/graphing.c:7554 ../src/graphing.c:7585
+#: ../src/graphing.c:7606 ../src/graphing.c:7646 ../src/graphing.c:7670
+#: ../src/graphing.c:7782 ../src/graphing.c:7906 ../src/graphing.c:8043
+#: ../src/graphing.c:8200 ../src/graphing.c:8347 ../src/graphing.c:8370
+#: ../src/graphing.c:8997 ../src/graphing.c:9284 ../src/graphing.c:9503
+#: ../src/graphing.c:9743 ../src/graphing.c:10071 ../src/graphing.c:10303
+#: ../src/graphing.c:10393 ../src/graphing.c:10505 ../src/graphing.c:10536
+#: ../src/graphing.c:10565 ../src/graphing.c:10591 ../src/graphing.c:10620
+#: ../src/graphing.c:10714 ../src/graphing.c:10803 ../src/graphing.c:10828
+#: ../src/graphing.c:10861 ../src/graphing.c:10909
 #, c-format
 msgid "%s: Plotting in progress, cannot call %s"
 msgstr "%s: Grafritning pågår, kan inte anropa %s"
 
-#: ../src/graphing.c:7368 ../src/graphing.c:7907
+#: ../src/graphing.c:7386 ../src/graphing.c:7925
 #, c-format
 msgid "%s: argument not a function"
 msgstr "%s: argumentet är inte en funktion"
 
-#: ../src/graphing.c:7378
+#: ../src/graphing.c:7396
 #, c-format
 msgid "%s: only one function supported"
 msgstr "%s: endast en funktion stöds"
 
-#: ../src/graphing.c:7401
+#: ../src/graphing.c:7419
 msgid "Graph limits not given as a 4-vector or a 6-vector"
 msgstr "Grafgränserna är inte angivna som en 4-vektor eller en 6-vektor"
 
-#: ../src/graphing.c:7457 ../src/graphing.c:7717 ../src/graphing.c:7834
-#: ../src/graphing.c:7970 ../src/graphing.c:8119 ../src/graphing.c:8274
-#: ../src/graphing.c:10154
+#: ../src/graphing.c:7475 ../src/graphing.c:7735 ../src/graphing.c:7852
+#: ../src/graphing.c:7988 ../src/graphing.c:8137 ../src/graphing.c:8292
+#: ../src/graphing.c:10172
 #, c-format
 msgid "%s: invalid X range"
 msgstr "%s: ogiltigt X-intervall"
 
-#: ../src/graphing.c:7462 ../src/graphing.c:7722 ../src/graphing.c:7839
-#: ../src/graphing.c:7975 ../src/graphing.c:8124 ../src/graphing.c:8279
-#: ../src/graphing.c:10159
+#: ../src/graphing.c:7480 ../src/graphing.c:7740 ../src/graphing.c:7857
+#: ../src/graphing.c:7993 ../src/graphing.c:8142 ../src/graphing.c:8297
+#: ../src/graphing.c:10177
 #, c-format
 msgid "%s: invalid Y range"
 msgstr "%s: ogiltigt Y-intervall"
 
-#: ../src/graphing.c:7467 ../src/graphing.c:10164
+#: ../src/graphing.c:7485 ../src/graphing.c:10182
 #, c-format
 msgid "%s: invalid Z range"
 msgstr "%s: ogiltigt Z-intervall"
 
-#: ../src/graphing.c:7546
+#: ../src/graphing.c:7564
 #, c-format
 msgid "%s: dx must be positive"
 msgstr "%s: dx måste vara positiv"
 
-#: ../src/graphing.c:7553 ../src/graphing.c:7572
+#: ../src/graphing.c:7571 ../src/graphing.c:7590
 #, c-format
 msgid "%s: Slope field not active"
 msgstr "%s: Riktningsfält ej aktivt"
 
-#: ../src/graphing.c:7599
+#: ../src/graphing.c:7617
 #, c-format
 msgid "%s: dt must be positive"
 msgstr "%s: dt måste vara positiv"
 
-#: ../src/graphing.c:7605
+#: ../src/graphing.c:7623
 #, c-format
 msgid "%s: tlen must be positive"
 msgstr "%s: tlen måste vara positiv"
 
-#: ../src/graphing.c:7613 ../src/graphing.c:7634
+#: ../src/graphing.c:7631 ../src/graphing.c:7652
 #, c-format
 msgid "%s: Vector field not active"
 msgstr "%s: Vektorfält ej aktivt"
 
-#: ../src/graphing.c:7659 ../src/graphing.c:8189
+#: ../src/graphing.c:7677 ../src/graphing.c:8207
 #, c-format
 msgid "%s: First argument must be a function"
 msgstr "%s: första argumentet måste vara en funktion"
 
-#: ../src/graphing.c:7775 ../src/graphing.c:8033
+#: ../src/graphing.c:7793 ../src/graphing.c:8051
 #, c-format
 msgid "%s: First two arguments must be functions"
 msgstr "%s: första två argumenten måste vara funktioner"
 
-#: ../src/graphing.c:7902
+#: ../src/graphing.c:7920
 #, c-format
 msgid "%s: only up to 10 functions supported"
 msgstr "%s: endast upp till 10 funktioner stöds"
 
-#: ../src/graphing.c:7928
+#: ../src/graphing.c:7946
 msgid "Graph limits not given as a 2-vector or a 4-vector"
 msgstr "Grafgränserna är inte angivna som en 2-vektor eller en 4-vektor"
 
-#: ../src/graphing.c:8129 ../src/graphing.c:8284
+#: ../src/graphing.c:8147 ../src/graphing.c:8302
 #, c-format
 msgid "%s: invalid T range"
 msgstr "%s: ogiltigt T-intervall"
 
-#: ../src/graphing.c:8532
+#: ../src/graphing.c:8550
 #, c-format
 msgid ""
 "%s: Not in line plot mode.  Perhaps run LinePlot or LinePlotClear first."
 msgstr ""
 "%s: Inte i linegrafsläge. Kör kanske LinePlot eller LinePlotClear först."
 
-#: ../src/graphing.c:8661 ../src/graphing.c:8742
+#: ../src/graphing.c:8679 ../src/graphing.c:8760
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 2 matrix with columns for x and "
@@ -5149,14 +5232,14 @@ msgstr ""
 "%s: Punkter ska anges som en reell n×2-matris med kolumner för x och y, "
 "n>=%d, eller som en komplexvärd n×1-matris"
 
-#: ../src/graphing.c:8671
+#: ../src/graphing.c:8689
 #, c-format
 msgid ""
 "%s: If points are given as an n by 2 matrix, then this matrix must be real"
 msgstr ""
 "%s: Om punkter anges som en n×2-matris så måste denna matris vara reell"
 
-#: ../src/graphing.c:8781 ../src/graphing.c:8844
+#: ../src/graphing.c:8799 ../src/graphing.c:8862
 #, c-format
 msgid ""
 "%s: Points should be given as a real, n by 3 matrix with columns for x, y "
@@ -5165,17 +5248,17 @@ msgstr ""
 "%s: Punkter ska anges som en reell n×3-matris med kolumner för x, y och z, "
 "n>=%d"
 
-#: ../src/graphing.c:8896
+#: ../src/graphing.c:8914
 #, c-format
 msgid "%s: No color specified"
 msgstr "%s: Ingen färg angiven"
 
-#: ../src/graphing.c:8901 ../src/graphing.c:8908
+#: ../src/graphing.c:8919 ../src/graphing.c:8926
 #, c-format
 msgid "%s: Cannot parse color '%s'"
 msgstr "%s: Kan inte tolka färgen ”%s”"
 
-#: ../src/graphing.c:8922
+#: ../src/graphing.c:8940
 #, c-format
 msgid ""
 "%s: A vector giving color should be a 3-vector of real numbers between 0 and "
@@ -5184,7 +5267,7 @@ msgstr ""
 "%s: En vektor som anger färg ska vara en 3-vektor av reella tal mellan 0 och "
 "1"
 
-#: ../src/graphing.c:8938
+#: ../src/graphing.c:8956
 #, c-format
 msgid ""
 "%s: Warning: Values for red, green, or blue out of range (0 to 1), I will "
@@ -5193,7 +5276,7 @@ msgstr ""
 "%s: Varning: Värden för röd, grön eller blå utanför område (0 till 1), jag "
 "kommer beskära dem till detta intervall"
 
-#: ../src/graphing.c:8955
+#: ../src/graphing.c:8973
 #, c-format
 msgid ""
 "%s: Color must be a string or a three-vector of rgb values (between 0 and 1)"
@@ -5201,58 +5284,58 @@ msgstr ""
 "%s: Färg måste vara en sträng eller en 3-vektor av rgb-värden (mellan 0 och "
 "1)"
 
-#: ../src/graphing.c:8998 ../src/graphing.c:9285 ../src/graphing.c:9506
-#: ../src/graphing.c:9746
+#: ../src/graphing.c:9016 ../src/graphing.c:9303 ../src/graphing.c:9524
+#: ../src/graphing.c:9764
 #, c-format
 msgid "%s: Wrong number of arguments"
 msgstr "%s: Fel antal argument"
 
-#: ../src/graphing.c:9068 ../src/graphing.c:9339 ../src/graphing.c:9572
-#: ../src/graphing.c:9806
+#: ../src/graphing.c:9086 ../src/graphing.c:9357 ../src/graphing.c:9590
+#: ../src/graphing.c:9824
 #, c-format
 msgid "%s: No thickness specified"
 msgstr "%s: Ingen tjocklek angiven"
 
-#: ../src/graphing.c:9091 ../src/graphing.c:9362 ../src/graphing.c:9597
-#: ../src/graphing.c:9831
+#: ../src/graphing.c:9109 ../src/graphing.c:9380 ../src/graphing.c:9615
+#: ../src/graphing.c:9849
 #, c-format
 msgid "%s: No window specified"
 msgstr "%s: Inget fönster angivet"
 
-#: ../src/graphing.c:9139 ../src/graphing.c:9164
+#: ../src/graphing.c:9157 ../src/graphing.c:9182
 #, c-format
 msgid "%s: arrow style should be \"origin\", \"end\", \"both\", or \"none\""
 msgstr "%s: pilstil ska vara ”origin”, ”end”, ”both”, eller ”none”"
 
-#: ../src/graphing.c:9174 ../src/graphing.c:9406 ../src/graphing.c:9649
-#: ../src/graphing.c:9883
+#: ../src/graphing.c:9192 ../src/graphing.c:9424 ../src/graphing.c:9667
+#: ../src/graphing.c:9901
 #, c-format
 msgid "%s: No legend specified"
 msgstr "%s: Ingen förklaring angiven"
 
-#: ../src/graphing.c:9188 ../src/graphing.c:9420 ../src/graphing.c:9664
-#: ../src/graphing.c:9898
+#: ../src/graphing.c:9206 ../src/graphing.c:9438 ../src/graphing.c:9682
+#: ../src/graphing.c:9916
 #, c-format
 msgid "%s: Legend must be a string"
 msgstr "%s: Förklaring måste vara en sträng"
 
-#: ../src/graphing.c:9199
+#: ../src/graphing.c:9217
 #, c-format
 msgid "%s: Unknown style: %s"
 msgstr "%s: Okänd stil: %s"
 
-#: ../src/graphing.c:9208 ../src/graphing.c:9436 ../src/graphing.c:9682
-#: ../src/graphing.c:9916
+#: ../src/graphing.c:9226 ../src/graphing.c:9454 ../src/graphing.c:9700
+#: ../src/graphing.c:9934
 #, c-format
 msgid "%s: Bad parameter"
 msgstr "%s: Felaktig parameter"
 
-#: ../src/graphing.c:9429 ../src/graphing.c:9674 ../src/graphing.c:9908
+#: ../src/graphing.c:9447 ../src/graphing.c:9692 ../src/graphing.c:9926
 #, c-format
 msgid "%s: Unknown style"
 msgstr "%s: Okänd stil"
 
-#: ../src/graphing.c:9970 ../src/graphing.c:10033
+#: ../src/graphing.c:9988 ../src/graphing.c:10051
 #, c-format
 msgid ""
 "%s: Surface should be given as a real, n by 3 matrix with columns for x, y, "
@@ -5260,89 +5343,89 @@ msgid ""
 msgstr ""
 "%s: Yta ska anges som en reell n×3-matris med kolumner för x, y, z, där n>=3"
 
-#: ../src/graphing.c:10061
+#: ../src/graphing.c:10079
 #, c-format
 msgid "%s: argument not a matrix of data"
 msgstr "%s: argumentet är inte en matris med data"
 
-#: ../src/graphing.c:10245
+#: ../src/graphing.c:10263
 #, c-format
 msgid "%s: Surface grid data should be given as a real matrix "
 msgstr "%s: Ytrutnätsdata ska anges som en reell matris "
 
-#: ../src/graphing.c:10291
+#: ../src/graphing.c:10309
 #, c-format
 msgid "%s: first argument not a matrix of data"
 msgstr "%s: första argumentet är inte en matris med data"
 
-#: ../src/graphing.c:10298
+#: ../src/graphing.c:10316
 #, c-format
 msgid "%s: second argument not a 4 or 6 element vector of limits"
 msgstr "%s: andra argumentet är inte en 4- eller 6-elementvektor med gränser"
 
-#: ../src/graphing.c:10315
+#: ../src/graphing.c:10333
 #, c-format
 msgid "%s: too many arguments or last argument not a string label"
 msgstr "%s: för många argument eller sista argumentet inte en strängetikett"
 
-#: ../src/graphing.c:10381
+#: ../src/graphing.c:10400
 #, c-format
 msgid "%s: first argument not a nonempty string"
 msgstr "%s: första argumentet inte en icke-tom sträng"
 
-#: ../src/graphing.c:10389
+#: ../src/graphing.c:10408
 #, c-format
 msgid "%s: type not specified and filename has no extension"
 msgstr "%s: typ ej angiven och filnamn har ingen filändelse"
 
-#: ../src/graphing.c:10398
+#: ../src/graphing.c:10417
 #, c-format
 msgid "%s: second argument not a nonempty string"
 msgstr "%s: andra argumentet är inte en icke-tom sträng"
 
-#: ../src/graphing.c:10410
+#: ../src/graphing.c:10429
 #, c-format
 msgid "%s: plot canvas not active, cannot export"
 msgstr "%s: rityta för graf inte aktiv, kan inte exportera"
 
-#: ../src/graphing.c:10419 ../src/graphing.c:10433 ../src/graphing.c:10456
+#: ../src/graphing.c:10438 ../src/graphing.c:10454 ../src/graphing.c:10477
 #, c-format
 msgid "%s: export failed"
 msgstr "%s: export misslyckades"
 
-#: ../src/graphing.c:10469
+#: ../src/graphing.c:10490
 #, c-format
 msgid "%s: unknown file type, can be \"png\", \"eps\", or \"ps\"."
 msgstr "%s: okänd filtyp, kan vara \"png\", \"eps\" eller \"ps\"."
 
-#: ../src/graphing.c:10606
+#: ../src/graphing.c:10627
 msgid "Variable names not given in a 4-vector"
 msgstr "Variabelnamn är inte angivna i en 4-vektor"
 
-#: ../src/graphing.c:10616 ../src/graphing.c:10625 ../src/graphing.c:10634
-#: ../src/graphing.c:10643 ../src/graphing.c:10710 ../src/graphing.c:10719
-#: ../src/graphing.c:10728
+#: ../src/graphing.c:10637 ../src/graphing.c:10646 ../src/graphing.c:10655
+#: ../src/graphing.c:10664 ../src/graphing.c:10731 ../src/graphing.c:10740
+#: ../src/graphing.c:10749
 msgid "Variable names should be strings"
 msgstr "Variabelnamn ska vara strängar"
 
-#: ../src/graphing.c:10650 ../src/graphing.c:10734
+#: ../src/graphing.c:10671 ../src/graphing.c:10755
 msgid "Variable names must be valid identifiers"
 msgstr "Variabelnamn måste vara giltiga identifierare"
 
-#: ../src/graphing.c:10659 ../src/graphing.c:10740
+#: ../src/graphing.c:10680 ../src/graphing.c:10761
 msgid "Variable names must be mutually distinct"
 msgstr "Variabelnamn måste vara ömsesidigt distinkta"
 
-#: ../src/graphing.c:10700
+#: ../src/graphing.c:10721
 msgid "Variable names not given in a 3-vector"
 msgstr "Variabelnamn är inte angivna i en 3-vektor"
 
-#: ../src/graphing.c:10923
+#: ../src/graphing.c:10944
 msgid "Plotting"
 msgstr "Grafritning"
 
 #. internal
-#: ../src/graphing.c:10925
+#: ../src/graphing.c:10946
 msgid ""
 "Plot a function with a line.  First come the functions (up to 10) then "
 "optionally limits as x1,x2,y1,y2"
@@ -5350,7 +5433,7 @@ msgstr ""
 "Rita en funktion med en linjegraf. Först kommer funktionerna (upp till 10) "
 "och sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10926
+#: ../src/graphing.c:10947
 msgid ""
 "Plot a parametric function with a line.  First come the functions for x and "
 "y then optionally the t limits as t1,t2,tinc, then optionally the limits as "
@@ -5360,7 +5443,7 @@ msgstr ""
 "x och y och sedan valfritt t-gränserna som t1,t2,tinc, sedan valfritt "
 "gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10927
+#: ../src/graphing.c:10948
 msgid ""
 "Plot a parametric complex valued function with a line.  First comes the "
 "function that returns x+iy then optionally the t limits as t1,t2,tinc, then "
@@ -5370,7 +5453,7 @@ msgstr ""
 "funktionen som returnerar x+iy sedan valfritt t-gränserna som t1,t2,tinc, "
 "sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10929
+#: ../src/graphing.c:10950
 msgid ""
 "Draw a slope field.  First comes the function dy/dx in terms of x and y (or "
 "a complex z) then optionally the limits as x1,x2,y1,y2"
@@ -5378,7 +5461,7 @@ msgstr ""
 "Rita ett riktningsfält. Först kommer funktionen dy/dx uttryckt i x och y "
 "(eller ett komplext z) och sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10930
+#: ../src/graphing.c:10951
 msgid ""
 "Draw a vector field.  First come the functions dx/dt and dy/dt in terms of x "
 "and y then optionally the limits as x1,x2,y1,y2"
@@ -5386,18 +5469,18 @@ msgstr ""
 "Rita ett vektorfält. Först kommer funktionerna dx/dt och dy/dt uttryckt i x "
 "och y och sedan valfritt gränserna som x1,x2,y1,y2"
 
-#: ../src/graphing.c:10932
+#: ../src/graphing.c:10953
 msgid ""
 "Draw a solution for a slope field starting at x,y and using dx as increment"
 msgstr ""
 "Rita ut en lösning för ett riktningsfält med start vid x,y och med dx som "
 "inkrement"
 
-#: ../src/graphing.c:10933
+#: ../src/graphing.c:10954
 msgid "Clear all the slopefield solutions"
 msgstr "Rensa alla riktningsfältslösningar"
 
-#: ../src/graphing.c:10935
+#: ../src/graphing.c:10956
 msgid ""
 "Draw a solution for a vector field starting at x,y, using dt as increment "
 "for tlen units"
@@ -5405,11 +5488,11 @@ msgstr ""
 "Rita ut en lösning för ett vektorfält med start vid x,y och med dt som "
 "inkrement för tlen-enheter"
 
-#: ../src/graphing.c:10936
+#: ../src/graphing.c:10957
 msgid "Clear all the vectorfield solutions"
 msgstr "Rensa alla vektorfältslösningar"
 
-#: ../src/graphing.c:10939
+#: ../src/graphing.c:10960
 msgid ""
 "Plot a surface function which takes either two arguments or a complex "
 "number.  First comes the function then optionally limits as x1,x2,y1,y2,z1,z2"
@@ -5417,21 +5500,21 @@ msgstr ""
 "Rita en funktion som tar antingen två värden eller ett komplext värde. Först "
 "kommer funktionen, sedan valfritt gränserna som x1,x2,y1,y2,z1,z2"
 
-#: ../src/graphing.c:10941
+#: ../src/graphing.c:10962
 msgid "Show the surface (3d) plot window and clear out functions"
 msgstr "Visa det (3-dimensionella) ytgrafsfönstret och rensa funktioner"
 
-#: ../src/graphing.c:10943
+#: ../src/graphing.c:10964
 msgid ""
 "Plot surface data given as n by 3 matrix (n>=3) of data with each row being "
 "x,y,z.  Optionally can pass a label string and limits.  If no limits passed, "
 "limits computed from data."
 msgstr ""
-"Rita ut ytdata givet som en n×3-matris (n>=3) med data där varje rad är x,y,"
-"z.  Valfritt kan en etikettsträng och gränser skickas med.  Om inga gränser "
-"skickas räknas gränser ut från data."
+"Rita ut ytdata givet som en n×3-matris (n>=3) med data där varje rad är "
+"x,y,z.  Valfritt kan en etikettsträng och gränser skickas med.  Om inga "
+"gränser skickas räknas gränser ut från data."
 
-#: ../src/graphing.c:10944
+#: ../src/graphing.c:10965
 msgid ""
 "Plot surface data given as a matrix (where rows are the x coordinate and "
 "columns are the y coordinate), the limits are given as [x1,x2,y1,y2] or "
@@ -5441,16 +5524,16 @@ msgstr ""
 "kolumnerna är y-koordinaten), gränserna anges som [x1,x2,y1,y2] eller "
 "valfritt [x1,x2,y1,y2,z1,z2], och valfritt en sträng för etiketten."
 
-#: ../src/graphing.c:10945
+#: ../src/graphing.c:10966
 msgid ""
-"Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  x1,y1,z1,x2,"
-"y2,z2 can be replaced by a n by 3 matrix for a longer line"
+"Draw a line from x1,y1,z1 to x2,y2,z2 on the surface (3d) plot.  "
+"x1,y1,z1,x2,y2,z2 can be replaced by a n by 3 matrix for a longer line"
 msgstr ""
 "Rita ut en linje från x1,y1,z1 till x2,y2,z2 i den (3-dimensionella) "
 "ytgrafen.  x1,y1,z1,x2,y2,z2 kan ersättas med en n×3-matris för en längre "
 "linje"
 
-#: ../src/graphing.c:10946
+#: ../src/graphing.c:10967
 msgid ""
 "Draw a point at x,y,z on the surface (3d) plot.  x,y,z can be replaced by a "
 "n by 3 matrix for more points."
@@ -5458,11 +5541,11 @@ msgstr ""
 "Rita ut en punkt på x,y,z i den (3-dimensionella) ytgrafen.  x,y,z kan "
 "ersättas med en n×3-matris för fler punkter."
 
-#: ../src/graphing.c:10948
+#: ../src/graphing.c:10969
 msgid "Show the line plot window and clear out functions"
 msgstr "Visa linjegrafsfönstret och rensa funktioner"
 
-#: ../src/graphing.c:10949
+#: ../src/graphing.c:10970
 msgid ""
 "Draw a line from x1,y1 to x2,y2.  x1,y1,x2,y2 can be replaced by a n by 2 "
 "matrix for a longer line."
@@ -5470,34 +5553,34 @@ msgstr ""
 "Rita ut en linje från x1,y1 till x2,y2.  x1,y1,x2,y2 kan ersättas med en n×2-"
 "matris för en längre linje."
 
-#: ../src/graphing.c:10950
+#: ../src/graphing.c:10971
 msgid ""
 "Draw a point at x,y.  x,y can be replaced by a n by 2 matrix for more points."
 msgstr ""
 "Rita ut en punkt på x,y.  x,y kan ersättas med en n×2-matris för fler "
 "punkter."
 
-#: ../src/graphing.c:10952
+#: ../src/graphing.c:10973
 msgid "Freeze the plot canvas, that is, inhibit drawing"
 msgstr "Frys grafens rityta, det vill säga förhindra ritande"
 
-#: ../src/graphing.c:10953
+#: ../src/graphing.c:10974
 msgid "Thaw the plot canvas and redraw the plot immediately"
 msgstr "Töa upp grafens rityta och rita om grafen omedelbart"
 
-#: ../src/graphing.c:10954
+#: ../src/graphing.c:10975
 msgid "Raise the plot window, and create the window if necessary"
 msgstr "Höj graffönstret, och skapa fönstret om nödvändigt"
 
-#: ../src/graphing.c:10956
+#: ../src/graphing.c:10977
 msgid "Wait for a click on the line plot window, return the location."
 msgstr "Vänta på ett klick på linjegrafsfönstret, returnera platsen."
 
-#: ../src/graphing.c:10957
+#: ../src/graphing.c:10978
 msgid "Return current mouse location on the line plot window."
 msgstr "Returnera aktuell plats för musen i linjegrafsfönstret."
 
-#: ../src/graphing.c:10959
+#: ../src/graphing.c:10980
 msgid ""
 "Export the current contents of the plot canvas to a file.  The file type is "
 "given by the string type, which can be \"png\", \"eps\", or \"ps\"."
@@ -5505,17 +5588,17 @@ msgstr ""
 "Exportera de aktuella innehållen för grafens rityta till en fil. Filtypen "
 "anges av strängtypen, som kan vara \"png\", \"eps\" eller \"ps\"."
 
-#: ../src/graphing.c:10961
+#: ../src/graphing.c:10982
 msgid "Number of slopefield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Antal skalstreck för riktningsfält som en vektor [vertikalt, horisontellt]."
 
-#: ../src/graphing.c:10962
+#: ../src/graphing.c:10983
 msgid "Number of vectorfield ticks as a vector [vertical,horizontal]."
 msgstr ""
 "Antal skalstreck för vektorfält som en vektor [vertikalt, horisontellt]."
 
-#: ../src/graphing.c:10963
+#: ../src/graphing.c:10984
 msgid ""
 "Default names used by all 2D plot functions.  Should be a 4 vector of "
 "strings or identifiers [x,y,z,t]."
@@ -5523,7 +5606,7 @@ msgstr ""
 "Standardnamn som används av alla 2D-graffunktioner. Ska vara en 4-vektor av "
 "strängar eller identifierare [x,y,z,t]."
 
-#: ../src/graphing.c:10964
+#: ../src/graphing.c:10985
 msgid ""
 "Default names used by surface plot functions.  Should be a 3 vector of "
 "strings or identifiers [x,y,z] (where z=x+iy and not the dependent axis)."
@@ -5531,7 +5614,7 @@ msgstr ""
 "Standardnamn använt av ytgrafsfunktioner. Ska vara en 3-vektor av strängar "
 "eller identifierare [x,y,z] (där z=x+iy och inte den beroende axeln)."
 
-#: ../src/graphing.c:10966
+#: ../src/graphing.c:10987
 msgid ""
 "Normalize vectorfields if true.  That is, only show direction and not "
 "magnitude."
@@ -5539,26 +5622,26 @@ msgstr ""
 "Normalisera vektorfält om sant. Det vill säga, visa endast riktning och inte "
 "magnitud."
 
-#: ../src/graphing.c:10967
+#: ../src/graphing.c:10988
 msgid "If to draw legends or not on line plots."
 msgstr "Huruvida förklaringar ska ritas ut för linjegrafer."
 
-#: ../src/graphing.c:10968
+#: ../src/graphing.c:10989
 msgid "If to draw axis labels on line plots."
 msgstr "Huruvida axeletiketter ska ritas ut för linjegrafer."
 
-#: ../src/graphing.c:10970
+#: ../src/graphing.c:10991
 msgid "If to draw legends or not on surface plots."
 msgstr "Huruvida förklaringar ska ritas ut för ytgrafer."
 
-#: ../src/graphing.c:10972
+#: ../src/graphing.c:10993
 msgid "Line plotting window (limits) as a 4-vector of the form [x1,x2,y1,y2]"
 msgstr "Linjegrafsfönster (gränser) som en 4-vektor på formen [x1,x2,y1,y2]"
 
-#: ../src/graphing.c:10973
+#: ../src/graphing.c:10994
 msgid ""
-"Surface plotting window (limits) as a 6-vector of the form [x1,x2,y1,y2,z1,"
-"z2]"
+"Surface plotting window (limits) as a 6-vector of the form "
+"[x1,x2,y1,y2,z1,z2]"
 msgstr "Ytgrafsfönster (gränser) som en 6-vektor på formen [x1,x2,y1,y2,z1,z2]"
 
 #: ../src/matop.c:690
@@ -5741,31 +5824,31 @@ msgstr "Kan inte skapa fakultet av komplexa tal"
 msgid "Can't make binomials of complex numbers"
 msgstr "Kan inte skapa binom av komplexa tal"
 
-#: ../src/mpwrap.c:5548 ../src/mpwrap.c:5559 ../src/mpwrap.c:5570
+#: ../src/mpwrap.c:5547 ../src/mpwrap.c:5558 ../src/mpwrap.c:5569
 msgid "Can't determine type of a complex number"
 msgstr "Kan inte bestämma typen på komplexa tal"
 
-#: ../src/mpwrap.c:5664 ../src/mpwrap.c:5687
+#: ../src/mpwrap.c:5663 ../src/mpwrap.c:5686
 msgid "Can't convert complex number into integer"
 msgstr "Kan inte konvertera komplexa tal till heltal"
 
-#: ../src/mpwrap.c:5670 ../src/mpwrap.c:5693
+#: ../src/mpwrap.c:5669 ../src/mpwrap.c:5692
 msgid "Can't convert real number to integer"
 msgstr "Kan inte konvertera reella tal till heltal"
 
-#: ../src/mpwrap.c:5674 ../src/mpwrap.c:5697
+#: ../src/mpwrap.c:5673 ../src/mpwrap.c:5696
 msgid "Integer too large for this operation"
 msgstr "Heltal för stort för denna operation"
 
-#: ../src/mpwrap.c:5710
+#: ../src/mpwrap.c:5709
 msgid "Can't convert complex number into a double"
 msgstr "Kan inte konvertera komplext tal till dubbelprecisionsflyttal"
 
-#: ../src/mpwrap.c:5719
+#: ../src/mpwrap.c:5718
 msgid "Can't convert real number to double"
 msgstr "Kan inte konvertera reellt tal till dubbelprecision"
 
-#: ../src/mpwrap.c:5725 ../src/mpwrap.c:5740
+#: ../src/mpwrap.c:5724 ../src/mpwrap.c:5739
 msgid "Number too large for this operation"
 msgstr "Talet för stort för denna operation"
 
@@ -5855,3 +5938,9 @@ msgstr "_Nej"
 #: ../ve/ve-miscui.c:194
 msgid "_Yes"
 msgstr "_Ja"
+
+#~ msgid "Tolerance for AdaptiveGaussKronrodRelativeTolerance"
+#~ msgstr "Tolerans för AdaptiveGaussKronrodRelativeTolerance"
+
+#~ msgid "Steps to perform in NumericalIntegral"
+#~ msgstr "Steg att utföra i NumericalIntegral"
