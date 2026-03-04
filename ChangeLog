@@ -1,8 +1,17 @@
+Tue Mar 03 20:08:32 2026  Jiri (George) Lebl <jiri.lebl@gmail.com>
+
+	* lib/commutative_algebra/macaulay.gel: Fix the outputs
+	  when c=0, in particular the representation is empty (so should
+	  return null) and MacaulayLowerOperator(0,1) should be 0
+	
+	* src/geniustests.txt: update
+
 Wed Feb 25 14:00:48 2026  Jiri (George) Lebl <jiri.lebl@gmail.com>
 
-	* examples/*.gel: Use the new NumericalIntegral functions where appropriate, also in the
-    	  argument principle example do twice as many intervals in the Simpson's
-	  rule (we use a small number for speed, and 40 gets this precisely enough)
+	* examples/*.gel: Use the new NumericalIntegral functions where
+	  appropriate, also in the argument principle example do twice as many
+	  intervals in the Simpson's rule (we use a small number for speed, and
+	  40 gets this precisely enough)
 
 	* lib/statistics/basic.gel: Use the AdaptiveGaussKronrodWithTolerance
 	  for the GaussDistribution function to improve speed.

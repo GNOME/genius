@@ -2,6 +2,7 @@ SetHelp("MacaulayRep", "commutative_algebra", "Return the dth Macaulay represent
 function MacaulayRep (c,d) = (
 	if not IsNonNegativeInteger(c) or not IsPositiveInteger(d) then
 		(error("MacaulayRep: c should be a nonnegative integer and d a positive integer");bailout);
+	if IsZero(c) then return null;
 	r = null;
 	for n=d to 1 by -1 do (
 		r@(1,n) = d-n;
@@ -30,6 +31,7 @@ function MacaulayLowerOperator (c,d) = (
 	if not IsNonNegativeInteger(c) or not IsPositiveInteger(d) then
 		(error("MacaulayLowerOperator: c should be a nonnegative integer and d a positive integer");bailout);
 	r = MacaulayRep(c,d);
+	if IsNull(r) then return 0;
 	r@(1,) = r@(1,)-1;
 	sum n in ColumnsOf(r) do nCr(n@(1),n@(2))
 )
@@ -39,6 +41,7 @@ function MacaulayBound (c,d) = (
 	if not IsNonNegativeInteger(c) or not IsPositiveInteger(d) then
 		(error("MacaulayBound: c should be a nonnegative integer and d a positive integer");bailout);
 	r = MacaulayRep(c,d);
+	if IsNull(r) then return 0;
 	r@(1,) = r@(1,)+1;
 	r@(2,) = r@(2,)+1;
 	sum n in ColumnsOf(r) do nCr(n@(1),n@(2))
