@@ -1,0 +1,51 @@
+include:
+  # Use the official GNOME release service component
+  # This will handle the upload to download.gnome.org
+  - component: "gitlab.gnome.org/GNOME/citemplates/release-service@master"
+    inputs:
+      job-stage: "release"
+      dist-job-name: "build-tarball"
+
+stages:
+  - build
+  - release
+
+.build-template:
+  image: fedora:latest
+  before_script:
+    - dnf install -y autoconf automake libtool make gettext-devel intltool pkgconfig xz bison flex
+    - dnf install -y glib2-devel gtk3-devel vte291-devel gtksourceview4-devel
+    - dnf install -y readline-devel ncurses-devel gmp-devel mpfr-devel
+
+# Regular build to ensure things still compile on branches and merge requests
+build:
+  extends: .build-template
+  stage: build
+  script:
+    - ./autogen.sh
+    - make -j$(nproc)
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+# Special build that runs only on tags to create the release tarball
+build-tarball:
+  extends: .build-template
+  stage: build
+  variables:
+    # The release service expects the tarball to follow project-version.tar.xz format
+    TARBALL_NAME: "genius-${CI_COMMIT_TAG}.tar.xz"
+  script:
+    - ./autogen.sh
+    - make -j$(nproc)
+    - make distcheck
+    # We rename the tarball to ensure it matches exactly what we expect
+    - mv genius-*.tar.xz ${TARBALL_NAME}
+  artifacts:
+    name: "genius-${CI_COMMIT_TAG}-tarball"
+    paths:
+      - "${TARBALL_NAME}"
+  rules:
+    - if: $CI_COMMIT_TAG
