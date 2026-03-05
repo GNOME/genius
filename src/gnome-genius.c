@@ -4284,11 +4284,6 @@ save_as_callback (GtkWidget *w, gpointer data)
  * buffer ourselves over again.  That is stupid.  At some point we must get rid of
  * VTE, then we can implement this sucker. */
 
-static gboolean
-always_selected (VteTerminal *terminal, glong column, glong row, gpointer data)
-{
-	return TRUE;
-}
 
 static GtkFileChooserNative *save_console_fs = NULL;
 
@@ -4314,7 +4309,7 @@ save_console_response_cb (GtkFileChooser *fs, int response, gpointer data)
 	base = g_path_get_basename (s);
 	if (base != NULL && base[0] != '\0' &&
 	    strchr (base, '.') == NULL) {
-		char *n = g_strconcat (s, ".gel", NULL);
+		char *n = g_strconcat (s, ".txt", NULL);
 		g_free (s);
 		s = n;
 	}
@@ -4324,14 +4319,21 @@ save_console_response_cb (GtkFileChooser *fs, int response, gpointer data)
 	 * way to find out what the proper row range is! */
 	vte_terminal_get_cursor_position (VTE_TERMINAL (term),
 					  &column, &row);
-	output = vte_terminal_get_text_range (VTE_TERMINAL (term),
-					      MAX(row-genius_setup.scrollback+1, 0),
-					      0,
-					      row,
-					      vte_terminal_get_column_count (VTE_TERMINAL (term)) - 1,
-					      always_selected,
-					      NULL,
-					      NULL);
+	output = vte_terminal_get_text_range_format (VTE_TERMINAL (term),
+						     VTE_FORMAT_TEXT,
+						     MAX(row-genius_setup.scrollback+1, 0),
+						     0,
+						     row,
+						     vte_terminal_get_column_count (VTE_TERMINAL (term)) - 1,
+						     NULL);
+	if (output == NULL) {
+		char *err;
+		err = g_strdup (_("<b>Cannot save file</b>"));
+		genius_display_error (GTK_WIDGET (fs), err);
+		g_free (err);
+		g_free (s);
+		return;
+	}
 	sz = strlen (output);
 
 	if ( ! save_contents_vfs (s, output, sz, &error)) {

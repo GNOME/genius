@@ -6,7 +6,8 @@ if [ ! -d /home/jirka/ ]; then
 	exit
 fi
 
-./make-only.sh
+# it was made before
+#./make-only.sh
 
 echo scp *.html zinc.kvinzo.com:/home/www/html/jirka/genius-documentation/
 scp *.html zinc.kvinzo.com:/home/www/html/jirka/genius-documentation/

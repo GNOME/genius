@@ -20,7 +20,7 @@ PKG_PROG_PKG_CONFIG
 
 dnl ================= Requirements ================================================
 
-VTE_REQUIRED=0.50.0
+VTE_REQUIRED=0.72.0
 GTK_REQUIRED=3.21.4
 GLIB_REQUIRED=2.41.1
 GTKSOURCEVIEW4_REQUIRED=3.99.7

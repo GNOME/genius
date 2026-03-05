@@ -6,6 +6,10 @@ if [ ! -d /home/jirka/ ]; then
 	exit
 fi
 
+echo "this was already done before"
+
+exit 1
+
 echo rm -f *.html *.pdf *.ps
 rm -f *.html *.pdf *.ps
 
