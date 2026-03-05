@@ -4,6 +4,8 @@ Things not to forget for release
 3) check the .spec file?  Can't test it though
 4) ... what else?
 
-Tagging stuff (this way no need to have a nonsense signature):
-git tag -a genius_1_0_??
-git push origin genius_1_0_??
+Tagging stuff (Adding -a for tag would avoid the signature, but I suppose that won't do):
+The name of the tag must be the release
+The last commit must be signed git commit --gpg-sign
+git tag -s 1.0.28
+git push origin 1.0.28

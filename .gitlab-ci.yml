@@ -4,7 +4,7 @@ include:
   - component: "gitlab.gnome.org/GNOME/citemplates/release-service@master"
     inputs:
       job-stage: "release"
-      dist-job-name: "build-tarball"
+      dist-job-name: "build-release-tarball"
 
 stages:
   - build
@@ -36,7 +36,7 @@ build:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 # Special build that runs only on tags to create the release tarball
-build-tarball:
+build-release-tarball:
   extends: .build-template
   stage: build
   variables:
@@ -46,12 +46,13 @@ build-tarball:
     - ./autogen.sh
     - make -j$(nproc)
     - make distcheck
-    # We rename the tarball to ensure it matches exactly what we expect
-    - mv genius-*.tar.xz ${TARBALL_NAME}
+    - mkdir -p "${CI_PROJECT_DIR}/public-dist/"
+    - cp genius-*.tar.xz "${CI_PROJECT_DIR}/public-dist/${TARBALL_NAME}"
   artifacts:
-    name: "genius-${CI_COMMIT_TAG}-tarball"
+    name: "${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
+    when: "always"
     paths:
-      - "${TARBALL_NAME}"
+      - "public-dist"
   rules:
     - if: $CI_COMMIT_TAG
     - if: $CI_PIPELINE_SOURCE == "web"  # Allows manual start from "Build -> Pipelines -> Run pipeline"
