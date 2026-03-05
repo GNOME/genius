@@ -1,10 +1,11 @@
 AC_INIT([genius],[1.0.28])
+
+AC_CONFIG_MACRO_DIRS([m4])
+
 #AX_IS_RELEASE([git-directory])
 AX_IS_RELEASE([always])
 AC_CONFIG_SRCDIR([src/calc.c])
 AM_INIT_AUTOMAKE([dist-xz])
-
-AC_CONFIG_MACRO_DIRS([m4])
 
 AC_CONFIG_HEADERS([config.h])
 
