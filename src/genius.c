@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2025 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -402,6 +402,7 @@ main(int argc, char *argv[])
 			if (val < 60 || val > 16384) {
 				g_printerr (_("%s should be between %d and %d, using %d"),
 					    "--precision", 60, 16384, 128);
+				g_printerr ("\n");
 				val = 128;
 			}
 			curstate.float_prec = val;
@@ -411,6 +412,7 @@ main(int argc, char *argv[])
 			if (val < 60 || val > 16384) {
 				g_printerr (_("%s should be between %d and %d, using %d"),
 					    "--precision", 60, 16384, 128);
+				g_printerr ("\n");
 				val = 128;
 			}
 			curstate.float_prec = val;
@@ -418,6 +420,7 @@ main(int argc, char *argv[])
 			if (val < 0 || val > 256) {
 				g_printerr (_("%s should be between %d and %d, using %d"),
 					    "--maxdigits", 0, 256, 12);
+				g_printerr ("\n");
 				val = 12;
 			}
 			curstate.max_digits = val;
@@ -427,6 +430,7 @@ main(int argc, char *argv[])
 			if (val < 0 || val > 256) {
 				g_printerr (_("%s should be between %d and %d, using %d"),
 					    "--maxdigits", 0, 256, 12);
+				g_printerr ("\n");
 				val = 12;
 			}
 			curstate.max_digits = val;
@@ -446,6 +450,7 @@ main(int argc, char *argv[])
 			if (val < 0) {
 				g_printerr (_("%s should be greater then or equal to %d, using %d"),
 					    "--maxerrors", 0, 5);
+				g_printerr ("\n");
 				val = 5;
 			}
 			curstate.max_errors = val;
@@ -455,6 +460,7 @@ main(int argc, char *argv[])
 			if (val < 0) {
 				g_printerr (_("%s should be greater then or equal to %d, using %d"),
 					    "--maxerrors", 0, 5);
+				g_printerr ("\n");
 				val = 5;
 			}
 			curstate.max_errors = val;
@@ -543,6 +549,7 @@ main(int argc, char *argv[])
 
 	if (files != NULL && exec != NULL) {
 		g_printerr (_("Can't specify both an expression and files to execute on the command line"));
+		g_printerr ("\n");
 		exit (1);
 	}
 

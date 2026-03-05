@@ -1,5 +1,5 @@
 /* GENIUS Calculator
- * Copyright (C) 1997-2023 Jiri (George) Lebl
+ * Copyright (C) 1997-2026 Jiri (George) Lebl
  *
  * Author: Jiri (George) Lebl
  *
@@ -218,6 +218,7 @@ pid_t helper_pid = -1;
 static FILE *torlfp = NULL;
 static int fromrl = -1;
 
+static char *fifodir = NULL;
 static char *torlfifo = NULL;
 static char *fromrlfifo = NULL;
 
@@ -4971,6 +4972,7 @@ fork_a_helper (void)
 
 		unlink (fromrlfifo);
 		unlink (torlfifo);
+		rmdir (fifodir);
 
 		exit (1);
 	}
@@ -5082,9 +5084,16 @@ fork_helper_setup_comm (void)
 	fork_a_helper ();
 
 	torlfp = fopen (torlfifo, "w");
+	if (torlfp == NULL) {
+		g_printerr("Can't open tofifo %s\n", torlfifo);
+		exit (1);
+	}
 
 	fromrl = open (fromrlfifo, O_RDONLY);
-	g_assert (fromrl >= 0);
+	if (fromrl < 0) {
+		g_printerr("Can't open fromfifo %s\n", fromrlfifo);
+		exit (1);
+	}
 
 	channel = g_io_channel_unix_new (fromrl);
 	g_io_add_watch_full (channel, G_PRIORITY_DEFAULT, G_IO_IN | G_IO_HUP | G_IO_ERR, 
@@ -5096,36 +5105,40 @@ fork_helper_setup_comm (void)
 static char *
 make_a_fifo (const char *postfix)
 {
-	if (g_get_home_dir () != NULL) {
-		char *name = g_strdup_printf ("%s/.genius-fifo-%s",
-					      g_get_home_dir (),
-					      postfix);
-		/* this will not work if we don't own this, but this will
-		 * make sure we clean up old links */
-		unlink (name);
-		if (mkfifo (name, 0600) == 0) {
-			return name;
-		}
-		g_free (name);
+	char *name = g_strdup_printf ("%s/%s",
+				      fifodir,
+				      postfix);
+	/* this will not work if we don't own this, but this will
+	 * make sure we clean up old links */
+	unlink (name);
+	if (mkfifo (name, 0600) == 0) {
+		return name;
 	}
-       
-	for (;;) {
-		char *name = g_strdup_printf ("/tmp/genius-fifo-%x-%s",
-					      (guint)g_random_int (),
-					      postfix);
-		/* this will not work if we don't own this, but this will
-		 * make sure we clean up old links */
-		unlink (name);
-		if (mkfifo (name, 0600) == 0) {
-			return name;
-		}
-		g_free (name);
-	}
+
+	g_printerr("Can't create fifo %s\n", name);
+
+	rmdir (fifodir);
+
+	g_free (name);
+	exit (1);
+
+	return NULL;
 }
 
 static void
 setup_rl_fifos (void)
 {
+	char templ[] = "/tmp/geniusfifo.XXXXXX";
+	char *d;
+
+	d = mkdtemp(templ);
+	if (d == NULL) {
+		g_printerr("Can't make temporary directory in /tmp\n");
+		exit (1);
+	}
+
+	fifodir = g_strdup(d);
+
 	torlfifo = make_a_fifo ("torl");
 	fromrlfifo = make_a_fifo ("fromrl");
 }
@@ -5743,6 +5756,8 @@ main (int argc, char *argv[])
 			unlink (fromrlfifo);
 		if (torlfifo != NULL)
 			unlink (torlfifo);
+		if (fifodir != NULL)
+			rmdir (fifodir);
 
 		/* remove old preferences to avoid confusion, by now things should be set in the new file */
 		name = g_build_filename (g_get_home_dir (), ".gnome2", "genius", NULL);

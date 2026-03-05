@@ -195,6 +195,8 @@ _br_find_exe_for_symbol (const void *symbol, GbrInitError *error)
 
 	address_string_len = 4;
 	address_string = (char *) g_try_malloc (address_string_len);
+	if (address_string == NULL)
+		return (char *) NULL;
 	found = (char *) NULL;
 
 	while (!feof (f)) {
@@ -247,6 +249,8 @@ _br_find_exe_for_symbol (const void *symbol, GbrInitError *error)
 		if (address_string_len < len + 3) {
 			address_string_len = len + 3;
 			address_string = (char *) g_try_realloc (address_string, address_string_len);
+			if (address_string == NULL)
+				return (char *) NULL;
 		}
 
 		memcpy (address_string, "0x", 2);

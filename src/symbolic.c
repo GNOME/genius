@@ -557,6 +557,10 @@ differentiate_oper (GelETree *expr, GelToken *xtok)
 			ftok = get_symbolic_id (expr->op.args->id.id);
 		} else /* if (expr->op.args->type == GEL_FUNCTION_NODE) */ {
 			GelEFunc *f = expr->op.args->func.func;
+			if (f == NULL) {
+				/* FIXME: */
+				return NULL;
+			}
 			if (f->symbolic_id != NULL)
 				ftok = f->symbolic_id;
 			else
