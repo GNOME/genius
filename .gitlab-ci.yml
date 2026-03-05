@@ -9,6 +9,10 @@ include:
 stages:
   - build
   - release
+# The release service component's release job needs autotools to extract
+# the version from configure.ac.
+before_script:
+  - dnf install -y autoconf automake autoconf-archive
 
 .build-template:
   image: fedora:latest
@@ -17,13 +21,6 @@ stages:
     - dnf install -y gcc gcc-c++
     - dnf install -y glib2-devel gtk3-devel vte291-devel gtksourceview4-devel
     - dnf install -y readline-devel ncurses-devel gmp-devel mpfr-devel
-
-# The release service component's release job needs autotools to extract
-# the version from configure.ac. Since it doesn't use the build-template,
-# we add a global before_script or override the release job.
-release:
-  before_script:
-    - dnf install -y autoconf automake autoconf-archive
 
 # Regular build to ensure things still compile on branches and merge requests
 build:
