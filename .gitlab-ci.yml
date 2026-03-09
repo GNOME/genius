@@ -36,18 +36,18 @@ build:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 # Special build that runs only on tags to create the release tarball
+# Apparently, you need to create sha256sum, and you can apparently ignore
+# documentation and just stuff the tarball you want into public-dist/
 build-release-tarball:
   extends: .build-template
   stage: build
-  variables:
-    # The release service expects the tarball to follow project-version.tar.xz format
-    TARBALL_NAME: "genius-${CI_COMMIT_TAG}.tar.xz"
   script:
     - ./autogen.sh
     - make -j$(nproc)
     - make distcheck
     - mkdir -p "${CI_PROJECT_DIR}/public-dist/"
-    - cp genius-*.tar.xz "${CI_PROJECT_DIR}/public-dist/${TARBALL_NAME}"
+    - for n in *.xz ; do sha256sum "$n" > "${n}.sha256sum" ; done
+    - cp genius-*.tar.xz genius-*.tar.xz.sha256sum "${CI_PROJECT_DIR}/public-dist/"
   artifacts:
     name: "${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
     when: "always"
