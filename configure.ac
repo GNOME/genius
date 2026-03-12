@@ -1,4 +1,4 @@
-AC_INIT([genius],[1.0.28])
+AC_INIT([genius],[1.0.29])
 
 AC_CONFIG_MACRO_DIRS([m4])
 

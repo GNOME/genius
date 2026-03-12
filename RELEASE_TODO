@@ -1,11 +1,13 @@
 Things not to forget for release
-1) Run geniustests.pl
-2) run ./update-xml-to-txt-html.sh in help
-3) check the .spec file?  Can't test it though
-4) ... what else?
+1) update configure.ac with the version
+2) Run geniustests.pl
+3) update help/C/genius.xml with the latest versions
+4) run ./update-xml-to-txt-html.sh in help
+5) check the .spec file?  Can't test it though probably way out of date.
+6) ... what else?
 
 Tagging stuff:
-The name of the tag must be the release
+The name of the tag must be the release number such as 1.0.29
 The last commit must be signed git commit --gpg-sign
-git evtag sign 1.0.28
-git push origin 1.0.28
+git evtag sign 1.0.29
+git push origin 1.0.29
