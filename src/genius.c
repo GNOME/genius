@@ -278,8 +278,9 @@ reread_buttons:
 			if (sscanf (s, "%d", &ret) != 1) {
 				ret = -1;
 			}
-			free (s);
 		}
+		if (s != NULL)
+			free (s);
 	} else {
 		char buf[256];
 		ret = -1;
@@ -469,10 +470,22 @@ main(int argc, char *argv[])
 		else if(strcmp(argv[i],"--nomixed")==0)
 			curstate.mixed_fractions = FALSE;
 		else if(sscanf(argv[i],"--intoutbase=%d",&val)==1) {
+			if (val < 2 || val > 36) {
+				g_printerr (_("%s should be between %d and %d, using %d"),
+					    "--intoutbase", 2, 36, 10);
+				g_printerr ("\n");
+				val = 10;
+			}
 			curstate.integer_output_base = val;
 		} else if (strcmp (argv[i], "--intoutbase")==0 && i+1 < argc) {
 			val = 10;
 			sscanf (argv[++i],"%d",&val);
+			if (val < 2 || val > 36) {
+				g_printerr (_("%s should be between %d and %d, using %d"),
+					    "--intoutbase", 2, 36, 10);
+				g_printerr ("\n");
+				val = 10;
+			}
 			curstate.integer_output_base = val;
 		} else if(sscanf(argv[i],"--chop=%d",&val)==1) {
 			curstate.chop = val;

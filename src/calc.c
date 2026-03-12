@@ -100,7 +100,7 @@ void (*infoout)(const char *) = NULL;
 GelCommand gel_command = GEL_NO_COMMAND;
 char *gel_command_arg = NULL;
 
-gboolean gel_interrupted = FALSE;
+volatile sig_atomic_t gel_interrupted = FALSE;
 
 static GSList *curfile = NULL;
 static GSList *curline = NULL;
@@ -3340,7 +3340,7 @@ gel_parseexp (const char *str, FILE *infile, gboolean exec_commands,
 				      g_strerror (errno));
 		}
 
-		if(str[l-1] != '\n') {
+		if(l == 0 || str[l-1] != '\n') {
 			errno = 0;
 			if (write(gel_lex_fd[1], "\n", 1) < 1) {
 				gel_errorout (_("ERROR: 'write' possibly failed: %s"),

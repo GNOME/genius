@@ -2966,7 +2966,12 @@ str_getstring_z (mpz_ptr num, int max_digits,int scientific_notation,
 	char *p,*p2;
 	mpfr_t fr;
 
-	p=mpz_get_str(NULL,integer_output_base,num);
+	p = mpz_get_str (NULL, integer_output_base, num);
+	if G_UNLIKELY (p == NULL) {
+		gel_errorout (_("Error printing integer"));
+		return g_strdup ("(null)");
+	}
+
 	if(integer_output_base==16) {
 		p2 = g_strconcat("0x",p,NULL);
 		g_free(p);

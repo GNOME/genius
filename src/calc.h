@@ -44,7 +44,7 @@ typedef enum {
 /* FIXME: This should be nicer */
 extern GeniusError gel_error_num;
 
-extern gboolean gel_interrupted;
+extern volatile sig_atomic_t gel_interrupted;
 
 typedef enum {
 	GEL_OUTPUT_NORMAL,
