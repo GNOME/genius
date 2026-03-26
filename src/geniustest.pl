@@ -1,61 +1,75 @@
 #!/usr/bin/perl
-open(TESTS,"geniustests.txt") || die "can't open the geniustests.txt file";
 
-$errors = 0;
-$errorinputs = "";
-$tests = 0;
-$options = "";
+use warnings;
+use strict;
 
-$i = 0;
+open(my $tests_fh, "<", "geniustests.txt")
+	|| die "can't open the geniustests.txt file";
 
-while(<TESTS>) {
-	if(/^OPTIONS[ 	]+(.*)$/) {
-		$options = $1;
-		next;
-	} elsif(/^([^	]+)	+([^	]+)$/) {
-		$tests++;
-		$command = $1;
-		$shd=$2;
-	} elsif(/^([^	]+)$/) {
-		$tests++;
-		$command = $1;
-		$shd="";
-	} else {
+my $errors = 0;
+my $errorinputs = "";
+my $tests = 0;
+my $options = "";
+
+my $colours = -t STDOUT;
+
+sub cprintf {
+	my ($n, $m) = @_;
+	if ($colours) {
+		printf "\e[01;%im%s\e[0m\n", $n, $m;
+		return;
+	}
+	printf "%s\n", $m;
+}
+
+while (my $line = <$tests_fh>) {
+
+	next unless $line =~ /
+		^
+		\s*						# in case there happens to be whitespace
+		([^\t]+)			# expression or keyword
+		(?:\t+|$)			# either the tab separator, or that's it
+		(.*?)					# expected result or keyword complement
+		\s*						# minus the whitespace if any
+		$
+		/x;
+
+	if ($1 eq "OPTIONS") {
+		$options = $2;
 		next;
 	}
 
-	print "$1\n";
-	#something weird happens and the following modifies $1 and $2
-	#as well, I guess those can only be used from the last regexp
+	my $command = $1;
+	my $expected = $2 // "";
+
+	$tests++;
+
+	cprintf 34, $command;
 	$command =~ s/'/'\\''/g;
-	open(GENIUS,"./genius --exec='$command' $options |") ||
-		die "can't open pipe!";
 
-	if($rep=<GENIUS>) {
-		chomp $shd;
-		chomp $rep;
+	open(my $genius_fh, "-|" ,"./genius --exec='$command' $options") ||
+		die "can't open the genius process pipe!";
 
-		print " (should be)=$shd\n";
-		print " (reported)=$rep\n";
-		if($rep ne $shd) {
-			print "\e[01;31mERROR!\e[0m\n";
-			$errors++;
-			$errorinputs = $errorinputs . "\n$command";
-		}
+	my $result = "ERROR!";
+	my $cc = 31; # colour code
+	my $returned = <$genius_fh> // "";
+	chomp $returned;
+
+	if ($returned ne $expected) {
+		$errors++;
+		$errorinputs = $errorinputs . "\n$command";
+		$result = "ERROR! NO OUTPUT" if $returned eq "";
 	} else {
-		chomp $shd;
-		print " (should be)=$shd\n";
-		print " (reported)=\n";
-		if($shd ne "") {
-			print "\e[01;31mERROR! NO OUTPUT\e[0m\n";
-			$errors++;
-			$errorinputs = $errorinputs . "\n$command";
-		}
+		$result = "OK";
+		$cc = 32;
 	}
+
+	cprintf 33, "expected: $expected";
+	cprintf 33, "returned: $returned";
+	cprintf $cc, $result;
 	print "\n";
-	close(GENIUS);
-	system("mv gmon.out gmon${i}.out") if(-e "gmon.out");
-	$i++;
+
+	close($genius_fh);
 }
 
 print "tests: $tests, errors: $errors\n";
