@@ -27,7 +27,6 @@
 #include "gtkplotcairo.h"
 #include "gtkplotcanvas.h"
 #include "gtkplotps.h"
-#include "gtkextra-marshal.h"
 
 /**
  * SECTION: gtkplotcanvas
@@ -524,8 +523,8 @@ gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotCanvasClass, select_item),
-		    NULL, NULL,
-                    gtkextra_BOOLEAN__BOXED_BOXED,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_BOOLEAN, 2, GDK_TYPE_EVENT, 
                     G_TYPE_PLOT_CANVAS_CHILD);
 
@@ -545,8 +544,8 @@ gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotCanvasClass, move_item),
-		    NULL, NULL,
-                    gtkextra_BOOLEAN__BOXED_DOUBLE_DOUBLE,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_BOOLEAN, 3, G_TYPE_PLOT_CANVAS_CHILD, 
                     G_TYPE_DOUBLE,
                     G_TYPE_DOUBLE);
@@ -567,8 +566,8 @@ gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotCanvasClass, resize_item),
-		    NULL, NULL,
-                    gtkextra_BOOLEAN__BOXED_DOUBLE_DOUBLE,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_BOOLEAN, 3, G_TYPE_PLOT_CANVAS_CHILD,
                     G_TYPE_DOUBLE,
                     G_TYPE_DOUBLE);
@@ -585,8 +584,8 @@ gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotCanvasClass, add_item),
-		    NULL, NULL,
-                    gtkextra_VOID__POINTER,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_NONE, 1,  
                     G_TYPE_PLOT_CANVAS_CHILD);
 
@@ -604,8 +603,8 @@ gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotCanvasClass, delete_item),
-		    NULL, NULL,
-                    gtkextra_BOOL__POINTER,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_BOOLEAN, 1,  
                     G_TYPE_PLOT_CANVAS_CHILD);
 
@@ -624,8 +623,8 @@ gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotCanvasClass, select_region),
-		    NULL, NULL,
-                    gtkextra_VOID__DOUBLE_DOUBLE_DOUBLE_DOUBLE,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_NONE, 4, 
                     G_TYPE_DOUBLE, G_TYPE_DOUBLE,
                     G_TYPE_DOUBLE, G_TYPE_DOUBLE);
@@ -641,8 +640,8 @@ gtk_plot_canvas_class_init (GtkPlotCanvasClass *klass, gpointer unused)
                    G_TYPE_FROM_CLASS(object_class),
                    G_SIGNAL_RUN_LAST,
                    G_STRUCT_OFFSET (GtkPlotCanvasClass, changed),
-		   NULL, NULL,
-                   gtkextra_VOID__VOID,
+                   NULL, NULL,
+                   NULL,
                    G_TYPE_NONE, 0);
 
   object_class->destroy = gtk_plot_canvas_destroy;

@@ -35,7 +35,6 @@
 #include "gtkplot3d.h"
 #include "gtkplotpc.h"
 #include "gtkpsfont.h"
-#include "gtkextra-marshal.h"
 
 #define DEFAULT_FONT_HEIGHT 18
 #define P_(string) string
@@ -1424,8 +1423,8 @@ gtk_plot_data_class_init (GtkPlotDataClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotDataClass, add_to_plot),
-		    NULL, NULL,
-                    gtkextra_BOOL__POINTER,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_BOOLEAN, 1, G_TYPE_PLOT);
 
   /**
@@ -1440,8 +1439,8 @@ gtk_plot_data_class_init (GtkPlotDataClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotDataClass, update),
-		    NULL, NULL,
-                    gtkextra_VOID__BOOL,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 
   /**
@@ -1455,8 +1454,8 @@ gtk_plot_data_class_init (GtkPlotDataClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_FIRST,
                     G_STRUCT_OFFSET (GtkPlotDataClass, draw_data),
-		    NULL, NULL,
-                    gtkextra_VOID__VOID,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_NONE, 0, G_TYPE_NONE);
 
   /**
@@ -1470,8 +1469,8 @@ gtk_plot_data_class_init (GtkPlotDataClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotDataClass, gradient_changed),
-		    NULL, NULL,
-                    gtkextra_VOID__VOID,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_NONE, 0);
  
   /**
@@ -1485,8 +1484,8 @@ gtk_plot_data_class_init (GtkPlotDataClass *klass, gpointer unused)
                     G_TYPE_FROM_CLASS(object_class),
                     G_SIGNAL_RUN_LAST,
                     G_STRUCT_OFFSET (GtkPlotDataClass, gradient_colors_changed),
-		    NULL, NULL,
-                    gtkextra_VOID__VOID,
+                    NULL, NULL,
+                    NULL,
                     G_TYPE_NONE, 0);
 
 }

@@ -37,7 +37,6 @@
 #include "gtkplotdata.h"
 #include "gtkpsfont.h"
 #include "gtkplotcairo.h"
-#include "gtkextra-marshal.h"
 
 #define DEFAULT_WIDTH 420
 #define DEFAULT_HEIGHT 340
@@ -295,8 +294,8 @@ gtk_plot_class_init (GtkPlotClass *klass, gpointer unused)
                    G_TYPE_FROM_CLASS(object_class),
                    G_SIGNAL_RUN_LAST,
                    G_STRUCT_OFFSET (GtkPlotClass, add_data),
-		   NULL, NULL, 
-                   gtkextra_BOOL__POINTER,
+                   NULL, NULL,
+                   NULL,
                    G_TYPE_BOOLEAN, 1, G_TYPE_PLOT_DATA); 
 
   /**
@@ -310,8 +309,8 @@ gtk_plot_class_init (GtkPlotClass *klass, gpointer unused)
                    G_TYPE_FROM_CLASS(object_class),
                    G_SIGNAL_RUN_LAST,
                    G_STRUCT_OFFSET (GtkPlotClass, changed),
-		   NULL, NULL,
-                   gtkextra_VOID__VOID,
+                   NULL, NULL,
+                   NULL,
                    G_TYPE_NONE, 0); 
 
   
@@ -327,8 +326,8 @@ gtk_plot_class_init (GtkPlotClass *klass, gpointer unused)
                    G_TYPE_FROM_CLASS(object_class),
                    G_SIGNAL_RUN_LAST,
                    G_STRUCT_OFFSET (GtkPlotClass, update),
-		   NULL, NULL,
-                   gtkextra_VOID__BOOL,
+                   NULL, NULL,
+                   NULL,
                    G_TYPE_NONE, 1, G_TYPE_BOOLEAN); 
 
   /**
@@ -346,8 +345,8 @@ gtk_plot_class_init (GtkPlotClass *klass, gpointer unused)
                    G_TYPE_FROM_CLASS(object_class),
                    G_SIGNAL_RUN_LAST,
                    G_STRUCT_OFFSET (GtkPlotClass, moved),
-		   NULL, NULL,
-                   gtkextra_BOOL__POINTER_POINTER,
+                   NULL, NULL,
+                   NULL,
                    G_TYPE_BOOLEAN, 2, G_TYPE_POINTER, G_TYPE_POINTER); 
 
   /**
@@ -365,8 +364,8 @@ gtk_plot_class_init (GtkPlotClass *klass, gpointer unused)
                    G_TYPE_FROM_CLASS(object_class),
                    G_SIGNAL_RUN_LAST,
                    G_STRUCT_OFFSET (GtkPlotClass, resized),
-		   NULL, NULL,
-                   gtkextra_BOOL__POINTER_POINTER,
+                   NULL, NULL,
+                   NULL,
                    G_TYPE_BOOLEAN, 2, G_TYPE_POINTER, G_TYPE_POINTER); 
 
   plot_signals[PLOT_AXIS_CHANGED] = 
@@ -374,8 +373,8 @@ gtk_plot_class_init (GtkPlotClass *klass, gpointer unused)
                    G_TYPE_FROM_CLASS(object_class),
                    G_SIGNAL_RUN_LAST,
                    G_STRUCT_OFFSET (GtkPlotClass, moved),
-		   NULL, NULL,
-                   gtkextra_BOOL__POINTER,
+                   NULL, NULL,
+                   NULL,
                    G_TYPE_BOOLEAN, 1, G_TYPE_PLOT_AXIS); 
 
   widget_class->destroy = gtk_plot_destroy;
@@ -1039,8 +1038,8 @@ gtk_plot_axis_class_init (GtkPlotAxisClass *klass, gpointer unused)
                    G_TYPE_FROM_CLASS(object_class),
                    G_SIGNAL_RUN_LAST,
                    G_STRUCT_OFFSET (GtkPlotAxisClass, tick_label),
-		   NULL, NULL,
-                   gtkextra_BOOL__POINTER_POINTER,
+                   NULL, NULL,
+                   NULL,
                    G_TYPE_BOOLEAN, 2, G_TYPE_POINTER, G_TYPE_POINTER); 
 
 
@@ -1057,8 +1056,8 @@ gtk_plot_axis_class_init (GtkPlotAxisClass *klass, gpointer unused)
                    G_TYPE_FROM_CLASS(object_class),
                    G_SIGNAL_RUN_LAST,
                    G_STRUCT_OFFSET (GtkPlotAxisClass, changed),
-		   NULL, NULL,
-                   gtkextra_VOID__VOID,
+                   NULL, NULL,
+                   NULL,
                    G_TYPE_NONE, 0); 
 
   object_class->destroy = gtk_plot_axis_destroy;
